@@ -1,0 +1,31 @@
+{
+  "name": "wadehammes.com",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "html-react-parser": "^0.13.0",
+    "next": "9.5.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-slick": "^0.26.1",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/styled-components": "^5.1.2",
+    "babel-plugin-styled-components": "^1.11.1",
+    "imagemin-mozjpeg": "^8.0.0",
+    "imagemin-optipng": "^7.1.0",
+    "next-optimized-images": "^2.6.2",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.7"
+  }
+}
