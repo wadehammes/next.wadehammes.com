@@ -1,4 +1,5 @@
 import {createGlobalStyle} from 'styled-components';
+import {theme} from 'styles/theme';
 
 export const GlobalStyles = createGlobalStyle`
   *,
@@ -28,6 +29,8 @@ export const GlobalStyles = createGlobalStyle`
   }
   html,
   body {
+    background: ${theme.colors.black};
+    color: ${theme.colors.white};
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
   }
@@ -53,6 +56,21 @@ export const GlobalStyles = createGlobalStyle`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+  p {
+    line-height: 1.5;
+    padding-bottom: 1em;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+  img {
+    max-width: 100%;
+  }
+  a {
+    color: ${theme.colors.teal};
+    text-decoration: none;
   }
 `;
 

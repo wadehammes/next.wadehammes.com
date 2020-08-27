@@ -17,7 +17,7 @@ const H2 = styled.h2`
   margin-bottom: 0.25em;
 `;
 
-const Home: FunctionComponent = () => {
+const Work: FunctionComponent = () => {
   const router = useRouter();
   const [work, setWork] = useState(null);
 
@@ -58,4 +58,4 @@ const Home: FunctionComponent = () => {
   );
 };
 
-export default Home;
+export default Work;

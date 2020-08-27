@@ -1,7 +1,11 @@
 export const theme = {
   colors: {
-    background: '#EEF0F5',
-    primary: '#2638C4',
+    gray: '#95A3A4',
+    black: '#393d3f',
+    white: '#fdfdff',
+    silver: '#c6c5b9',
+    teal: '#62929e',
+    blue: '#546a7b',
   },
 };
 

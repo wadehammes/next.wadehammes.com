@@ -9,9 +9,11 @@
     "export": "next export"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "@contentful/rich-text-html-renderer": "^14.1.1",
+    "contentful": "^7.14.6",
     "html-react-parser": "^0.13.0",
     "next": "9.5.0",
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-slick": "^0.26.1",
@@ -19,9 +21,12 @@
     "styled-components": "^5.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/node": "^7.10.5",
     "@types/axios": "^0.14.0",
     "@types/styled-components": "^5.1.2",
-    "babel-plugin-styled-components": "^1.11.1",
+    "babel-plugin-styled-components": "^1.11.0-0",
     "imagemin-mozjpeg": "^8.0.0",
     "imagemin-optipng": "^7.1.0",
     "next-optimized-images": "^2.6.2",
