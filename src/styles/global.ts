@@ -1,5 +1,5 @@
-import {createGlobalStyle} from 'styled-components';
-import {theme} from 'styles/theme';
+import { createGlobalStyle } from "styled-components";
+import { theme } from "src/styles/theme";
 
 export const GlobalStyles = createGlobalStyle`
   *,
@@ -73,5 +73,3 @@ export const GlobalStyles = createGlobalStyle`
     text-decoration: none;
   }
 `;
-
-export default GlobalStyles;
