@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { Spirals } from "src/components/Spirals/Spirals.component";
 import { SPIRALS_VIEWBOX } from "src/utils/constants";
 import { randomIntFromInterval, saveSvg } from "src/utils/helpers";
-import { Button } from "src/components/Button/Button.component";
+import { Button, ButtonVariants } from "src/components/Button/Button.component";
 import { device } from "src/styles/theme";
 import { A } from "src/components/Typography";
 import { DownloadIcon } from "src/styles/icons/download.icon";
+import { ButtonGroup } from "src/components/Button/ButtonGroup.component";
 
 const Container = styled.div`
   padding: ${({ theme }) => theme.sizing.desktopPadding};
@@ -117,17 +118,22 @@ const Home: FC = () => {
             . Check out my <A href="https://github.com/wadehammes">code</A> and{" "}
             <A href="mailto:w@dehammes.com">email me</A> to get in touch.
           </p>
-          <p>
-            <A href="#" onClick={() => window.location.reload()}>
-              Refresh
-            </A>{" "}
-            to get a new randomly generated background SVG.
-          </p>
           <p style={{ paddingTop: "0.5em" }}>
-            <Button handleClick={() => saveSvg(".fractal", "background.svg")}>
-              <DownloadIcon />
-              Download SVG
-            </Button>
+            <ButtonGroup>
+              <Button
+                variant={ButtonVariants.Primary}
+                handleClick={() => saveSvg(".fractal", "background.svg")}
+              >
+                <DownloadIcon />
+                Download SVG
+              </Button>
+              <Button
+                variant={ButtonVariants.Text}
+                handleClick={() => window.location.reload()}
+              >
+                Refresh
+              </Button>
+            </ButtonGroup>
           </p>
         </Footer>
       </Container>

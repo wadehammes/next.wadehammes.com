@@ -80,7 +80,7 @@ export const GlobalStyles = createGlobalStyle`
     max-width: 100%;
   }
   a {
-    color: ${theme.colors.green};
+    color: ${theme.colors.white};
     text-decoration: none;
   }
   [hidden], .hidden {
@@ -88,6 +88,5 @@ export const GlobalStyles = createGlobalStyle`
   }
   strong {
     font-weight: 700;
-    letter-spacing: 1px;
   }
 `;
