@@ -41,10 +41,6 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="icon" href="favicon.webp" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=0.86, maximum-scale=1.0, user-scalable=0"
-          />
           <script
             async
             src="https://www.googletagmanager.com/gtag/js?id=G-C9S06TQ2E4"
