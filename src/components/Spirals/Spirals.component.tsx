@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { randomIntFromInterval } from "src/utils/helpers";
 import { SPIRALS_VIEWBOX } from "src/utils/constants";
+import styled from "styled-components";
 
 const degreesToRad = (1 * Math.PI) / 180;
 
@@ -54,6 +55,10 @@ export const Spiral: FC<SpiralProps> = ({
   return <g>{circles}</g>;
 };
 
+const SpiralGroup = styled.g`
+  transform-origin: center;
+`;
+
 interface SpiralsProps {
   fill?: boolean;
   strokeWidth?: number;
@@ -101,7 +106,7 @@ export const Spirals: FC<SpiralsProps> = ({
   });
 
   return (
-    <g transform="rotate(360)" transform-origin="center">
+    <SpiralGroup transform="rotate(360)" transform-origin="center">
       {spirals}
       <animateTransform
         attributeName="transform"
@@ -116,6 +121,6 @@ export const Spirals: FC<SpiralsProps> = ({
         from={`0 ${SPIRALS_VIEWBOX / 2} ${SPIRALS_VIEWBOX / 2}`}
         to={`359 ${SPIRALS_VIEWBOX / 2} ${SPIRALS_VIEWBOX / 2}`}
       ></animateTransform>
-    </g>
+    </SpiralGroup>
   );
 };
