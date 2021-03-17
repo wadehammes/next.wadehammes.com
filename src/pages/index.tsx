@@ -1,9 +1,8 @@
-import { FC, useCallback, useState } from "react";
+import { FC } from "react";
 import Head from "next/head";
 import styled from "styled-components";
 import { Spirals } from "src/components/Spirals/Spirals.component";
 import { SPIRALS_VIEWBOX } from "src/utils/constants";
-import { randomIntFromInterval } from "src/utils/helpers";
 
 const Container = styled.div`
   padding: 4em;
