@@ -25,6 +25,12 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     width: 100vw;
+    opacity: 0.5;
+    transition: opacity 0.25s ease-in-out;
+
+    @media ${device.tablet} {
+      opacity: 1;
+    }
   }
 `;
 
@@ -39,6 +45,10 @@ const Footer = styled.footer`
   width: 100%;
   z-index: 1;
   padding: ${({ theme }) => theme.sizing.mobilePadding};
+  background-image: linear-gradient(
+    transparent,
+    ${({ theme }) => theme.colors.black}
+  );
 
   @media ${device.tablet} {
     padding: ${({ theme }) => theme.sizing.desktopPadding};
