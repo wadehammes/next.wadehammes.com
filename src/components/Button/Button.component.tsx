@@ -36,6 +36,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
   }
 
   &:focus {
+    background-color: rgba(0, 0, 0, 0.25);
     outline: 0;
   }
 
@@ -63,13 +64,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
 
       &:focus {
         color: white;
-        background-color: ${`hsla(${randomIntFromInterval(
-          0,
-          360,
-        )}, ${randomIntFromInterval(0, 100)}%, ${randomIntFromInterval(
-          0,
-          25,
-        )}%)`};
+        background-color: ${({ theme }) => theme.colors.red};
       }
 
       &:focus:active {
