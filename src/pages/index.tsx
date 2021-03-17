@@ -81,6 +81,10 @@ const Home: FC = () => {
       <Head>
         <title>Wade Hammes | Software Engineer</title>
         <meta
+          name="viewport"
+          content="width=device-width, initial-scale=0.86, maximum-scale=1.0, user-scalable=0"
+        />
+        <meta
           name="description"
           content="Wade Hammes is a software engineer based in Washington, D.C., currently working for Rhythm."
         />

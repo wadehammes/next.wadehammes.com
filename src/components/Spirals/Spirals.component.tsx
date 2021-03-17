@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 import { randomIntFromInterval } from "src/utils/helpers";
 import { SPIRALS_VIEWBOX } from "src/utils/constants";
 import styled from "styled-components";
+import { gsap } from "gsap";
 
 const degreesToRad = (1 * Math.PI) / 180;
 
@@ -55,10 +56,6 @@ export const Spiral: FC<SpiralProps> = ({
   return <g>{circles}</g>;
 };
 
-const SpiralGroup = styled.g`
-  transform-origin: 50% 50%;
-`;
-
 interface SpiralsProps {
   fill?: boolean;
   strokeWidth?: number;
@@ -82,7 +79,21 @@ export const Spirals: FC<SpiralsProps> = ({
   s = `${randomIntFromInterval(0, 100)}%`,
   l = `${randomIntFromInterval(0, 100)}%`,
 }) => {
+  const spiralsRef = useRef<SVGGElement>(null);
   const plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+
+  useEffect(() => {
+    if (spiralsRef.current) {
+      gsap.to(spiralsRef.current, {
+        rotation: 360 * plusOrMinus,
+        duration: randomIntFromInterval(50, 1000),
+        svgOrigin: `${SPIRALS_VIEWBOX / 2} ${SPIRALS_VIEWBOX / 2}`,
+        smoothOrigin: true,
+        repeat: -1,
+      });
+    }
+  }, [spiralsRef.current]);
+
   const spirals = [...new Array(spiralCount)].map((v, i) => {
     const offset = (360 / spiralCount) * i;
     return (
@@ -105,22 +116,5 @@ export const Spirals: FC<SpiralsProps> = ({
     );
   });
 
-  return (
-    <SpiralGroup transform="rotate(360)" transform-origin="50% 50%">
-      {spirals}
-      <animateTransform
-        attributeName="transform"
-        attributeType="XML"
-        dur={randomIntFromInterval(50, 1000)}
-        keyTimes="0;1"
-        repeatCount="indefinite"
-        type="rotate"
-        values={`0;${359 * plusOrMinus}`}
-        calcMode="linear"
-        additive="sum"
-        from={`0 ${SPIRALS_VIEWBOX / 2} ${SPIRALS_VIEWBOX / 2}`}
-        to={`359 ${SPIRALS_VIEWBOX / 2} ${SPIRALS_VIEWBOX / 2}`}
-      ></animateTransform>
-    </SpiralGroup>
-  );
+  return <g ref={spiralsRef}>{spirals}</g>;
 };
