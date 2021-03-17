@@ -39,7 +39,9 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head></Head>
+        <Head>
+          <link rel="icon" href="favicon.webp"></link>
+        </Head>
         <body>
           <Main />
           <NextScript />
