@@ -77,6 +77,7 @@ export const Spirals: FC<SpiralsProps> = ({
   s = `${randomIntFromInterval(0, 100)}%`,
   l = `${randomIntFromInterval(0, 100)}%`,
 }) => {
+  const plusOrMinus = Math.random() < 0.5 ? -1 : 1;
   const spirals = [...new Array(spiralCount)].map((v, i) => {
     const offset = (360 / spiralCount) * i;
     return (
@@ -99,5 +100,22 @@ export const Spirals: FC<SpiralsProps> = ({
     );
   });
 
-  return <g>{spirals}</g>;
+  return (
+    <g transform="rotate(360deg)" transform-origin="center">
+      {spirals}
+      <animateTransform
+        attributeName="transform"
+        attributeType="XML"
+        dur={randomIntFromInterval(100, 1000)}
+        keyTimes="0;1"
+        repeatCount="indefinite"
+        type="rotate"
+        values={`0;${359 * plusOrMinus}`}
+        calcMode="linear"
+        additive="sum"
+        from={`0 ${SPIRALS_VIEWBOX / 2} ${SPIRALS_VIEWBOX / 2}`}
+        to={`359 ${SPIRALS_VIEWBOX / 2} ${SPIRALS_VIEWBOX / 2}`}
+      ></animateTransform>
+    </g>
+  );
 };
