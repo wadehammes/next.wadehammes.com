@@ -56,10 +56,6 @@ export const Spiral: FC<SpiralProps> = ({
   return <g>{circles}</g>;
 };
 
-const SpiralGroup = styled.g`
-  transform-origin: 50% 50%;
-`;
-
 interface SpiralsProps {
   fill?: boolean;
   strokeWidth?: number;
@@ -91,11 +87,12 @@ export const Spirals: FC<SpiralsProps> = ({
       gsap.to(spiralsRef.current, {
         rotation: 360 * plusOrMinus,
         duration: randomIntFromInterval(50, 1000),
-        transformOrigin: "50% 50%",
+        svgOrigin: `${SPIRALS_VIEWBOX / 2} ${SPIRALS_VIEWBOX / 2}`,
+        smoothOrigin: true,
         repeat: -1,
       });
     }
-  }, [spiralsRef]);
+  }, [spiralsRef.current]);
 
   const spirals = [...new Array(spiralCount)].map((v, i) => {
     const offset = (360 / spiralCount) * i;
@@ -119,13 +116,5 @@ export const Spirals: FC<SpiralsProps> = ({
     );
   });
 
-  return (
-    <SpiralGroup
-      ref={spiralsRef}
-      transform="rotate(360)"
-      transform-origin="50% 50%"
-    >
-      {spirals}
-    </SpiralGroup>
-  );
+  return <g ref={spiralsRef}>{spirals}</g>;
 };
