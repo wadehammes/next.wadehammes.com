@@ -51,6 +51,14 @@ const Footer = styled.footer`
       max-width: 72ch;
     }
   }
+
+  .refresh {
+    display: none;
+
+    @media ${device.tablet} {
+      display: flex;
+    }
+  }
 `;
 
 const Home: FC = () => {
@@ -131,6 +139,7 @@ const Home: FC = () => {
             <Button
               variant={ButtonVariants.Text}
               handleClick={() => window.location.reload()}
+              className="refresh"
             >
               Refresh SVG
             </Button>

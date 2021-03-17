@@ -20,11 +20,15 @@ const ButtonElement = styled.button<ButtonElementProps>`
   border: none;
   border-radius: 1000px;
   background-color: transparent;
-  padding: 0.75rem 2rem;
+  padding: 0.75em 2em;
   font-weight: 600;
   font-family: inherit;
-  font-size: 1rem;
   transition: background-color 0.05s ease-in-out, transform 0.2s ease-in-out;
+  font-size: 0.8em;
+
+  @media ${device.tablet} {
+    font-size: inherit;
+  }
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.25);
@@ -40,7 +44,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
   }
 
   svg {
-    margin-right: 1em;
+    margin-right: 0.75em;
     height: 1.1em;
     width: 1.1em;
   }
@@ -77,15 +81,21 @@ const ButtonElement = styled.button<ButtonElementProps>`
 interface ButtonProps {
   handleClick?: () => void;
   variant?: ButtonVariants;
+  className?: string;
 }
 
 export const Button: FC<ButtonProps> = ({
   children,
   handleClick,
   variant = ButtonVariants.Primary,
+  className,
 }) => {
   return (
-    <ButtonElement variant={variant} onClick={handleClick}>
+    <ButtonElement
+      className={className}
+      variant={variant}
+      onClick={handleClick}
+    >
       {children}
     </ButtonElement>
   );
