@@ -19,6 +19,14 @@ const Logo = styled.div`
   @media ${device.tablet} {
     width: 5em;
   }
+
+  &:hover {
+    svg {
+      fill: transparent;
+      stroke: ${({ theme }) => theme.colors.white};
+      paint-order: stroke;
+    }
+  }
 `;
 
 export const Header = () => {

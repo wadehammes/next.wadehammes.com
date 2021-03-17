@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "../theme";
 
 const CrownWrapper = styled.div`
   fill: ${({ theme }) => theme.colors.white};
