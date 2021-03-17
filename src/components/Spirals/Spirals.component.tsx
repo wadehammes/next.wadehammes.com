@@ -56,7 +56,7 @@ export const Spiral: FC<SpiralProps> = ({
 };
 
 const SpiralGroup = styled.g`
-  transform-origin: center;
+  transform-origin: 50% 50%;
 `;
 
 interface SpiralsProps {
@@ -106,7 +106,7 @@ export const Spirals: FC<SpiralsProps> = ({
   });
 
   return (
-    <SpiralGroup transform="rotate(360)" transform-origin="center">
+    <SpiralGroup transform="rotate(360)" transform-origin="50% 50%">
       {spirals}
       <animateTransform
         attributeName="transform"
