@@ -29,8 +29,9 @@ const Home: FC = () => {
       </Head>
       <Container>
         <Spirals />
-        <Spirals strokeWidth={0.5} fill={false} h={150} />
-        <Spirals strokeWidth={2} fill={false} />
+        <Spirals strokeWidth={0.5} fill={false} />
+        <Spirals rad={1} />
+        <Spirals strokeWidth={2} fill={false} rad={5} />
       </Container>
     </>
   );
