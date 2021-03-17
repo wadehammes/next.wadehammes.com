@@ -13,25 +13,27 @@ interface SpiralProps {
   h?: number;
   s?: string;
   l?: string;
+  rad?: number;
 }
 
 export const Spiral: FC<SpiralProps> = ({
-  centerX = 150,
-  centerY = 150,
+  centerX = 125,
+  centerY = 125,
   angleOffset = 0,
   fill = true,
   strokeWidth = 2,
-  number = Math.floor(Math.random() * 16),
+  number = Math.floor(Math.random() * 20),
   offset = Math.floor(Math.random() * 100),
-  h = 30,
-  s = "100%",
-  l = "50%",
+  h = Math.floor(Math.random() * 360),
+  s = `${Math.floor(Math.random() * 100)}%`,
+  l = `${Math.floor(Math.random() * 100)}%`,
+  rad = Math.floor(Math.random() * 5),
 }) => {
   const circles = [...new Array(number)].map((v, i) => {
     const angle = angleOffset * degreesToRad + i * ((Math.PI * 3) / number);
     const x = centerX + (Math.sin(angle) * (offset * i)) / 3;
     const y = centerY + (Math.cos(angle) * (offset * i)) / 3;
-    const radius = 2 + i;
+    const radius = rad + i;
     const opacity = 1 - 0.05 * i;
 
     return (
@@ -57,15 +59,17 @@ interface SpiralsProps {
   h?: number;
   s?: string;
   l?: string;
+  rad?: number;
 }
 
 export const Spirals: FC<SpiralsProps> = ({
   fill = true,
   strokeWidth = 0,
   number = 5,
-  h = 30,
-  s = "100%",
-  l = "50%",
+  h = Math.floor(Math.random() * 360),
+  s = `${Math.floor(Math.random() * 100)}%`,
+  l = `${Math.floor(Math.random() * 100)}%`,
+  rad = Math.floor(Math.random() * 5),
 }) => {
   const spirals = [...new Array(number)].map((v, i) => {
     const offset = (360 / number) * i;
@@ -77,6 +81,7 @@ export const Spirals: FC<SpiralsProps> = ({
         h={h}
         s={s}
         l={l}
+        rad={rad}
         key={`spiral_${i}`}
       />
     );

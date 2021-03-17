@@ -1,6 +1,7 @@
 import { FC } from "react";
 import styled from "styled-components";
 import { Spirals } from "src/components/Spirals/Spirals.component";
+import Head from "next/head";
 
 const Container = styled.div`
   padding: 4em;
@@ -18,10 +19,16 @@ const Container = styled.div`
 
 const Home: FC = () => {
   return (
-    <Container>
-      <Spirals />
-      <Spirals strokeWidth={0.5} fill={false} h={150} />
-    </Container>
+    <>
+      <Head>
+        <title>W A D E H A M M E S</title>
+      </Head>
+      <Container>
+        <Spirals />
+        <Spirals strokeWidth={0.5} fill={false} h={150} />
+        <Spirals strokeWidth={2} fill={false} />
+      </Container>
+    </>
   );
 };
 
