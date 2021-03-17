@@ -10,7 +10,7 @@ interface SpiralProps {
   angleOffset?: number;
   fill?: boolean;
   strokeWidth?: number;
-  number?: number;
+  count?: number;
   offset?: number;
   h?: number;
   s?: string;
@@ -22,21 +22,21 @@ export const Spiral: FC<SpiralProps> = ({
   centerX = SPIRALS_VIEWBOX / 2,
   centerY = SPIRALS_VIEWBOX / 2,
   angleOffset = 0,
-  fill = true,
-  strokeWidth = 2,
-  number = randomIntFromInterval(0, 20),
-  offset = randomIntFromInterval(0, 100),
+  fill = Math.random() > 0.5,
+  strokeWidth = randomIntFromInterval(0, 10),
+  count = randomIntFromInterval(0, 10),
+  offset = randomIntFromInterval(0, 50),
   h = randomIntFromInterval(0, 360),
   s = `${randomIntFromInterval(0, 100)}%`,
   l = `${randomIntFromInterval(0, 100)}%`,
   rad = randomIntFromInterval(0, 5),
 }) => {
-  const circles = [...new Array(number)].map((v, i) => {
-    const angle = angleOffset * degreesToRad + i * ((Math.PI * 2) / number);
+  const circles = [...new Array(count)].map((v, i) => {
+    const angle = angleOffset * degreesToRad + i * ((Math.PI * 2) / count);
     const x = centerX + (Math.sin(angle) * (offset * i)) / 2;
     const y = centerY + (Math.cos(angle) * (offset * i)) / 2;
     const radius = rad + i;
-    const opacity = 1 - 0.05 * i;
+    const opacity = 1 - 0.085 * i;
 
     return (
       <circle
@@ -45,7 +45,7 @@ export const Spiral: FC<SpiralProps> = ({
         r={radius}
         fill={fill ? `hsla(${h},${s},${l},${opacity})` : "transparent"}
         stroke={`hsla(${h},${s},${l},${opacity})`}
-        strokeWidth={strokeWidth}
+        strokeWidth={!fill && strokeWidth ? strokeWidth : 0}
         key={`circle-${i}`}
       />
     );
@@ -57,7 +57,9 @@ export const Spiral: FC<SpiralProps> = ({
 interface SpiralsProps {
   fill?: boolean;
   strokeWidth?: number;
-  number?: number;
+  spiralCount?: number;
+  circleCount?: number;
+  circleOffset?: number;
   h?: number;
   s?: string;
   l?: string;
@@ -67,14 +69,16 @@ interface SpiralsProps {
 export const Spirals: FC<SpiralsProps> = ({
   fill = true,
   strokeWidth = 0,
-  number = randomIntFromInterval(0, 8),
+  spiralCount = randomIntFromInterval(0, 8),
+  circleOffset = randomIntFromInterval(0, 50),
+  rad = randomIntFromInterval(0, 5),
+  circleCount = randomIntFromInterval(0, 20),
   h = randomIntFromInterval(0, 360),
   s = `${randomIntFromInterval(0, 100)}%`,
   l = `${randomIntFromInterval(0, 100)}%`,
-  rad = randomIntFromInterval(0, 5),
 }) => {
-  const spirals = [...new Array(number)].map((v, i) => {
-    const offset = (360 / number) * i;
+  const spirals = [...new Array(spiralCount)].map((v, i) => {
+    const offset = (360 / spiralCount) * i;
     return (
       <Spiral
         angleOffset={offset}
@@ -84,6 +88,8 @@ export const Spirals: FC<SpiralsProps> = ({
             ? randomIntFromInterval(0, strokeWidth)
             : strokeWidth
         }
+        offset={circleOffset}
+        count={circleCount}
         h={h}
         s={s}
         l={l}
