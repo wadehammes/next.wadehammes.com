@@ -1,7 +1,8 @@
 import { FC } from "react";
+import Head from "next/head";
 import styled from "styled-components";
 import { Spirals } from "src/components/Spirals/Spirals.component";
-import Head from "next/head";
+import { SPIRALS_VIEWBOX } from "src/utils/constants";
 
 const Container = styled.div`
   padding: 4em;
@@ -28,10 +29,12 @@ const Home: FC = () => {
         <title>W A D E H A M M E S</title>
       </Head>
       <Container>
-        <Spirals />
-        <Spirals strokeWidth={0.5} fill={false} />
-        <Spirals rad={1} />
-        <Spirals strokeWidth={2} fill={false} rad={5} />
+        <svg viewBox={`0 0 ${SPIRALS_VIEWBOX} ${SPIRALS_VIEWBOX}`}>
+          <Spirals />
+          <Spirals strokeWidth={0.25} fill={false} />
+          <Spirals rad={1} />
+          <Spirals strokeWidth={2} fill={false} rad={5} />
+        </svg>
       </Container>
     </>
   );

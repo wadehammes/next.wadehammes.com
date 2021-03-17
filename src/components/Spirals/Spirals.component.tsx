@@ -1,4 +1,6 @@
 import { FC } from "react";
+import { randomIntFromInterval } from "src/utils/helpers";
+import { SPIRALS_VIEWBOX } from "src/utils/constants";
 
 const degreesToRad = (1 * Math.PI) / 180;
 
@@ -17,17 +19,17 @@ interface SpiralProps {
 }
 
 export const Spiral: FC<SpiralProps> = ({
-  centerX = 125,
-  centerY = 125,
+  centerX = SPIRALS_VIEWBOX / 2,
+  centerY = SPIRALS_VIEWBOX / 2,
   angleOffset = 0,
   fill = true,
   strokeWidth = 2,
-  number = Math.floor(Math.random() * 20),
-  offset = Math.floor(Math.random() * 100),
-  h = Math.floor(Math.random() * 360),
-  s = `${Math.floor(Math.random() * 100)}%`,
-  l = `${Math.floor(Math.random() * 100)}%`,
-  rad = Math.floor(Math.random() * 5),
+  number = randomIntFromInterval(0, 20),
+  offset = randomIntFromInterval(0, 100),
+  h = randomIntFromInterval(0, 360),
+  s = `${randomIntFromInterval(0, 100)}%`,
+  l = `${randomIntFromInterval(0, 100)}%`,
+  rad = randomIntFromInterval(0, 5),
 }) => {
   const circles = [...new Array(number)].map((v, i) => {
     const angle = angleOffset * degreesToRad + i * ((Math.PI * 2) / number);
@@ -44,7 +46,7 @@ export const Spiral: FC<SpiralProps> = ({
         fill={fill ? `hsla(${h},${s},${l},${opacity})` : "transparent"}
         stroke={`hsla(${h},${s},${l},${opacity})`}
         strokeWidth={strokeWidth}
-        key={`circle_${i}`}
+        key={`circle-${i}`}
       />
     );
   });
@@ -65,11 +67,11 @@ interface SpiralsProps {
 export const Spirals: FC<SpiralsProps> = ({
   fill = true,
   strokeWidth = 0,
-  number = 5,
-  h = Math.floor(Math.random() * 360),
-  s = `${Math.floor(Math.random() * 100)}%`,
-  l = `${Math.floor(Math.random() * 100)}%`,
-  rad = Math.floor(Math.random() * 5),
+  number = randomIntFromInterval(0, 8),
+  h = randomIntFromInterval(0, 360),
+  s = `${randomIntFromInterval(0, 100)}%`,
+  l = `${randomIntFromInterval(0, 100)}%`,
+  rad = randomIntFromInterval(0, 5),
 }) => {
   const spirals = [...new Array(number)].map((v, i) => {
     const offset = (360 / number) * i;
@@ -77,19 +79,19 @@ export const Spirals: FC<SpiralsProps> = ({
       <Spiral
         angleOffset={offset}
         fill={fill}
-        strokeWidth={strokeWidth}
+        strokeWidth={
+          !fill && strokeWidth
+            ? randomIntFromInterval(0, strokeWidth)
+            : strokeWidth
+        }
         h={h}
         s={s}
         l={l}
         rad={rad}
-        key={`spiral_${i}`}
+        key={`spiral-${i}`}
       />
     );
   });
 
-  return (
-    <svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
-      {spirals}
-    </svg>
-  );
+  return <g>{spirals}</g>;
 };
