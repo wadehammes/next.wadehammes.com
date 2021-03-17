@@ -45,6 +45,18 @@ export default class MyDocument extends Document {
             name="viewport"
             content="width=device-width, initial-scale=0.86, maximum-scale=1.0, user-scalable=0"
           />
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-C9S06TQ2E4"
+          ></script>
+          <script
+            // This is how NextJS says to include GA tags in their official documentation:
+            // https://github.com/vercel/next.js/blob/canary/examples/with-google-analytics/pages/_document.js
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-C9S06TQ2E4');`,
+            }}
+          />
         </Head>
         <body>
           <Main />

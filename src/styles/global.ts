@@ -60,15 +60,11 @@ export const GlobalStyles = createGlobalStyle`
   p {
     font-weight: 400;
     line-height: 1.5;
-    padding-bottom: 1.25em;
+    padding-bottom: 1.5em;
     font-size: 1rem;
 
     @media ${device.tablet} {
       font-size: 1.15rem;
-    }
-
-    &:last-child {
-      padding-bottom: 0;
     }
 
     &:empty {

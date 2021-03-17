@@ -101,7 +101,7 @@ export const Spirals: FC<SpiralsProps> = ({
   });
 
   return (
-    <g transform="rotate(360deg)" transform-origin="center">
+    <g transform="rotate(360)" transform-origin="center">
       {spirals}
       <animateTransform
         attributeName="transform"
