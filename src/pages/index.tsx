@@ -1,16 +1,28 @@
 import { FC } from "react";
-import { useRouter } from "next/router";
 import styled from "styled-components";
+import { Spirals } from "src/components/Spirals/Spirals.component";
 
 const Container = styled.div`
-  display: block;
-  max-width: 50%;
+  padding: 4em;
+  position: relative;
+
+  svg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+  }
 `;
 
 const Home: FC = () => {
-  const router = useRouter();
-
-  return <Container>Hello, {router.asPath}</Container>;
+  return (
+    <Container>
+      <Spirals />
+      <Spirals strokeWidth={0.5} fill={false} h={150} />
+    </Container>
+  );
 };
 
 export default Home;

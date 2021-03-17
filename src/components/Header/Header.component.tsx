@@ -3,7 +3,9 @@ import { Crown } from "src/styles/icons/crown";
 import Link from "next/link";
 
 const Container = styled.nav`
-  padding: 0 0 2em 0;
+  position: relative;
+  padding: 4em;
+  z-index: 9999;
 `;
 
 const Logo = styled.div`
