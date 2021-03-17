@@ -131,7 +131,7 @@ const Home: FC = () => {
                 variant={ButtonVariants.Text}
                 handleClick={() => window.location.reload()}
               >
-                Refresh
+                Refresh SVG
               </Button>
             </ButtonGroup>
           </p>
