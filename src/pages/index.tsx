@@ -22,22 +22,26 @@ const Container = styled.div`
   }
 `;
 
-const Home: FC = () => {
-  return (
-    <>
-      <Head>
-        <title>W A D E H A M M E S</title>
-      </Head>
-      <Container>
-        <svg viewBox={`0 0 ${SPIRALS_VIEWBOX} ${SPIRALS_VIEWBOX}`}>
-          <Spirals />
-          <Spirals strokeWidth={0.25} rad={2} fill={false} />
-          <Spirals rad={1} />
-          <Spirals strokeWidth={2} fill={false} rad={5} />
-        </svg>
-      </Container>
-    </>
-  );
-};
+const Button = styled.button`
+  position: relative;
+  z-index: 1;
+`;
+
+const Home: FC = () => (
+  <>
+    <Head>
+      <title>W A D E H A M M E S</title>
+    </Head>
+    <Container>
+      <svg viewBox={`0 0 ${SPIRALS_VIEWBOX} ${SPIRALS_VIEWBOX}`}>
+        <Spirals />
+        <Spirals strokeWidth={0.25} fill={false} />
+        <Spirals rad={2} />
+        <Spirals strokeWidth={2} fill={false} rad={5} />
+        <Spirals />
+      </svg>
+    </Container>
+  </>
+);
 
 export default Home;
