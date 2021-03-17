@@ -51,6 +51,14 @@ const Footer = styled.footer`
       max-width: 72ch;
     }
   }
+
+  .refresh {
+    display: none;
+
+    @media ${device.tablet} {
+      display: flex;
+    }
+  }
 `;
 
 const Home: FC = () => {
@@ -120,23 +128,22 @@ const Home: FC = () => {
             <A href="https://twitter.com/nthoftype">tweet</A> me to get in
             touch.
           </p>
-          <p style={{ paddingTop: "0.5em" }}>
-            <ButtonGroup>
-              <Button
-                variant={ButtonVariants.Primary}
-                handleClick={() => saveSvg(".fractal", "background.svg")}
-              >
-                <DownloadIcon />
-                Download SVG
-              </Button>
-              <Button
-                variant={ButtonVariants.Text}
-                handleClick={() => window.location.reload()}
-              >
-                Refresh SVG
-              </Button>
-            </ButtonGroup>
-          </p>
+          <ButtonGroup>
+            <Button
+              variant={ButtonVariants.Primary}
+              handleClick={() => saveSvg(".fractal", "background.svg")}
+            >
+              <DownloadIcon />
+              Download SVG
+            </Button>
+            <Button
+              variant={ButtonVariants.Text}
+              handleClick={() => window.location.reload()}
+              className="refresh"
+            >
+              Refresh SVG
+            </Button>
+          </ButtonGroup>
         </Footer>
       </Container>
     </>
