@@ -1,21 +1,22 @@
 import styled from "styled-components";
 import { Crown } from "src/styles/icons/crown";
 import Link from "next/link";
+import { device } from "src/styles/theme";
 
 const Container = styled.nav`
   position: relative;
-  padding: 2em;
+  padding: ${({ theme }) => theme.sizing.mobilePadding};
   z-index: 9999;
 
-  @media screen and (min-width: 60em) {
-    padding: 4em;
+  @media ${device.tablet} {
+    padding: ${({ theme }) => theme.sizing.desktopPadding};
   }
 `;
 
 const Logo = styled.div`
-  width: 2.5em;
+  width: 3em;
 
-  @media screen and (min-width: 60em) {
+  @media ${device.tablet} {
     width: 5em;
   }
 `;

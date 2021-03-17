@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { theme } from "src/styles/theme";
+import { device, theme } from "src/styles/theme";
 
 export const GlobalStyles = createGlobalStyle`
   *,
@@ -58,8 +58,14 @@ export const GlobalStyles = createGlobalStyle`
     border-spacing: 0;
   }
   p {
+    font-weight: 400;
     line-height: 1.5;
-    padding-bottom: 1em;
+    padding-bottom: 1.25em;
+    font-size: 1rem;
+
+    @media ${device.tablet} {
+      font-size: 1.15rem;
+    }
 
     &:last-child {
       padding-bottom: 0;
@@ -74,10 +80,14 @@ export const GlobalStyles = createGlobalStyle`
     max-width: 100%;
   }
   a {
-    color: ${theme.colors.teal};
+    color: ${theme.colors.green};
     text-decoration: none;
   }
   [hidden], .hidden {
     display: none;
+  }
+  strong {
+    font-weight: 700;
+    letter-spacing: 1px;
   }
 `;
