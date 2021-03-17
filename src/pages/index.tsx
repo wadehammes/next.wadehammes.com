@@ -115,8 +115,10 @@ const Home: FC = () => {
             <A href="https://www.youtube.com/watch?v=YqXR8nlEaKE">
               collect/play records
             </A>
-            . Check out my <A href="https://github.com/wadehammes">code</A> and{" "}
-            <A href="mailto:w@dehammes.com">email me</A> to get in touch.
+            . Check out my <A href="https://github.com/wadehammes">code</A>.{" "}
+            <A href="mailto:w@dehammes.com">Email</A> or{" "}
+            <A href="https://twitter.com/nthoftype">tweet</A> me to get in
+            touch.
           </p>
           <p style={{ paddingTop: "0.5em" }}>
             <ButtonGroup>
