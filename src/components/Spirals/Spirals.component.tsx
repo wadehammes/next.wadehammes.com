@@ -106,7 +106,7 @@ export const Spirals: FC<SpiralsProps> = ({
       <animateTransform
         attributeName="transform"
         attributeType="XML"
-        dur={randomIntFromInterval(100, 1000)}
+        dur={randomIntFromInterval(50, 1000)}
         keyTimes="0;1"
         repeatCount="indefinite"
         type="rotate"
