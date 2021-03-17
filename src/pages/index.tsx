@@ -31,7 +31,7 @@ const Home: FC = () => {
       <Container>
         <svg viewBox={`0 0 ${SPIRALS_VIEWBOX} ${SPIRALS_VIEWBOX}`}>
           <Spirals />
-          <Spirals strokeWidth={0.25} fill={false} />
+          <Spirals strokeWidth={0.25} rad={2} fill={false} />
           <Spirals rad={1} />
           <Spirals strokeWidth={2} fill={false} rad={5} />
         </svg>
