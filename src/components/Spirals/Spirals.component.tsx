@@ -30,9 +30,9 @@ export const Spiral: FC<SpiralProps> = ({
   rad = Math.floor(Math.random() * 5),
 }) => {
   const circles = [...new Array(number)].map((v, i) => {
-    const angle = angleOffset * degreesToRad + i * ((Math.PI * 3) / number);
-    const x = centerX + (Math.sin(angle) * (offset * i)) / 3;
-    const y = centerY + (Math.cos(angle) * (offset * i)) / 3;
+    const angle = angleOffset * degreesToRad + i * ((Math.PI * 2) / number);
+    const x = centerX + (Math.sin(angle) * (offset * i)) / 2;
+    const y = centerY + (Math.cos(angle) * (offset * i)) / 2;
     const radius = rad + i;
     const opacity = 1 - 0.05 * i;
 
