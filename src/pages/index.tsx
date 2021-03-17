@@ -81,18 +81,18 @@ const Home: FC = () => {
   return (
     <>
       <Head>
-        <title>Wade Hammes | Software Engineer</title>
+        <title>Wade Hammes | ¯\_(ツ)_/¯</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=0.86, maximum-scale=1.0, user-scalable=0"
         />
         <meta
           name="description"
-          content="Wade Hammes is a software engineer based in Washington, D.C., currently working for Rhythm."
+          content="Wade Hammes is a senior software engineer based in Washington, D.C., currently working for Rhythm."
         />
         <meta
           property="og:description"
-          content="Wade Hammes is a software engineer based in Washington, D.C., currently working for Rhythm."
+          content="Wade Hammes is a senior software engineer based in Washington, D.C., currently working for Rhythm."
         />
         <meta property="og:image" content="/images/fractal.png" />
         <meta name="twitter:card" content="summary" />
@@ -126,19 +126,21 @@ const Home: FC = () => {
         </svg>
         <Footer>
           <p>
-            Hi, I'm <strong>Wade Hammes</strong>, a software engineer for{" "}
-            <A href="https://www.gotrhythm.com">Rhythm</A>. Currently, I live in
-            Washington, D.C. Previously, I worked for{" "}
+            Hi, I'm <strong>Wade Hammes</strong>, a senior 👴 software engineer
+            for <A href="https://www.gotrhythm.com">Rhythm</A>. Currently, I
+            live in Washington, D.C. Previously, I worked for{" "}
             <A href="https://skyword.com">Skyword</A>, TrackMaven, and Pappas
-            Group. On the side, I{" "}
-            <A href="https://instagram.com/nthoftype">build keyboards</A> and{" "}
+            Group. For fun, I{" "}
+            <A href="https://instagram.com/nthoftype">build keyboards/cables</A>{" "}
+            ⌨ and{" "}
             <A href="https://www.youtube.com/watch?v=YqXR8nlEaKE">
               collect/play records
             </A>
-            . Check out my <A href="https://github.com/wadehammes">code</A>.{" "}
-            <A href="mailto:w@dehammes.com">Email</A> or{" "}
-            <A href="https://twitter.com/nthoftype">tweet</A> me to get in
-            touch.
+            🎵. Check out my <A href="https://github.com/wadehammes">code</A> on
+            Github. To contact me, send an{" "}
+            <A href="mailto:w@dehammes.com">email</A> or{" "}
+            <A href="https://twitter.com/nthoftype">tweet</A>, or add me on{" "}
+            <A href="https://www.linkedin.com/in/wadehammes">LinkedIn</A>.
           </p>
           <ButtonGroup>
             <Button
