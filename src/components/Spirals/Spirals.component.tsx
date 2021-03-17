@@ -1,7 +1,6 @@
 import { FC, useEffect, useRef } from "react";
 import { randomIntFromInterval } from "src/utils/helpers";
 import { SPIRALS_VIEWBOX } from "src/utils/constants";
-import styled from "styled-components";
 import { gsap } from "gsap";
 
 const degreesToRad = (1 * Math.PI) / 180;

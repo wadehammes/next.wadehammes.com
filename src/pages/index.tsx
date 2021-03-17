@@ -9,6 +9,7 @@ import { device } from "src/styles/theme";
 import { A } from "src/components/Typography";
 import { DownloadIcon } from "src/styles/icons/download.icon";
 import { ButtonGroup } from "src/components/Button/ButtonGroup.component";
+import { useRouter } from "next/dist/client/router";
 
 const Container = styled.div`
   padding: ${({ theme }) => theme.sizing.desktopPadding};
@@ -69,6 +70,7 @@ const Footer = styled.footer`
 
 const Home: FC = () => {
   const [pageUrl, setPageUrl] = useState<Location | null>(null);
+  const { replace } = useRouter();
 
   useEffect(() => {
     // Need to capture window.location in useEffect since this is in SSR
@@ -148,7 +150,7 @@ const Home: FC = () => {
             </Button>
             <Button
               variant={ButtonVariants.Text}
-              handleClick={() => window.location.reload()}
+              handleClick={() => replace(window.location.href)}
               className="refresh"
             >
               Refresh SVG
