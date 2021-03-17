@@ -40,7 +40,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="icon" href="favicon.webp"></link>
+          <link rel="icon" href="favicon.webp" />
         </Head>
         <body>
           <Main />
