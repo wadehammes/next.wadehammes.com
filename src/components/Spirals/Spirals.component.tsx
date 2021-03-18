@@ -30,7 +30,7 @@ export const Spiral: FC<SpiralProps> = ({
   l = `${randomIntFromInterval(0, 100)}%`,
   rad = randomIntFromInterval(0, 5),
 }) => {
-  const circles = [...new Array(count)].map((v, i) => {
+  const circles = [...new Array(count)].map((_, i) => {
     const angle =
       angleOffset * constant.DEGREES_TO_RADIUS + i * ((Math.PI * 2) / count);
     const x = centerX + (Math.sin(angle) * (offset * i)) / 2;
@@ -92,11 +92,11 @@ export const Spirals: FC<SpiralsProps> = ({
     }
   }, [spiralsRef.current]);
 
-  const spirals = [...new Array(spiralCount)].map((v, i) => {
-    const offset = (360 / spiralCount) * i;
+  const spirals = [...new Array(spiralCount)].map((_, i) => {
+    const spiralsOffset = (360 / spiralCount) * i;
     return (
       <Spiral
-        angleOffset={offset}
+        angleOffset={spiralsOffset}
         fill={fill}
         strokeWidth={
           !fill && strokeWidth
