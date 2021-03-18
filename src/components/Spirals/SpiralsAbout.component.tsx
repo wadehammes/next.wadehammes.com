@@ -13,8 +13,8 @@ export const SpiralsAbout: FC = () => {
   return (
     <>
       <P>
-        The SVG you see currently was randomly generated with javascript and
-        animated with <A href="https://greensock.com/gsap/">GSAP</A>. No two
+        The background you see currently was randomly generated with javascript
+        and animated with <A href="https://greensock.com/gsap/">GSAP</A>. No two
         will ever be the same. Keep refreshing, download one you love.
       </P>
       <ButtonGroup>
@@ -30,7 +30,7 @@ export const SpiralsAbout: FC = () => {
           handleClick={() => replace(window.location.href)}
           className="refresh"
         >
-          Refresh SVG
+          Refresh
         </Button>
       </ButtonGroup>
     </>
