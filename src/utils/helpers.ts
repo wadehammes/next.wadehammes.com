@@ -6,7 +6,7 @@ export const randomIntFromInterval = (min: number, max: number): number => {
 export const saveSvg = (svgEl: string, name: string): boolean => {
   const svg = document.querySelector(svgEl);
 
-  if (svg) {
+  if (svg && name) {
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 
     const svgData = svg.outerHTML;
@@ -19,6 +19,7 @@ export const saveSvg = (svgEl: string, name: string): boolean => {
 
     downloadLink.href = svgUrl;
     downloadLink.download = name;
+    downloadLink.target = "_blank";
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
