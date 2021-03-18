@@ -8,6 +8,7 @@ import { Container } from "src/components/Layout";
 const LogoContainer = styled(Container)`
   position: relative;
   z-index: 99;
+  padding-bottom: 0;
 `;
 
 const Logo = styled.div`
