@@ -46,6 +46,7 @@ export const Spiral: FC<SpiralProps> = ({
         fill={fill ? `hsla(${h},${s},${l},${opacity})` : "transparent"}
         stroke={`hsla(${h},${s},${l},${opacity})`}
         strokeWidth={!fill && strokeWidth ? strokeWidth : 0}
+        // eslint-disable-next-line react/no-array-index-key
         key={`circle-${i}`}
       />
     );
@@ -90,10 +91,11 @@ export const Spirals: FC<SpiralsProps> = ({
         repeat: -1,
       });
     }
-  }, [spiralsRef.current]);
+  }, [spiralsRef, plusOrMinus]);
 
   const spirals = [...new Array(spiralCount)].map((_, i) => {
     const spiralsOffset = (360 / spiralCount) * i;
+
     return (
       <Spiral
         angleOffset={spiralsOffset}
@@ -109,6 +111,7 @@ export const Spirals: FC<SpiralsProps> = ({
         s={s}
         l={l}
         rad={rad}
+        // eslint-disable-next-line react/no-array-index-key
         key={`spiral-${i}`}
       />
     );

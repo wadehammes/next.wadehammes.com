@@ -5,6 +5,7 @@ import { Container, Footer } from "src/components/Layout";
 import Link from "next/link";
 import { SpiralsAbout } from "src/components/Spirals/SpiralsAbout.component";
 import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
+import parse from "html-react-parser";
 
 const Home: FC = () => (
   <>
@@ -13,8 +14,8 @@ const Home: FC = () => (
         <Footer>
           <H1>Error: 404</H1>
           <P>
-            Whoops, you've landed on a page that doesn't exist. No worries. Just
-            head{" "}
+            Whoops, {parse("you&apos;ve")} landed on a page that{" "}
+            {parse("doesn&apos;t")} exist. No worries. Just head{" "}
             <Link href="/">
               <A>home</A>
             </Link>

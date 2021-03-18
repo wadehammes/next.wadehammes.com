@@ -29,8 +29,7 @@
     "plugin:eslint-comments/recommended",
     "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
+    "prettier"
   ],
   "rules": {
     "@typescript-eslint/explicit-member-accessibility": "off",
