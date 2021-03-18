@@ -1,9 +1,7 @@
 import { FC, useEffect, useRef } from "react";
 import { randomIntFromInterval } from "src/utils/helpers";
-import { SPIRALS_VIEWBOX } from "src/utils/constants";
+import { SPIRALS_CONSTANTS as constant } from "src/components/Spirals/Spirals.constants";
 import { gsap } from "gsap";
-
-const degreesToRad = (1 * Math.PI) / 180;
 
 interface SpiralProps {
   centerX?: number;
@@ -20,8 +18,8 @@ interface SpiralProps {
 }
 
 export const Spiral: FC<SpiralProps> = ({
-  centerX = SPIRALS_VIEWBOX / 2,
-  centerY = SPIRALS_VIEWBOX / 2,
+  centerX = constant.VIEWBOX / 2,
+  centerY = constant.VIEWBOX / 2,
   angleOffset = 0,
   fill = Math.random() > 0.5,
   strokeWidth = randomIntFromInterval(0, 10),
@@ -33,11 +31,12 @@ export const Spiral: FC<SpiralProps> = ({
   rad = randomIntFromInterval(0, 5),
 }) => {
   const circles = [...new Array(count)].map((v, i) => {
-    const angle = angleOffset * degreesToRad + i * ((Math.PI * 2) / count);
+    const angle =
+      angleOffset * constant.DEGREES_TO_RADIUS + i * ((Math.PI * 2) / count);
     const x = centerX + (Math.sin(angle) * (offset * i)) / 2;
     const y = centerY + (Math.cos(angle) * (offset * i)) / 2;
     const radius = rad + i;
-    const opacity = 1 - 0.085 * i;
+    const opacity = 1 - constant.OPACITY_SUBTRACTION * i;
 
     return (
       <circle
@@ -86,7 +85,7 @@ export const Spirals: FC<SpiralsProps> = ({
       gsap.to(spiralsRef.current, {
         rotation: 360 * plusOrMinus,
         duration: randomIntFromInterval(50, 1000),
-        svgOrigin: `${SPIRALS_VIEWBOX / 2} ${SPIRALS_VIEWBOX / 2}`,
+        svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,
         smoothOrigin: true,
         repeat: -1,
       });
