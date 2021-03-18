@@ -5,6 +5,7 @@ const Group = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  padding-top: 0.5rem;
 
   > * + * {
     margin-left: 1em;
