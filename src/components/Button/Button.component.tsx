@@ -26,17 +26,17 @@ const ButtonElement = styled.button<ButtonElementProps>`
   }
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: ${({ theme }) => theme.colors.alphaBlack};
     cursor: pointer;
   }
 
   &:focus {
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: ${({ theme }) => theme.colors.alphaBlack};
     outline: 0;
   }
 
   &:focus:active {
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: ${({ theme }) => theme.colors.alphaBlack};
   }
 
   svg {
@@ -50,7 +50,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
     css`
       background: ${({ theme }) => theme.colors.white};
       color: ${({ theme }) => theme.colors.trueBlack};
-      box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.15);
+      box-shadow: 2px 4px 15px ${({ theme }) => theme.colors.alphaBlack};
 
       &:hover {
         color: ${({ theme }) => theme.colors.white};
@@ -74,16 +74,14 @@ export const Button: FC<ButtonProps> = ({
   variant = ButtonVariants.Primary,
   className,
   label,
-}) => {
-  return (
-    <ButtonElement
-      type="button"
-      tabIndex={0}
-      className={className}
-      variant={variant}
-      onClick={handleClick}
-    >
-      {children ?? label ?? ""}
-    </ButtonElement>
-  );
-};
+}) => (
+  <ButtonElement
+    type="button"
+    tabIndex={0}
+    className={className}
+    variant={variant}
+    onClick={handleClick}
+  >
+    {children ?? label ?? ""}
+  </ButtonElement>
+);

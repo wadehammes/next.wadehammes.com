@@ -1,5 +1,6 @@
 import { device } from "src/styles/theme";
 import styled from "styled-components";
+import { P } from "src/components/Typography";
 
 export const Grid = styled.div`
   display: grid;
@@ -35,11 +36,7 @@ export const Footer = styled.footer`
   width: 100%;
   z-index: 1;
 
-  p {
-    max-width: 100%;
-
-    @media ${device.tablet} {
-      max-width: 72ch;
-    }
+  ${P} {
+    max-width: 70ch;
   }
 `;
