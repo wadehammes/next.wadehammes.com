@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { device } from "src/styles/theme";
 import styled from "styled-components";
 
 const Group = styled.div`
@@ -6,9 +7,14 @@ const Group = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding-top: 0.5rem;
+  font-size: 0.9em;
+
+  @media ${device.tablet} {
+    font-size: 1rem;
+  }
 
   > * + * {
-    margin-left: 1em;
+    margin-left: 0.75rem;
   }
 `;
 
