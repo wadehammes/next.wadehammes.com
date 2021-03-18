@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-rows: 4fr 1fr;
+  grid-template-rows: 1fr 4fr;
   grid-gap: 5em;
   height: 100vh;
   width: 100%;
@@ -18,14 +18,20 @@ export const Container = styled.div`
   }
 `;
 
+export const Content = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+`;
+
 export const Footer = styled.footer`
   position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  bottom: 0;
-  left: 0;
   width: 100%;
   z-index: 1;
 
