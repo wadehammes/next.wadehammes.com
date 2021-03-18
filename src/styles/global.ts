@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { device, theme } from "src/styles/theme";
+import { FontWeight } from "src/interfaces/common.interfaces";
 
 export const GlobalStyles = createGlobalStyle`
   *,
@@ -42,36 +43,6 @@ export const GlobalStyles = createGlobalStyle`
   body {
     line-height: 1;
   }
-  ol, ul {
-    list-style: none;
-  }
-  blockquote, q {
-    quotes: none;
-  }
-  blockquote:before, blockquote:after,
-  q:before, q:after {
-    content: '';
-    content: none;
-  }
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-  p {
-    font-weight: 400;
-    line-height: 1.5;
-    padding-bottom: 1.5em;
-    font-size: 1rem;
-
-    @media ${device.tablet} {
-      font-size: 1.15rem;
-    }
-
-    &:empty {
-      display: none;
-      padding: 0;
-    }
-  }
   img {
     max-width: 100%;
   }
@@ -83,6 +54,6 @@ export const GlobalStyles = createGlobalStyle`
     display: none;
   }
   strong {
-    font-weight: 700;
+    font-weight: ${FontWeight.Bold};
   }
 `;

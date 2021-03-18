@@ -17,6 +17,11 @@ export interface StaticEntry {
   slug?: string;
 }
 
+export enum FontWeight {
+  Regular = 400,
+  Bold = 700,
+}
+
 export enum Alignment {
   Left = "Left",
   Center = "Center",
