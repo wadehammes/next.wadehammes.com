@@ -2,19 +2,20 @@ import { randomIntFromInterval } from "src/utils/helpers";
 import styled from "styled-components";
 
 export const A = styled.a`
-  font-family: monospace;
+  font-family: inherit;
   text-decoration: underline;
   font-weight: 600;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.red};
-    color: white;
+    text-decoration: none;
+    color: ${({ theme }) => theme.colors.white};
     cursor: pointer;
   }
 
   &:focus {
     outline: 0;
     background-color: ${({ theme }) => theme.colors.red};
-    color: white;
+    color: ${({ theme }) => theme.colors.white};
   }
 `;

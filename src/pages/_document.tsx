@@ -41,6 +41,11 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="icon" href="favicon.webp" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
+            rel="stylesheet"
+          />
           <script
             async
             src="https://www.googletagmanager.com/gtag/js?id=G-C9S06TQ2E4"

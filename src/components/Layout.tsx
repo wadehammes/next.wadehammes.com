@@ -9,6 +9,15 @@ export const Grid = styled.div`
   width: 100%;
 `;
 
+export const Container = styled.div`
+  padding: ${({ theme }) => theme.sizing.mobilePadding};
+  width: 100%;
+
+  @media ${device.tablet} {
+    padding: ${({ theme }) => theme.sizing.desktopPadding};
+  }
+`;
+
 export const Footer = styled.footer`
   position: relative;
   display: flex;
@@ -25,14 +34,6 @@ export const Footer = styled.footer`
 
     @media ${device.tablet} {
       max-width: 72ch;
-    }
-  }
-
-  .refresh {
-    display: none;
-
-    @media ${device.tablet} {
-      display: flex;
     }
   }
 `;

@@ -31,7 +31,7 @@ export const GlobalStyles = createGlobalStyle`
   body {
     background: ${theme.colors.black};
     color: ${theme.colors.white};
-    font-family:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: 'Space Mono', monospace;
     font-size: 16px;
   }
   /* HTML5 display-role reset for older browsers */

@@ -3,16 +3,11 @@ import styled from "styled-components";
 import { Crown } from "src/styles/icons/crown";
 import Link from "next/link";
 import { device } from "src/styles/theme";
+import { Container } from "src/components/Layout";
 
-const Container = styled.nav`
+const LogoContainer = styled(Container)`
   position: relative;
-  padding: ${({ theme }) => theme.sizing.mobilePadding};
   z-index: 99;
-  width: 100%;
-
-  @media ${device.tablet} {
-    padding: ${({ theme }) => theme.sizing.desktopPadding};
-  }
 `;
 
 const Logo = styled.div`
@@ -33,7 +28,7 @@ const Logo = styled.div`
 
 export const Header: FC = () => {
   return (
-    <Container>
+    <LogoContainer>
       <Logo>
         <Link href="/" passHref>
           <a>
@@ -41,6 +36,6 @@ export const Header: FC = () => {
           </a>
         </Link>
       </Logo>
-    </Container>
+    </LogoContainer>
   );
 };
