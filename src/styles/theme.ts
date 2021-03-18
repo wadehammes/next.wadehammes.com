@@ -12,8 +12,8 @@ export const theme = {
     trueBlack: "hsla(5,92%,1%,0.83)",
   },
   sizing: {
-    mobilePadding: "2em",
-    desktopPadding: "4em",
+    mobilePadding: "1.75em",
+    desktopPadding: "5em",
   },
 };
 
