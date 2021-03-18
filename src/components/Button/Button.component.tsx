@@ -1,16 +1,11 @@
 import { FC } from "react";
 import { device } from "src/styles/theme";
-import { randomIntFromInterval } from "src/utils/helpers";
 import styled, { css } from "styled-components";
-
-export enum ButtonVariants {
-  Text = "Text",
-  Primary = "Primary",
-}
-interface ButtonElementProps {
-  fixed?: boolean;
-  variant?: ButtonVariants;
-}
+import {
+  ButtonElementProps,
+  ButtonProps,
+  ButtonVariants,
+} from "src/components/Button/Button.interfaces";
 
 const ButtonElement = styled.button<ButtonElementProps>`
   display: flex;
@@ -40,14 +35,14 @@ const ButtonElement = styled.button<ButtonElementProps>`
     outline: 0;
   }
 
-  &:active {
-    transform: translateY(1px);
+  &:focus:active {
+    background-color: rgba(0, 0, 0, 0.25);
   }
 
   svg {
     margin-right: 0.75em;
-    height: 1.1em;
-    width: 1.1em;
+    height: 1.25em;
+    width: 1.25em;
   }
 
   ${({ variant }) =>
@@ -58,12 +53,12 @@ const ButtonElement = styled.button<ButtonElementProps>`
       box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.15);
 
       &:hover {
-        color: white;
+        color: ${({ theme }) => theme.colors.white};
         background-color: ${({ theme }) => theme.colors.red};
       }
 
       &:focus {
-        color: white;
+        color: ${({ theme }) => theme.colors.white};
         background-color: ${({ theme }) => theme.colors.red};
       }
 
@@ -73,25 +68,22 @@ const ButtonElement = styled.button<ButtonElementProps>`
     `}
 `;
 
-interface ButtonProps {
-  handleClick?: () => void;
-  variant?: ButtonVariants;
-  className?: string;
-}
-
 export const Button: FC<ButtonProps> = ({
   children,
   handleClick,
   variant = ButtonVariants.Primary,
   className,
+  label,
 }) => {
   return (
     <ButtonElement
+      type="button"
+      tabIndex={0}
       className={className}
       variant={variant}
       onClick={handleClick}
     >
-      {children}
+      {children ?? label ?? ""}
     </ButtonElement>
   );
 };

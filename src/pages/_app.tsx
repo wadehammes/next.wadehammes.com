@@ -5,15 +5,6 @@ import { GlobalStyles } from "src/styles/global";
 import { theme } from "src/styles/theme";
 import { Header } from "src/components/Header/Header.component";
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-areas:
-    header header
-    component component;
-  grid-gap: 5em;
-`;
-
-// eslint-disable-next-line import/no-default-export
 export default class WadeHammes extends App {
   render() {
     const { Component, pageProps } = this.props;
@@ -22,10 +13,7 @@ export default class WadeHammes extends App {
       <>
         <GlobalStyles />
         <ThemeProvider theme={theme}>
-          <Grid>
-            <Header />
-            <Component {...pageProps} />
-          </Grid>
+          <Component {...pageProps} />
         </ThemeProvider>
       </>
     );
