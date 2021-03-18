@@ -10,6 +10,7 @@ export const theme = {
     red: "hsla(350,95%,58%,0.83)",
     purple: "hsla(229,94%,76%,0.915)",
     trueBlack: "hsla(5,92%,1%,0.83)",
+    alphaBlack: "rgba(0, 0, 0, 0.25)",
   },
   sizing: {
     mobilePadding: "1.75em",
