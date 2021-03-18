@@ -8,6 +8,7 @@ export const saveSvg = (svgEl: string, name: string): boolean => {
 
   if (svg) {
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
     const svgData = svg.outerHTML;
     const preface = '<?xml version="1.0" standalone="no"?>\r\n';
     const svgBlob = new Blob([preface, svgData], {
@@ -15,6 +16,7 @@ export const saveSvg = (svgEl: string, name: string): boolean => {
     });
     const svgUrl = URL.createObjectURL(svgBlob);
     const downloadLink = document.createElement("a");
+
     downloadLink.href = svgUrl;
     downloadLink.download = name;
     document.body.appendChild(downloadLink);

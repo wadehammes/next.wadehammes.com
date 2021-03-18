@@ -4,15 +4,16 @@ import { Page } from "src/components/Page/Page.component";
 import { Container, Footer } from "src/components/Layout";
 import { SpiralsAbout } from "src/components/Spirals/SpiralsAbout.component";
 import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
+import parse from "html-react-parser";
 
 const Home: FC = () => (
   <>
     <Page>
       <Container>
         <Footer>
-          <H1>Hey, I'm Wade.</H1>
+          <H1>Hi, {parse("I&apos;m")} Wade.</H1>
           <P>
-            I'm a senior software engineer for{" "}
+            {parse("I&apos;m")} a senior software engineer for{" "}
             <A href="https://www.gotrhythm.com">Rhythm</A>, currently living in
             Washington, D.C. proper. Check out my{" "}
             <A href="https://github.com/wadehammes">code</A> on Github. For fun,

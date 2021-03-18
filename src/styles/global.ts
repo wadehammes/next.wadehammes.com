@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { device, theme } from "src/styles/theme";
+import { theme } from "src/styles/theme";
 import { FontWeight } from "src/interfaces/common.interfaces";
 
 export const GlobalStyles = createGlobalStyle`
