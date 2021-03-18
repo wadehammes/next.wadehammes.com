@@ -13,7 +13,10 @@ export const SpiralsAbout: FC = () => {
   return (
     <>
       <P>
-        The background you see currently was randomly generated with javascript
+        The background you see currently was{" "}
+        <A href="https://github.com/wadehammes/next.wadehammes.com/blob/staging/src/components/Spirals/Spirals.component.tsx">
+          randomly generated with javascript
+        </A>{" "}
         and animated with <A href="https://greensock.com/gsap/">GSAP</A>. No two
         will ever be the same. Keep refreshing, download one you love.
       </P>
