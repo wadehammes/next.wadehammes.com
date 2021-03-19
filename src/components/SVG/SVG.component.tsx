@@ -16,7 +16,7 @@ export const SVG = styled.svg<SVGProps>`
   z-index: 0;
   height: 100%;
   width: 100%;
-  height: calc(100vh + ${TOP});
+  height: calc(100% + ${TOP});
   width: 100vw;
   opacity: 0;
   transition: opacity 1s ease-in-out;
@@ -30,7 +30,6 @@ export const SVG = styled.svg<SVGProps>`
   @media ${device.tablet} {
     top: 0;
     height: 100%;
-    height: 100vh;
 
     ${({ visible }) =>
       visible &&
