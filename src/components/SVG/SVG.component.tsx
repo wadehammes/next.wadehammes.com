@@ -1,7 +1,7 @@
 import { device } from "src/styles/theme";
 import styled from "styled-components";
 
-const TOP = "15em";
+const TOP = "20em";
 
 export const SVG = styled.svg`
   position: fixed;
@@ -14,7 +14,7 @@ export const SVG = styled.svg`
   width: 100%;
   height: calc(100vh + ${TOP});
   width: 100vw;
-  opacity: 0.5;
+  opacity: 0.75;
   transition: opacity 0.25s ease-in-out;
 
   @media ${device.tablet} {
