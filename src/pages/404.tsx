@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { A, H1, P } from "src/components/Typography";
 import { Page } from "src/components/Page/Page.component";
-import { Container, Footer } from "src/components/Layout";
+import { Footer } from "src/components/Layout";
 import Link from "next/link";
 import { SpiralsAbout } from "src/components/Spirals/SpiralsAbout.component";
 import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
