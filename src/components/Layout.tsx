@@ -11,7 +11,7 @@ export const Grid = styled.div<GridProps>`
   grid-template-rows: 8em 1fr;
   grid-gap: 0;
   height: ${({ gridHeight = 500 }) =>
-    gridHeight ? `${gridHeight / 16}rem` : "100vh"};
+    gridHeight ? `${gridHeight}px` : "100vh"};
   width: 100%;
 `;
 
