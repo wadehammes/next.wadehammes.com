@@ -2,11 +2,16 @@ import { device } from "src/styles/theme";
 import styled from "styled-components";
 import { P } from "src/components/Typography";
 
-export const Grid = styled.div`
+interface GridProps {
+  gridHeight?: number | null;
+}
+
+export const Grid = styled.div<GridProps>`
   display: grid;
   grid-template-rows: 8em 1fr;
   grid-gap: 0;
-  height: 100vh;
+  height: ${({ gridHeight = 500 }) =>
+    gridHeight ? `${gridHeight / 16}rem` : "100vh"};
   width: 100%;
 `;
 
