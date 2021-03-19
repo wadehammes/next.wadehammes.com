@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { theme } from "src/styles/theme";
+import { device, theme } from "src/styles/theme";
 import { FontWeight } from "src/interfaces/common.interfaces";
 
 export const GlobalStyles = createGlobalStyle`
@@ -33,7 +33,11 @@ export const GlobalStyles = createGlobalStyle`
     background: ${theme.colors.black};
     color: ${theme.colors.white};
     font-family: 'Space Mono', monospace;
-    font-size: 16px;
+    font-size: 14px;
+
+    @media ${device.tablet} {
+      font-size: 16px;
+    }
   }
   /* HTML5 display-role reset for older browsers */
   article, aside, details, figcaption, figure, 
