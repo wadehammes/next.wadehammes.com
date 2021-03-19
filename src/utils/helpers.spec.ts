@@ -20,6 +20,6 @@ describe("randomDecFromInterval", () => {
 
     expect(randomInteger).toBeGreaterThanOrEqual(lowerBound);
     expect(randomInteger).toBeLessThanOrEqual(upperBound);
-    expect(randomInteger % 1 !== 0).toBe(true);
+    expect(randomInteger.toString().indexOf(".") === 1).toBe(true);
   });
 });
