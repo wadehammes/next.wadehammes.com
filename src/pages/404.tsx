@@ -9,7 +9,7 @@ import parse from "html-react-parser";
 import { Animate } from "src/components/Animate/Animate.component";
 import { useInView } from "react-intersection-observer";
 
-const Home: FC = () => {
+const E404: FC = () => {
   const { inView, ref } = useInView({
     triggerOnce: true,
   });
@@ -39,4 +39,4 @@ const Home: FC = () => {
   );
 };
 
-export default Home;
+export default E404;
