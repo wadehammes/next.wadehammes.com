@@ -1,4 +1,4 @@
-import { randomIntFromInterval } from "./helpers";
+import { randomDecFromInterval, randomIntFromInterval } from "./helpers";
 
 describe("randomIntFromInterval", () => {
   it("generated integer is between the two provided integers", () => {
@@ -8,5 +8,18 @@ describe("randomIntFromInterval", () => {
 
     expect(randomInteger).toBeGreaterThanOrEqual(lowerBound);
     expect(randomInteger).toBeLessThanOrEqual(upperBound);
+    expect(Number.isInteger(randomInteger)).toBe(true);
+  });
+});
+
+describe("randomDecFromInterval", () => {
+  it("generated number w/ decimal is between the two provided numbers", () => {
+    const lowerBound = 1;
+    const upperBound = 2.5;
+    const randomInteger = randomDecFromInterval(lowerBound, upperBound);
+
+    expect(randomInteger).toBeGreaterThanOrEqual(lowerBound);
+    expect(randomInteger).toBeLessThanOrEqual(upperBound);
+    expect(randomInteger % 1 !== 0).toBe(true);
   });
 });

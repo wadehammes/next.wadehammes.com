@@ -1,11 +1,14 @@
 export const randomIntFromInterval = (min: number, max: number): number => {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
+  const minFloor = Math.floor(min);
+  const maxFloor = Math.floor(max);
+
+  return Math.floor(Math.random() * (maxFloor - minFloor + 1) + minFloor);
 };
 
 export const randomDecFromInterval = (min: number, max: number): number => {
-  // min and max included
-  return Math.random() * (max - min + 1) + min;
+  const number: number = Math.random() * (max - min) + min;
+
+  return Number(number.toFixed(4));
 };
 
 export const saveSvg = (svgEl: string, name: string): boolean => {
