@@ -102,7 +102,7 @@ export const Spirals: FC<SpiralsProps> = ({
 
     if (spiralsRef.current) {
       gsap.to(spiralsRef.current, {
-        scale: randomDecFromInterval(1, 2),
+        scale: randomDecFromInterval(1, 1.5),
         rotation: 360 * plusOrMinus,
         duration: randomIntFromInterval(50, 1000),
         svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,

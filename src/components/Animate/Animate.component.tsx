@@ -9,7 +9,8 @@ interface AnimateWrapperProps {
 const AnimateWrapper = styled.div<AnimateWrapperProps>`
   opacity: 0;
   transform: translateY(0.5em);
-  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+  transition: opacity 1s ease-in-out,
+    transform 1s cubic-bezier(0.34, 0.53, 0.59, 1.11);
   transition-delay: ${({ wait }) => `${wait}ms`};
 
   ${({ visible }) =>
