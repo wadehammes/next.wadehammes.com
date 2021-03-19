@@ -79,9 +79,10 @@ export const Spirals: FC<SpiralsProps> = ({
   l = `${randomIntFromInterval(0, 100)}%`,
 }) => {
   const spiralsRef = useRef<SVGGElement>(null);
-  const plusOrMinus = Math.random() < 0.5 ? -1 : 1;
 
   useEffect(() => {
+    const plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+
     if (spiralsRef.current) {
       gsap.to(spiralsRef.current, {
         rotation: 360 * plusOrMinus,
@@ -91,7 +92,7 @@ export const Spirals: FC<SpiralsProps> = ({
         repeat: -1,
       });
     }
-  }, [spiralsRef, plusOrMinus]);
+  }, [spiralsRef]);
 
   const spirals = [...new Array(spiralCount)].map((_, i) => {
     const spiralsOffset = (360 / spiralCount) * i;
