@@ -30,7 +30,6 @@ export const SVG = styled.svg<SVGProps>`
   @media ${device.tablet} {
     top: 0;
     height: 100%;
-    height: 100vh;
 
     ${({ visible }) =>
       visible &&
