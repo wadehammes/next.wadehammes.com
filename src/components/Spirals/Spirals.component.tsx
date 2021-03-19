@@ -6,6 +6,8 @@ import {
 import { SPIRALS_CONSTANTS as constant } from "src/components/Spirals/Spirals.constants";
 import { gsap } from "gsap";
 
+gsap.defaults({ transformPerspective: constant.VIEWBOX * 2 });
+
 interface SpiralProps {
   centerX?: number;
   centerY?: number;
