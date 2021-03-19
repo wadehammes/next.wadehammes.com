@@ -12,10 +12,10 @@ const LogoContainer = styled(Container)`
 `;
 
 const Logo = styled.div`
-  width: 3em;
+  width: 3rem;
 
   @media ${device.tablet} {
-    width: 5em;
+    width: 5rem;
   }
 
   &:hover {
