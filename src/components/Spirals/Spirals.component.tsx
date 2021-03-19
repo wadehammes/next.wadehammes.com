@@ -33,20 +33,6 @@ export const Spiral: FC<SpiralProps> = ({
   l = `${randomIntFromInterval(0, 100)}%`,
   rad = randomIntFromInterval(0, 5),
 }) => {
-  const circleRef = useRef<SVGCircleElement>(null);
-
-  useEffect(() => {
-    if (circleRef.current) {
-      gsap.to(circleRef.current, {
-        scale: randomDecFromInterval(1, 1.5),
-        duration: randomIntFromInterval(250, 500),
-        svgOrigin: `${centerX} ${centerY}`,
-        smoothOrigin: true,
-        repeat: -1,
-      });
-    }
-  }, [circleRef, centerX, centerY]);
-
   const circles = [...new Array(count)].map((_, i) => {
     const angle =
       angleOffset * constant.DEGREES_TO_RADIUS + i * ((Math.PI * 2) / count);
@@ -69,7 +55,7 @@ export const Spiral: FC<SpiralProps> = ({
     );
   });
 
-  return <g ref={circleRef}>{circles}</g>;
+  return <g>{circles}</g>;
 };
 
 interface SpiralsProps {
