@@ -1,4 +1,4 @@
-import React, { FC, ReactChild } from "react";
+import React, { FC, ReactElement, ReactChild } from "react";
 import styled, { css } from "styled-components";
 
 interface AnimateWrapperProps {
@@ -21,14 +21,29 @@ const AnimateWrapper = styled.div<AnimateWrapperProps>`
 `;
 
 interface AnimateProps {
-  children?: ReactChild | ReactChild[];
+  children: ReactElement | ReactElement[];
   visible?: boolean;
+  timing?: number;
 }
 
-export const Animate: FC<AnimateProps> = ({ children, visible = false }) => {
-  return React.Children.map(children, (child, i: number) => (
-    <AnimateWrapper wait={100 * i} visible={visible}>
-      {child}
-    </AnimateWrapper>
-  ));
-};
+export const Animate: FC<AnimateProps> = ({
+  children,
+  visible = false,
+  timing = 150,
+}) => (
+  <>
+    {React.Children.map<ReactChild, ReactElement>(
+      children,
+      (child: ReactElement, i: number) => (
+        <AnimateWrapper
+          // eslint-disable-next-line react/no-array-index-key
+          key={`${child.type}-${i}`}
+          wait={timing * i}
+          visible={visible}
+        >
+          {child}
+        </AnimateWrapper>
+      ),
+    )}
+  </>
+);

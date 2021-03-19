@@ -1,5 +1,8 @@
 import { FC, useEffect, useRef } from "react";
-import { randomIntFromInterval } from "src/utils/helpers";
+import {
+  randomIntFromInterval,
+  randomDecFromInterval,
+} from "src/utils/helpers";
 import { SPIRALS_CONSTANTS as constant } from "src/components/Spirals/Spirals.constants";
 import { gsap } from "gsap";
 
@@ -30,6 +33,20 @@ export const Spiral: FC<SpiralProps> = ({
   l = `${randomIntFromInterval(0, 100)}%`,
   rad = randomIntFromInterval(0, 5),
 }) => {
+  const circleRef = useRef<SVGCircleElement>(null);
+
+  useEffect(() => {
+    if (circleRef.current) {
+      gsap.to(circleRef.current, {
+        scale: randomDecFromInterval(1, 1.5),
+        duration: randomIntFromInterval(250, 500),
+        svgOrigin: `${centerX} ${centerY}`,
+        smoothOrigin: true,
+        repeat: -1,
+      });
+    }
+  }, [circleRef, centerX, centerY]);
+
   const circles = [...new Array(count)].map((_, i) => {
     const angle =
       angleOffset * constant.DEGREES_TO_RADIUS + i * ((Math.PI * 2) / count);
@@ -52,7 +69,7 @@ export const Spiral: FC<SpiralProps> = ({
     );
   });
 
-  return <g>{circles}</g>;
+  return <g ref={circleRef}>{circles}</g>;
 };
 
 interface SpiralsProps {
@@ -85,6 +102,7 @@ export const Spirals: FC<SpiralsProps> = ({
 
     if (spiralsRef.current) {
       gsap.to(spiralsRef.current, {
+        scale: randomDecFromInterval(1, 2),
         rotation: 360 * plusOrMinus,
         duration: randomIntFromInterval(50, 1000),
         svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,
