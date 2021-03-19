@@ -33,7 +33,7 @@ export const SpiralsAbout: FC = () => {
           handleClick={() => replace(window.location.href)}
           className="refresh"
         >
-          Refresh
+          Regenerate
         </Button>
       </ButtonGroup>
     </>
