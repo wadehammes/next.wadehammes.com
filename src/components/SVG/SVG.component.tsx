@@ -1,9 +1,13 @@
 import { device } from "src/styles/theme";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const TOP = "24rem";
 
-export const SVG = styled.svg`
+interface SVGProps {
+  visible: boolean;
+}
+
+export const SVG = styled.svg<SVGProps>`
   position: fixed;
   top: -${TOP};
   left: 0;
@@ -14,13 +18,24 @@ export const SVG = styled.svg`
   width: 100%;
   height: calc(100vh + ${TOP});
   width: 100vw;
-  opacity: 0.75;
-  transition: opacity 0.25s ease-in-out;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+
+  ${({ visible }) =>
+    visible &&
+    css`
+      opacity: 0.75;
+    `}
 
   @media ${device.tablet} {
-    opacity: 1;
     top: 0;
     height: 100%;
     height: 100vh;
+
+    ${({ visible }) =>
+      visible &&
+      css`
+        opacity: 1;
+      `}
   }
 `;

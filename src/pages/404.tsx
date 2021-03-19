@@ -16,8 +16,8 @@ const E404: FC = () => {
 
   return (
     <>
-      <Page>
-        <Footer ref={ref}>
+      <Page ref={ref}>
+        <Footer>
           <Animate visible={inView}>
             <H1>Error: 404</H1>
             <P>
@@ -32,7 +32,7 @@ const E404: FC = () => {
           </Animate>
         </Footer>
       </Page>
-      <SpiralsSVG />
+      <SpiralsSVG visible={inView} />
     </>
   );
 };
