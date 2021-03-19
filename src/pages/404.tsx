@@ -17,22 +17,20 @@ const E404: FC = () => {
   return (
     <>
       <Page>
-        <Container>
-          <Footer ref={ref}>
-            <Animate visible={inView}>
-              <H1>Error: 404</H1>
-              <P>
-                Whoops, {parse("you&apos;ve")} landed on a page that{" "}
-                {parse("doesn&apos;t")} exist. No worries. Just head{" "}
-                <Link href="/">
-                  <A>home</A>
-                </Link>
-                .
-              </P>
-              <SpiralsAbout />
-            </Animate>
-          </Footer>
-        </Container>
+        <Footer ref={ref}>
+          <Animate visible={inView}>
+            <H1>Error: 404</H1>
+            <P>
+              Whoops, {parse("you&apos;ve")} landed on a page that{" "}
+              {parse("doesn&apos;t")} exist. No worries. Just head{" "}
+              <Link href="/">
+                <A>home</A>
+              </Link>
+              .
+            </P>
+            <SpiralsAbout />
+          </Animate>
+        </Footer>
       </Page>
       <SpiralsSVG />
     </>

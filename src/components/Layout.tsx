@@ -24,11 +24,10 @@ export const Container = styled.div`
   }
 `;
 
-export const Content = styled.div`
+export const Content = styled(Container)`
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  width: 100%;
   height: 100%;
 `;
 
