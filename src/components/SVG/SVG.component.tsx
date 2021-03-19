@@ -1,7 +1,7 @@
 import { device } from "src/styles/theme";
 import styled from "styled-components";
 
-const TOP = "15em";
+const TOP = "20em";
 
 export const SVG = styled.svg`
   position: fixed;
