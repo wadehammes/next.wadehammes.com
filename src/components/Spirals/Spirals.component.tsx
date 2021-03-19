@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   randomDecFromInterval,
   randomIntFromInterval,
@@ -86,17 +86,20 @@ export const Spirals: FC<SpiralsProps> = ({
   const spiralsRef = useRef<SVGGElement>(null);
 
   useEffect(() => {
-    const plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+    const plusOrMinus: number = Math.random() < 0.5 ? -1 : 1;
 
     if (spiralsRef.current) {
-      gsap.to(spiralsRef.current, {
-        scale: randomDecFromInterval(1.5, 3),
+      const animate: GSAPAnimation = gsap.to(spiralsRef.current, {
+        scale: randomDecFromInterval(1.5, 5),
         rotation: 360 * plusOrMinus,
         duration: randomIntFromInterval(50, 1000),
         svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,
         smoothOrigin: true,
         repeat: -1,
+        yoyo: true,
       });
+
+      animate.play();
     }
   }, [spiralsRef]);
 
