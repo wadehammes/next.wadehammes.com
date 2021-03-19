@@ -15,8 +15,8 @@ const Home: FC = () => {
 
   return (
     <>
-      <Page>
-        <Footer ref={ref}>
+      <Page ref={ref}>
+        <Footer>
           <Animate visible={inView}>
             <H1>Hi, {parse("I&apos;m")} Wade.</H1>
             <P>
@@ -39,7 +39,7 @@ const Home: FC = () => {
           </Animate>
         </Footer>
       </Page>
-      <SpiralsSVG />
+      <SpiralsSVG visible={inView} />
     </>
   );
 };
