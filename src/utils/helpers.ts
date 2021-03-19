@@ -1,8 +1,8 @@
 export const randomIntFromInterval = (min: number, max: number): number => {
   const minFloor = Math.floor(min);
-  const maxFloor = Math.floor(max);
+  const maxCeil = Math.ceil(max);
 
-  return Math.floor(Math.random() * (maxFloor - minFloor + 1) + minFloor);
+  return Math.floor(Math.random() * (maxCeil - minFloor + 1) + minFloor);
 };
 
 export const randomDecFromInterval = (min: number, max: number): number => {
