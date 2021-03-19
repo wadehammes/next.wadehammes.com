@@ -24,7 +24,7 @@ export const Spiral: FC<SpiralProps> = ({
   centerX = constant.VIEWBOX / 2,
   centerY = constant.VIEWBOX / 2,
   angleOffset = 0,
-  fill = Math.random() > 0.5,
+  fill = Boolean(Math.random() > 0.5),
   strokeWidth = randomIntFromInterval(0, 10),
   count = randomIntFromInterval(0, 10),
   offset = randomIntFromInterval(0, 100),
@@ -85,7 +85,7 @@ interface SpiralsProps {
 }
 
 export const Spirals: FC<SpiralsProps> = ({
-  fill = true,
+  fill = Boolean(Math.random() > 0.5),
   strokeWidth = 0,
   spiralCount = randomIntFromInterval(0, 8),
   circleOffset = randomIntFromInterval(0, 100),
