@@ -32,7 +32,6 @@ const ButtonElement = styled.button<ButtonElementProps>`
 
   &:focus {
     background-color: ${({ theme }) => theme.colors.alphaBlack};
-    outline: 0;
   }
 
   &:focus:active {
