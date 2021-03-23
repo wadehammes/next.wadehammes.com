@@ -26,8 +26,8 @@ export const A = styled.a`
   }
 
   &:focus {
-    outline: 0;
     background-color: ${({ theme }) => theme.colors.red};
+    text-decoration: none;
     color: ${({ theme }) => theme.colors.white};
   }
 `;
