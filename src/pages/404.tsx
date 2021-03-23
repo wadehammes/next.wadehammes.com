@@ -6,7 +6,6 @@ import Link from "next/link";
 import { SpiralsAbout } from "src/components/Spirals/SpiralsAbout.component";
 import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
 import parse from "html-react-parser";
-import { Animate } from "src/components/Animate/Animate.component";
 import { useInView } from "react-intersection-observer";
 
 const E404: FC = () => {
