@@ -28,7 +28,7 @@ export const Spiral: FC<SpiralProps> = ({
   angleOffset = 0,
   fill = Boolean(Math.random() > 0.5),
   strokeWidth = randomIntFromInterval(0, 10),
-  count = randomIntFromInterval(0, 10),
+  count = randomIntFromInterval(0, 16),
   offset = randomIntFromInterval(0, 100),
   h = randomIntFromInterval(0, 360),
   s = `${randomIntFromInterval(0, 100)}%`,
@@ -78,7 +78,7 @@ export const Spirals: FC<SpiralsProps> = ({
   spiralCount = randomIntFromInterval(0, 8),
   circleOffset = randomIntFromInterval(0, 100),
   rad = randomIntFromInterval(0, 5),
-  circleCount = randomIntFromInterval(0, 20),
+  circleCount = randomIntFromInterval(0, 16),
   h = randomIntFromInterval(0, 360),
   s = `${randomIntFromInterval(0, 100)}%`,
   l = `${randomIntFromInterval(0, 100)}%`,
@@ -90,7 +90,7 @@ export const Spirals: FC<SpiralsProps> = ({
 
     if (spiralsRef.current) {
       const animate: GSAPAnimation = gsap.to(spiralsRef.current, {
-        scale: randomDecFromInterval(1.5, 5),
+        scale: randomDecFromInterval(1.5, 3),
         rotation: 360 * plusOrMinus,
         duration: randomIntFromInterval(50, 1000),
         svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,
