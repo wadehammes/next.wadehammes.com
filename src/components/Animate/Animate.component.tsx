@@ -8,6 +8,7 @@ interface AnimateWrapperProps {
 
 const AnimateWrapper = styled.div<AnimateWrapperProps>`
   opacity: 0;
+  visibility: visible;
   transform: translateY(0.5em);
   transition: opacity 1s ease-in-out,
     transform 1s cubic-bezier(0.34, 0.53, 0.59, 1.11);
@@ -30,7 +31,7 @@ interface AnimateProps {
 export const Animate: FC<AnimateProps> = ({
   children,
   visible = false,
-  timing = 150,
+  timing = 100,
 }) => (
   <>
     {React.Children.map<ReactChild, ReactElement>(

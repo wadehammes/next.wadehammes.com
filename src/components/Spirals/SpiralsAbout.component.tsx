@@ -18,7 +18,7 @@ export const SpiralsAbout: FC = () => {
           randomly generated with javascript
         </A>{" "}
         and animated with <A href="https://greensock.com/gsap/">GSAP</A>. No two
-        will ever be the same. Keep refreshing, download one you love.
+        will be the same. Keep regenerating and download your favorite.
       </P>
       <ButtonGroup>
         <Button
