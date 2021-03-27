@@ -31,6 +31,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
   }
 
   &:focus {
+    outline: 0;
     background-color: ${({ theme }) => theme.colors.alphaBlack};
   }
 
