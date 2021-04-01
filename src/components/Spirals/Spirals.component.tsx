@@ -129,3 +129,5 @@ export const Spirals: FC<SpiralsProps> = ({
 
   return <g ref={spiralsRef}>{spirals}</g>;
 };
+
+export default Spirals;

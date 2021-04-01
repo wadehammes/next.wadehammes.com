@@ -40,3 +40,5 @@ export const Header: FC = () => {
     </LogoContainer>
   );
 };
+
+export default Header;

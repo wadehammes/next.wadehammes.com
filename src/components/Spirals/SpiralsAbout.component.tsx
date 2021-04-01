@@ -1,11 +1,17 @@
-import { useRouter } from "next/dist/client/router";
 import { FC } from "react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/dist/client/router";
 import { DownloadIcon } from "src/styles/icons/download.icon";
 import { saveSvg } from "src/utils/helpers";
-import { Button } from "src/components/Button/Button.component";
 import { ButtonVariants } from "src/components/Button/Button.interfaces";
-import { ButtonGroup } from "src/components/Button/ButtonGroup.component";
+
 import { A, P } from "src/components/Typography";
+
+const Button = dynamic(() => import("src/components/Button/Button.component"));
+
+const ButtonGroup = dynamic(() =>
+  import("src/components/Button/ButtonGroup.component"),
+);
 
 export const SpiralsAbout: FC = () => {
   const { replace } = useRouter();
@@ -39,3 +45,5 @@ export const SpiralsAbout: FC = () => {
     </>
   );
 };
+
+export default SpiralsAbout;
