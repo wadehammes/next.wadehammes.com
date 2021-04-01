@@ -84,3 +84,5 @@ export const Button: FC<ButtonProps> = ({
     {children ?? label ?? ""}
   </ButtonElement>
 );
+
+export default Button;

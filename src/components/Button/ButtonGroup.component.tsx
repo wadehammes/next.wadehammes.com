@@ -14,3 +14,5 @@ const Group = styled.div`
 `;
 
 export const ButtonGroup: FC = ({ children }) => <Group>{children}</Group>;
+
+export default ButtonGroup;
