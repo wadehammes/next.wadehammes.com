@@ -6,7 +6,6 @@ import { Footer } from "src/components/Layout";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { useInView } from "react-intersection-observer";
-import { Animate } from "src/components/Animate/Animate.component";
 
 const SpiralsAbout = dynamic(() =>
   import("src/components/Spirals/SpiralsAbout.component"),
@@ -25,18 +24,16 @@ const E404: FC = () => {
     <>
       <Page ref={ref}>
         <Footer>
-          <Animate visible={inView}>
-            <H1>Error: 404</H1>
-            <P>
-              Whoops, {parse("you&apos;ve")} landed on a page that{" "}
-              {parse("doesn&apos;t")} exist. No worries. Just head{" "}
-              <Link href="/">
-                <A>home</A>
-              </Link>
-              .
-            </P>
-            <SpiralsAbout />
-          </Animate>
+          <H1>Error: 404</H1>
+          <P>
+            Whoops, {parse("you&apos;ve")} landed on a page that{" "}
+            {parse("doesn&apos;t")} exist. No worries. Just head{" "}
+            <Link href="/">
+              <A>home</A>
+            </Link>
+            .
+          </P>
+          <SpiralsAbout />
         </Footer>
       </Page>
       <SpiralsSVG visible={inView} />
