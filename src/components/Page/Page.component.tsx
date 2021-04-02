@@ -1,10 +1,8 @@
 import { forwardRef, ReactElement, Ref } from "react";
-import dynamic from "next/dynamic";
+import { Header } from "src/components/Header/Header.component";
 import { Content, Grid } from "src/components/Layout";
 import { Helmet } from "src/components/Page/Helmet.component";
 import { useWindowDimensions } from "src/hooks/useWindowDimensions";
-
-const Header = dynamic(() => import("src/components/Header/Header.component"));
 
 interface PageProps {
   children?: ReactElement | ReactElement[];
