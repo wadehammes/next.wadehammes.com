@@ -2,14 +2,15 @@
 
 # next.wadehammes.com
 
-Personal site powered by Contentful, Next.js, and Typescript.
+Personal site powered by Next.js written in Typescript.
+
+## Future
+- Add MDX support for blog posts
 
 ## Development
 
-To develop this site, run yarn.
-
 ```
-yarn && yarn dev
+yarn dev
 ```
 
-Happy developing, me.
+Happy developing, me. Thanks me. ☕
