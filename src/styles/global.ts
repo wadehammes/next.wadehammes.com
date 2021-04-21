@@ -39,11 +39,6 @@ export const GlobalStyles = createGlobalStyle`
       font-size: 16px;
     }
   }
-  /* HTML5 display-role reset for older browsers */
-  article, aside, details, figcaption, figure, 
-  footer, header, hgroup, menu, nav, section {
-    display: block;
-  }
   body {
     line-height: 1;
   }
@@ -52,12 +47,27 @@ export const GlobalStyles = createGlobalStyle`
   }
   a {
     color: ${theme.colors.white};
-    text-decoration: none;
+    font-family: inherit;
+    text-decoration: underline;
+    font-weight: ${FontWeight.Bold};
+
+    &:hover {
+      background-color: ${theme.colors.red};
+      text-decoration: none;
+      color: ${theme.colors.white};
+      cursor: pointer;
+    }
+
+    &:focus {
+      background-color: ${theme.colors.red};
+      text-decoration: none;
+      color: ${theme.colors.white};
+    }
   }
   [hidden], .hidden {
     display: none;
   }
-  strong {
+  strong, b {
     font-weight: ${FontWeight.Bold};
   }
 `;

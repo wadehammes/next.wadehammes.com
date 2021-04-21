@@ -5,7 +5,7 @@ import { saveSvg } from "src/utils/helpers";
 import { ButtonVariants } from "src/components/Button/Button.interfaces";
 import { Button } from "src/components/Button/Button.component";
 import { ButtonGroup } from "src/components/Button/ButtonGroup.component";
-import { A, P } from "src/components/Typography";
+import { P } from "src/components/Typography";
 
 export const SpiralsAbout: FC = () => {
   const { replace } = useRouter();
@@ -14,10 +14,10 @@ export const SpiralsAbout: FC = () => {
     <>
       <P>
         The background you see currently was{" "}
-        <A href="https://github.com/wadehammes/next.wadehammes.com/blob/staging/src/components/Spirals/Spirals.component.tsx">
+        <a href="https://github.com/wadehammes/next.wadehammes.com/blob/staging/src/components/Spirals/Spirals.component.tsx">
           randomly generated with javascript
-        </A>{" "}
-        and animated with <A href="https://greensock.com/gsap/">GSAP</A>. No two
+        </a>{" "}
+        and animated with <a href="https://greensock.com/gsap/">GSAP</a>. No two
         will be the same. Keep regenerating and download your favorite.
       </P>
       <ButtonGroup>
