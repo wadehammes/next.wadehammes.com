@@ -13,25 +13,6 @@ export const H1 = styled.h1`
   }
 `;
 
-export const A = styled.a`
-  font-family: inherit;
-  text-decoration: underline;
-  font-weight: ${FontWeight.Bold};
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.red};
-    text-decoration: none;
-    color: ${({ theme }) => theme.colors.white};
-    cursor: pointer;
-  }
-
-  &:focus {
-    background-color: ${({ theme }) => theme.colors.red};
-    text-decoration: none;
-    color: ${({ theme }) => theme.colors.white};
-  }
-`;
-
 export const P = styled.p`
   font-weight: ${FontWeight.Regular};
   line-height: 1.5;

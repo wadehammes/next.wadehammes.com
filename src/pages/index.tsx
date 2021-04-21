@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { A, H1, P } from "src/components/Typography";
+import { H1, P } from "src/components/Typography";
 import { Page } from "src/components/Page/Page.component";
 import { Footer } from "src/components/Layout";
 import parse from "html-react-parser";
@@ -19,18 +19,18 @@ const Home: FC = () => {
           <H1>Hi, {parse("I&apos;m")} Wade.</H1>
           <P>
             {parse("I&apos;m")} a senior software engineer for{" "}
-            <A href="https://www.gotrhythm.com">Rhythm</A>, currently living in
+            <a href="https://www.gotrhythm.com">Rhythm</a>, currently living in
             Washington, D.C. For fun, I{" "}
-            <A href="https://instagram.com/nthoftype">build keyboards/cables</A>
+            <a href="https://instagram.com/nthoftype">build keyboards/cables</a>
             ,{" "}
-            <A href="https://www.youtube.com/watch?v=YqXR8nlEaKE">
+            <a href="https://www.youtube.com/watch?v=YqXR8nlEaKE">
               collect/play records
-            </A>
+            </a>
             , and ocassionally{" "}
-            <A href="https://twitch.tv/nthoftype">play video games</A>.{" "}
-            {parse("Here&apos;s")} my <A href="mailto:w@dehammes.com">email</A>,
-            my <A href="https://github.com/wadehammes">code</A>, and my{" "}
-            <A href="https://twitter.com/nthoftype">twitter</A>.
+            <a href="https://twitch.tv/nthoftype">play video games</a>.{" "}
+            {parse("Here&apos;s")} my <a href="mailto:w@dehammes.com">email</a>,
+            my <a href="https://github.com/wadehammes">code</a>, and my{" "}
+            <a href="https://twitter.com/nthoftype">twitter</a>.
           </P>
           <SpiralsAbout />
         </Footer>

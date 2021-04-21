@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { A, H1, P } from "src/components/Typography";
+import { H1, P } from "src/components/Typography";
 import { Page } from "src/components/Page/Page.component";
 import { Footer } from "src/components/Layout";
 import Link from "next/link";
@@ -22,7 +22,7 @@ const E404: FC = () => {
             Whoops, {parse("you&apos;ve")} landed on a page that{" "}
             {parse("doesn&apos;t")} exist. No worries. Just head{" "}
             <Link href="/">
-              <A>home</A>
+              <a>home</a>
             </Link>
             .
           </P>
