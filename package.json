@@ -32,7 +32,7 @@
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
-    "@testing-library/react-hooks": "^5.1.1",
+    "@testing-library/react-hooks": "^5.1.2",
     "@types/gsap": "^1.20.2",
     "@types/jest": "^26.0.22",
     "@types/styled-components": "^5.1.7",
