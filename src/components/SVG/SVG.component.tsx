@@ -14,9 +14,8 @@ export const SVG = styled.svg<SVGProps>`
   bottom: 0;
   right: 0;
   z-index: 0;
-  height: 100%;
-  width: 100%;
   height: calc(100% + ${TOP});
+  width: 100%;
   width: 100vw;
   opacity: 0;
   transition: opacity 1s ease-in-out;
