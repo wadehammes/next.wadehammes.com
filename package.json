@@ -11,6 +11,7 @@
     "tsc:ci": "tsc --strict",
     "lint:ci": "eslint 'src/**/*.{ts,tsx}'",
     "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
+    "lint:css": "stylelint 'src/**/*.{ts,tsx}'",
     "test:ci": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -21,7 +22,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-intersection-observer": "^8.31.1",
-    "styled-components": "^5.3.0"
+    "styled-components": "^5.3.0",
+    "stylelint": "^13.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",
@@ -57,6 +59,9 @@
     "prettier": "^2.2.1",
     "prettier-plugin-import-sort": "^0.0.6",
     "react-test-renderer": "^17.0.2",
+    "stylelint-config-recommended": "^5.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0",
     "ts-jest": "^26.5.6",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
