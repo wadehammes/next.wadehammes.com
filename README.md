@@ -1,4 +1,4 @@
-[![<ORG_NAME>](https://circleci.com/gh/wadehammes/next.wadehammes.com.svg?style=svg)](https://github.com/wadehammes/next.wadehammes.com)
+![CI](https://github.com/wadehammes/next.wadehammes.com/actions/workflows/ci.yml/badge.svg)
 
 # next.wadehammes.com
 
