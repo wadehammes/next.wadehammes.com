@@ -22,8 +22,12 @@ const addRoute = (route) => {
 
 const { routes } = manifest;
 
+const IGNORE_ROUTES = ["/404"];
+
 Object.entries(routes).forEach(([route, _]) => {
-  addRoute(route);
+  if (!IGNORE_ROUTES.includes(route)) {
+    addRoute(route);
+  }
 });
 
 sitemapStr += "</urlset>";

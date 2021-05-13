@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 import { H1, P } from "src/components/Typography";
 import { Page } from "src/components/Page/Page.component";
 import { Footer } from "src/components/Layout";
@@ -6,8 +6,9 @@ import parse from "html-react-parser";
 import { useInView } from "react-intersection-observer";
 import { SpiralsAbout } from "src/components/Spirals/SpiralsAbout.component";
 import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
+import { GetStaticProps } from "next";
 
-const Home: FC = () => {
+const Home: FC = (): ReactElement => {
   const { inView, ref } = useInView({
     triggerOnce: true,
   });
@@ -39,5 +40,11 @@ const Home: FC = () => {
     </>
   );
 };
+
+// eslint-disable-next-line require-await
+export const getStaticProps: GetStaticProps = async () => ({
+  props: {},
+  revalidate: 1,
+});
 
 export default Home;
