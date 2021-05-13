@@ -10,3 +10,6 @@ release:
 		echo "Tag name must start with v (eg, v0.0.1)"; \
 		exit 1; \
 	fi
+
+sitemap:
+	node scripts/make_sitemap.js
