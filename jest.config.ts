@@ -9,9 +9,9 @@ const config: Config.InitialOptions = {
   setupFilesAfterEnv: ["<rootDir>/.jest/setupTests.ts"],
   transform: {
     "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
-    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
   moduleDirectories: ["node_modules", "<rootDir>"],
+  testEnvironment: "jsdom",
 };
 
 export default config;
