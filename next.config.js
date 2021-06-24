@@ -2,12 +2,6 @@ module.exports = {
   env: {
     ENVIRONMENT: process.env.ENVIRONMENT,
   },
-  images: {
-    domains: ["images.ctfassets.net"],
-  },
-  future: {
-    webpack5: true,
-  },
   async headers() {
     return [
       {
@@ -40,7 +34,6 @@ const scriptSrc = [
   "'unsafe-eval'",
   "'unsafe-inline'",
   "*.youtube.com",
-  "*.ctfassets.net",
   "*.google-analytics.com",
   "*.vercel-insights.com",
   "*.vercel.app",
@@ -51,7 +44,7 @@ const ContentSecurityPolicy = `
   script-src ${scriptSrc.join(" ")};
   child-src *.youtube.com *.google.com *.twitter.com;
   style-src 'self' 'unsafe-inline' *.googleapis.com;
-  img-src * blob: data: *.ctfassets.net;
+  img-src * blob: data:;
   media-src 'none';
   connect-src *;
   font-src 'self' fonts.gstatic.com;
