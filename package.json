@@ -36,7 +36,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react-hooks": "^7.0.0",
     "@types/gsap": "^3.0.0",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^26.0.24",
     "@types/node": "^15.12.4",
     "@types/styled-components": "^5.1.10",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
