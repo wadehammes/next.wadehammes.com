@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { device } from "src/styles/theme";
-import styled, { css } from "styled-components";
 import {
   ButtonElementProps,
   ButtonProps,
   ButtonVariants,
 } from "src/components/Button/Button.interfaces";
+import { device } from "src/styles/theme";
+import styled, { css } from "styled-components";
 
 const ButtonElement = styled.button<ButtonElementProps>`
   display: flex;
@@ -54,16 +54,16 @@ const ButtonElement = styled.button<ButtonElementProps>`
 
       &:hover {
         color: ${({ theme }) => theme.colors.white};
-        background-color: ${({ theme }) => theme.colors.red};
+        background-color: ${({ theme }) => theme.colors.gray};
       }
 
       &:focus {
         color: ${({ theme }) => theme.colors.white};
-        background-color: ${({ theme }) => theme.colors.red};
+        background-color: ${({ theme }) => theme.colors.gray};
       }
 
       &:focus:active {
-        background-color: ${({ theme }) => theme.colors.red};
+        background-color: ${({ theme }) => theme.colors.gray};
       }
     `}
 `;

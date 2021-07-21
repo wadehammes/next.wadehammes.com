@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
-import { device, theme } from "src/styles/theme";
 import { FontWeight } from "src/interfaces/common.interfaces";
+import { device, theme } from "src/styles/theme";
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
   *,
@@ -52,16 +52,16 @@ export const GlobalStyles = createGlobalStyle`
     font-weight: ${FontWeight.Bold};
 
     &:hover {
-      background-color: ${theme.colors.red};
+      background-color: ${theme.colors.white};
       text-decoration: none;
-      color: ${theme.colors.white};
+      color: ${theme.colors.black};
       cursor: pointer;
     }
 
     &:focus {
-      background-color: ${theme.colors.red};
+      background-color: ${theme.colors.white};
       text-decoration: none;
-      color: ${theme.colors.white};
+      color: ${theme.colors.black};
     }
   }
   [hidden], .hidden {
