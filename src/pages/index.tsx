@@ -1,12 +1,12 @@
-import { FC, ReactElement } from "react";
-import { H1, P } from "src/components/Typography";
-import { Page } from "src/components/Page/Page.component";
-import { Footer } from "src/components/Layout";
 import parse from "html-react-parser";
+import { GetStaticProps } from "next";
+import { FC, ReactElement } from "react";
 import { useInView } from "react-intersection-observer";
+import { Footer } from "src/components/Layout";
+import { Page } from "src/components/Page/Page.component";
 import { SpiralsAbout } from "src/components/Spirals/SpiralsAbout.component";
 import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
-import { GetStaticProps } from "next";
+import { H1, P } from "src/components/Typography";
 
 const Home: FC = (): ReactElement => {
   const { inView, ref } = useInView({
@@ -19,18 +19,18 @@ const Home: FC = (): ReactElement => {
         <Footer>
           <H1>Hi, {parse("I&apos;m")} Wade.</H1>
           <P>
-            {parse("I&apos;m")} a senior software engineer for{" "}
-            <a href="https://www.gotrhythm.com">Rhythm</a>, currently living in
+            {parse("I&apos;m")} a software engineer for{" "}
+            <a href="https://www.gotrhythm.com">Rhythm</a>, building the best
+            customer experience in retail energy, while currently living in
             Washington, D.C. For fun, I{" "}
-            <a href="https://instagram.com/nthoftype">build keyboards/cables</a>
-            ,{" "}
+            <a href="https://instagram.com/nthoftype">build keyboards/cables</a>{" "}
+            and{" "}
             <a href="https://www.youtube.com/watch?v=YqXR8nlEaKE">
               collect/play records
             </a>
-            , and ocassionally{" "}
-            <a href="https://twitch.tv/nthoftype">play video games</a>.{" "}
-            {parse("Here&apos;s")} my <a href="mailto:w@dehammes.com">email</a>,
-            my <a href="https://github.com/wadehammes">code</a>, and my{" "}
+            . {parse("Here&apos;s")} my{" "}
+            <a href="mailto:w@dehammes.com">email</a>,{" "}
+            <a href="https://github.com/wadehammes">code</a>, and{" "}
             <a href="https://twitter.com/nthoftype">twitter</a>.
           </P>
           <SpiralsAbout />
