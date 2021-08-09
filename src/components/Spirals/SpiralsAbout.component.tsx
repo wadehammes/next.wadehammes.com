@@ -16,7 +16,7 @@ export const SpiralsAbout: FC = () => {
       <P>
         The animated background you see was{" "}
         <a href="https://github.com/wadehammes/next.wadehammes.com/blob/staging/src/components/Spirals/Spirals.component.tsx">
-          randomly generated
+          randomly generated using SVG and Javascript
         </a>
         . Like us as people, no two will be the same and each unique in{" "}
         {parse("it&apos;s")} own way.
