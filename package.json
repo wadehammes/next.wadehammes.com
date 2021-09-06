@@ -38,7 +38,7 @@
     "@types/gsap": "^3.0.0",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.13",
-    "@types/styled-components": "^5.1.12",
+    "@types/styled-components": "^5.1.14",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "babel-jest": "^27.0.6",
