@@ -1,4 +1,3 @@
-import parse from "html-react-parser";
 import { useRouter } from "next/dist/client/router";
 import { FC } from "react";
 import { Button } from "src/components/Button/Button.component";
