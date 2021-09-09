@@ -1,4 +1,3 @@
-import parse from "html-react-parser";
 import { useRouter } from "next/dist/client/router";
 import { FC } from "react";
 import { Button } from "src/components/Button/Button.component";
@@ -16,10 +15,9 @@ export const SpiralsAbout: FC = () => {
       <P>
         The animated background you see was{" "}
         <a href="https://github.com/wadehammes/next.wadehammes.com/blob/staging/src/components/Spirals/Spirals.component.tsx">
-          randomly generated using SVG and Javascript
+          randomly generated
         </a>
-        . Like us as people, no two will be the same and each unique in{" "}
-        {parse("it&apos;s")} own way.
+        . Like us, no two will be the same.
       </P>
       <ButtonGroup>
         <Button

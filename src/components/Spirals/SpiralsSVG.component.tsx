@@ -29,6 +29,7 @@ export const SpiralsSVG: FC<SpiralsSVGProps> = ({ visible = false }) => (
       strokeWidth={randomIntFromInterval(3, 6)}
     />
     <Spirals strokeWidth={randomIntFromInterval(1, 8)} fill={false} />
+    <Spirals strokeWidth={randomIntFromInterval(1, 2)} circleOffset={25} />
     <Spirals />
   </SVG>
 );

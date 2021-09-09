@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from "react";
 import { render, RenderOptions } from "@testing-library/react";
 import { ThemeProvider } from "styled-components";
 import { theme } from "src/styles/theme";
-import { RouterContext } from "next/dist/next-server/lib/router-context";
+import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
 
 const mockRouter: NextRouter = {

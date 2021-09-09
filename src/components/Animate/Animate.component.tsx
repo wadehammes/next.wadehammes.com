@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, ReactChild } from "react";
+import React, { FC, ReactElement, ReactChild, Children } from "react";
 import styled, { css } from "styled-components";
 
 interface AnimateWrapperProps {
@@ -34,7 +34,7 @@ export const Animate: FC<AnimateProps> = ({
   timing = 100,
 }) => (
   <>
-    {React.Children.map<ReactChild, ReactElement>(
+    {Children.map<ReactChild, ReactElement>(
       children,
       (child: ReactElement, i: number) => (
         <AnimateWrapper

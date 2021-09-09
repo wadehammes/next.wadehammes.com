@@ -27,16 +27,20 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:eslint-comments/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:prettier/recommended",
-    "prettier"
+    "prettier",
+    "plugin:@next/next/recommended"
   ],
   "rules": {
+    "@next/next/no-page-custom-font": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-parameter-properties": "off",
     "array-callback-return": "error",
-    "camelcase": "error",
+    "camelcase": "off",
     "class-methods-use-this": "off",
     "consistent-return": "off",
     "curly": ["error", "all"],
@@ -111,6 +115,7 @@
     "no-template-curly-in-string": "error",
     "no-this-before-super": "error",
     "no-throw-literal": "error",
+    "no-restricted-imports": ["error", {"patterns": ["..*"]}],
     "no-restricted-globals": [
       "error",
       "addEventListener",
@@ -212,9 +217,10 @@
     "getter-return": "error",
     "import/first": "error",
     "import/no-amd": "error",
-    "import/no-relative-parent-imports": "error",
+    "import/no-relative-parent-imports": "off",
     "import/prefer-default-export": "off",
     "import/no-default-export": "off",
+    "import/no-named-as-default": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
@@ -231,6 +237,7 @@
       }
     ],
     "import/no-webpack-loader-syntax": "error",
+    "import/extensions": "off",
     "react/forbid-foreign-prop-types": [
       "error",
       {
@@ -346,15 +353,17 @@
     "@typescript-eslint/no-non-null-assertion": "error"
   },
   "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
     "import/resolver": {
-      "node": {
-        "paths": [
-          "/"
-        ]
+      "typescript": {
+        "alwaysTryTypes": true,
+        "paths": "./tsconfig.json"
       }
     },
     "react": {
-      "version": "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
+      "version": "detect"
     }
   }
 }

@@ -25,7 +25,8 @@
     "cssprops.d.ts",
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx", ".jest/setupTests.ts",
+    "**/*.tsx",
+    ".jest/setupTests.ts",
   ],
   "exclude": [
     "node_modules",
