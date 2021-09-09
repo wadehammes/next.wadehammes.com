@@ -30,7 +30,8 @@ const Home: FC = (): ReactElement => {
             </a>
             . {parse("Here&apos;s")} my{" "}
             <a href="mailto:w@dehammes.com">email</a>,{" "}
-            <a href="https://github.com/wadehammes">code</a>, and{" "}
+            <a href="https://github.com/wadehammes">code</a>,{" "}
+            <a href="https://instagram.com/wade">insta</a>, and{" "}
             <a href="https://twitter.com/nthoftype">twitter</a>.
           </P>
           <SpiralsAbout />
