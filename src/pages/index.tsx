@@ -21,8 +21,8 @@ const Home: FC = (): ReactElement => {
           <P>
             {parse("I&apos;m")} a software engineer for{" "}
             <a href="https://www.gotrhythm.com">Rhythm</a>, building the best
-            customer experience in retail energy, while currently living in
-            Washington, D.C. For fun, I{" "}
+            customer experience in retail renewable energy, while currently
+            living in Washington, D.C. For fun, I{" "}
             <a href="https://instagram.com/nthoftype">build keyboards/cables</a>{" "}
             and{" "}
             <a href="https://www.youtube.com/watch?v=YqXR8nlEaKE">
