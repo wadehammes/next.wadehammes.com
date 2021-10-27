@@ -10,7 +10,11 @@
     "importHelpers": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": [ "dom", "dom.iterable", "esnext" ],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -19,17 +23,20 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2015",
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "incremental": true
   },
   "include": [
     "cssprops.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".jest/setupTests.ts",
+    ".jest/setupTests.ts"
   ],
   "exclude": [
     "node_modules",
     "next.config.js"
-  ],
+  ]
 }
