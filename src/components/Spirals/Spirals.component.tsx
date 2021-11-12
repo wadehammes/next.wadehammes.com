@@ -28,12 +28,12 @@ export const Spiral: FC<SpiralProps> = ({
   angleOffset = 0,
   fill = Boolean(Math.random() > 0.5),
   strokeWidth = randomIntFromInterval(0, 12),
-  count = randomIntFromInterval(0, 25),
+  count = randomIntFromInterval(0, 32),
   offset = randomIntFromInterval(0, 150),
   h = randomIntFromInterval(0, 360),
   s = `${randomIntFromInterval(0, 100)}%`,
   l = `${randomIntFromInterval(0, 100)}%`,
-  rad = randomIntFromInterval(0, 10),
+  rad = randomIntFromInterval(48, 64),
 }) => {
   const circles = [...new Array(count)].map((_, i) => {
     const angle =
@@ -75,13 +75,13 @@ interface SpiralsProps {
 export const Spirals: FC<SpiralsProps> = ({
   fill = Boolean(Math.random() > 0.5),
   strokeWidth = 0,
-  spiralCount = randomIntFromInterval(0, 10),
+  spiralCount = randomIntFromInterval(0, 12),
   circleOffset = randomIntFromInterval(0, 120),
   circleCount = randomIntFromInterval(0, 26),
   h = randomIntFromInterval(0, 360),
   s = `${randomIntFromInterval(0, 100)}%`,
   l = `${randomIntFromInterval(0, 100)}%`,
-  rad = randomIntFromInterval(0, 12),
+  rad = randomIntFromInterval(48, 64),
 }) => {
   const spiralsRef = useRef<SVGGElement>(null);
 
