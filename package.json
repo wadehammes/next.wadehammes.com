@@ -33,7 +33,7 @@
     "@babel/preset-react": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "@svgr/webpack": "^5.5.0",
-    "@testing-library/jest-dom": "^5.15.1",
+    "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/gsap": "^3.0.0",
     "@types/jest": "^27.0.3",
