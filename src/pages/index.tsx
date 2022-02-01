@@ -20,9 +20,10 @@ const Home: FC = (): ReactElement => {
           <H1>Hi, {parse("I&apos;m")} Wade.</H1>
           <P>
             {parse("I&apos;m")} a software engineer for{" "}
-            <a href="https://www.gotrhythm.com">Rhythm</a>, building the best
-            customer experience in retail renewable energy, while currently
-            living in Washington, D.C. For fun, I{" "}
+            <a href="https://www.gotrhythm.com">Rhythm</a>, helping build the
+            best customer experience in retail renewable energy in Texas (and
+            hopefully beyond), while currently living in Washington, D.C. For
+            fun, I{" "}
             <a href="https://instagram.com/nthoftype">build keyboards/cables</a>{" "}
             and{" "}
             <a href="https://www.youtube.com/watch?v=YqXR8nlEaKE">
