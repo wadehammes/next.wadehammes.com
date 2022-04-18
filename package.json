@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@testing-library/react": "^12.1.4",
-    "gsap": "^3.9.1",
+    "gsap": "^3.10.3",
     "html-react-parser": "^1.4.9",
     "next": "^12.1.0",
     "polished": "^4.1.4",
