@@ -12,7 +12,7 @@ export const Page = forwardRef(
   ({ children }: PageProps, ref: Ref<HTMLDivElement>) => {
     const { height } = useWindowDimensions();
 
-    return height ? (
+    return (
       <>
         <Helmet />
         <Grid ref={ref} gridHeight={height}>
@@ -20,7 +20,7 @@ export const Page = forwardRef(
           <Content>{children}</Content>
         </Grid>
       </>
-    ) : null;
+    );
   },
 );
 
