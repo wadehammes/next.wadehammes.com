@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-const CrownWrapper = styled.div`
+const CrownWrapper = styled.span`
+  display: block;
   fill: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.white};
 `;

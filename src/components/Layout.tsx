@@ -10,8 +10,7 @@ export const Grid = styled.div<GridProps>`
   display: grid;
   grid-template-rows: 8em 1fr;
   grid-gap: 0;
-  height: ${({ gridHeight = 500 }) =>
-    gridHeight ? `${gridHeight}px` : "100vh"};
+  height: 100vh;
   width: 100%;
 `;
 
