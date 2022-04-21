@@ -37,3 +37,7 @@ export const saveSvg = (svgEl: string, name: string): boolean => {
 
   return false;
 };
+
+export const isBrowser = () => {
+  return Boolean(typeof window !== "undefined");
+};

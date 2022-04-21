@@ -1,18 +1,26 @@
 import { GetStaticProps } from "next";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Footer } from "src/components/Layout";
 import { Page } from "src/components/Page/Page.component";
 import { SpiralsAbout } from "src/components/Spirals/SpiralsAbout.component";
 import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
 import { H1, P } from "src/components/Typography";
+import { isBrowser } from "src/utils/helpers";
 
 const Home: FC = (): ReactElement => {
+  const [clientReady, setClientReady] = useState<boolean>(false);
   const { inView, ref } = useInView({
     triggerOnce: true,
     initialInView: true,
     fallbackInView: true,
   });
+
+  useEffect(() => {
+    if (isBrowser()) {
+      setClientReady(true);
+    }
+  }, []);
 
   return (
     <>
@@ -37,7 +45,7 @@ const Home: FC = (): ReactElement => {
           <SpiralsAbout />
         </Footer>
       </Page>
-      <SpiralsSVG visible={inView} />
+      {clientReady && <SpiralsSVG visible={inView} />}
     </>
   );
 };
