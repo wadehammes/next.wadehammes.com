@@ -58,7 +58,7 @@
     "jest": "^27.5.1",
     "prettier": "^2.6.2",
     "prettier-plugin-import-sort": "^0.0.7",
-    "react-is": "^18.0.0",
+    "react-is": "^18.1.0",
     "react-test-renderer": "^18.0.0",
     "stylelint-config-recommended": "^7.0.0",
     "stylelint-config-styled-components": "^0.1.1",
