@@ -24,7 +24,7 @@
     "react-dom": "^18.0.0",
     "react-intersection-observer": "^9.0.0",
     "styled-components": "^5.3.5",
-    "stylelint": "^14.7.1"
+    "stylelint": "^14.8.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
