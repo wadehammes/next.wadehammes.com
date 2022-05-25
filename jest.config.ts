@@ -11,7 +11,7 @@ const config: Config.InitialOptions = {
     "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
   },
   moduleDirectories: ["node_modules", "<rootDir>"],
-  testEnvironment: "jsdom",
+  testEnvironment: "jest-environment-jsdom",
 };
 
 export default config;
