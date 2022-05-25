@@ -18,14 +18,12 @@
     "@testing-library/react": "^13.2.0",
     "gsap": "^3.10.4",
     "html-react-parser": "^1.4.12",
-    "jest-environment-jsdom": "^28.1.0",
     "next": "^12.1.6",
     "polished": "^4.2.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-intersection-observer": "^9.1.0",
-    "styled-components": "^5.3.5",
-    "stylelint": "^14.8.5"
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
@@ -57,10 +55,12 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
     "prettier": "^2.6.2",
     "prettier-plugin-import-sort": "^0.0.7",
     "react-is": "^18.1.0",
     "react-test-renderer": "^18.1.0",
+    "stylelint": "^14.8.5",
     "stylelint-config-recommended": "^7.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.10.0",
