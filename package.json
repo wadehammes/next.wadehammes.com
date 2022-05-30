@@ -15,7 +15,7 @@
     "test:ci": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@testing-library/react": "^13.2.0",
+    "@testing-library/react": "^13.3.0",
     "gsap": "^3.10.4",
     "html-react-parser": "^1.4.12",
     "next": "^12.1.6",
