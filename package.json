@@ -61,7 +61,7 @@
     "react-is": "^18.1.0",
     "react-test-renderer": "^18.1.0",
     "stylelint": "^14.8.5",
-    "stylelint-config-recommended": "^7.0.0",
+    "stylelint-config-recommended": "^8.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.10.0",
     "ts-jest": "^28.0.3",
