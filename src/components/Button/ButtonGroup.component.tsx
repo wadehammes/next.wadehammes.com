@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { PropsWithChildrenOnly } from "src/@types/react";
 import styled from "styled-components";
 
 const Group = styled.div`
@@ -13,6 +14,8 @@ const Group = styled.div`
   }
 `;
 
-export const ButtonGroup: FC = ({ children }) => <Group>{children}</Group>;
+export const ButtonGroup: FC<PropsWithChildrenOnly> = ({ children }) => (
+  <Group>{children}</Group>
+);
 
 export default ButtonGroup;

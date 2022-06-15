@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "src/styles/theme";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
+import { PropsWithChildrenOnly } from "src/@types/react";
 
 const mockRouter: NextRouter = {
   basePath: "/",
@@ -29,7 +30,7 @@ const mockRouter: NextRouter = {
   },
 };
 
-const Providers: FC = ({ children }) => (
+const Providers: FC<PropsWithChildrenOnly> = ({ children }) => (
   <RouterContext.Provider value={mockRouter}>
     <ThemeProvider theme={theme}>{children}</ThemeProvider>
   </RouterContext.Provider>

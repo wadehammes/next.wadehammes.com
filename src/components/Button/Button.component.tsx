@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FCWithChildren } from "src/@types/react";
 import {
   ButtonElementProps,
   ButtonProps,
@@ -68,7 +68,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
     `}
 `;
 
-export const Button: FC<ButtonProps> = ({
+export const Button: FCWithChildren<ButtonProps> = ({
   children,
   handleClick,
   variant = ButtonVariants.Primary,
