@@ -29,18 +29,64 @@ const Home: FC = (): ReactElement => {
           <H1>Hi, I'm Wade.</H1>
           <P>
             I'm a software engineer for{" "}
-            <a href="https://www.gotrhythm.com">Rhythm</a>, helping build the
-            best customer experience in retail renewable energy, while currently
-            living in Washington, D.C. For fun, I{" "}
-            <a href="https://instagram.com/nthoftype">build keyboards/cables</a>{" "}
+            <a
+              href="https://www.gotrhythm.com"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Rhythm
+            </a>
+            , helping build the best customer experience in retail renewable
+            energy, while currently living in Washington, D.C. On the side, I'm
+            building{" "}
+            <a href="https://filtermydisco.gs" target="_blank" rel="noreferrer">
+              FilterMyDisco.gs
+            </a>
+            , a new Discogs collection management tool. For fun, I{" "}
+            <a
+              href="https://instagram.com/nthoftype"
+              target="_blank"
+              rel="noreferrer"
+            >
+              build keyboards/cables
+            </a>{" "}
             and{" "}
-            <a href="https://www.youtube.com/watch?v=YqXR8nlEaKE">
+            <a
+              href="https://www.youtube.com/watch?v=YqXR8nlEaKE"
+              target="_blank"
+              rel="noreferrer"
+            >
               collect/play records
             </a>
-            . Here's my <a href="mailto:w@dehammes.com">email</a>,{" "}
-            <a href="https://github.com/wadehammes">code</a>,{" "}
-            <a href="https://instagram.com/wade">insta</a>, and{" "}
-            <a href="https://twitter.com/nthoftype">twitter</a>.
+            . Here's my{" "}
+            <a href="mailto:w@dehammes.com" target="_blank" rel="noreferrer">
+              email
+            </a>
+            ,{" "}
+            <a
+              href="https://github.com/wadehammes"
+              target="_blank"
+              rel="noreferrer"
+            >
+              code
+            </a>
+            ,{" "}
+            <a
+              href="https://instagram.com/wade"
+              target="_blank"
+              rel="noreferrer"
+            >
+              insta
+            </a>
+            , and{" "}
+            <a
+              href="https://twitter.com/nthoftype"
+              target="_blank"
+              rel="noreferrer"
+            >
+              twitter
+            </a>
+            .
           </P>
           <SpiralsAbout />
         </Footer>
