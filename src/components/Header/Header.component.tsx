@@ -31,10 +31,8 @@ export const Header: FC = () => {
   return (
     <LogoContainer>
       <Logo>
-        <Link href="/" passHref>
-          <a>
-            <Crown />
-          </a>
+        <Link href="/">
+          <Crown />
         </Link>
       </Logo>
     </LogoContainer>

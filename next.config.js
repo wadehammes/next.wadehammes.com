@@ -1,4 +1,13 @@
 module.exports = {
+  reactStrictMode: true,
+  productionBrowserSourceMaps: false,
+  outputFileTracing: false,
+  swcMinify: true,
+  compiler: {
+    // ssr and displayName are configured by default
+    styledComponents: true,
+    reactRemoveProperties: false,
+  },
   env: {
     ENVIRONMENT: process.env.ENVIRONMENT,
   },

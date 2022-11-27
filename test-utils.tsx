@@ -28,6 +28,7 @@ const mockRouter: NextRouter = {
     off: jest.fn(),
     emit: jest.fn(),
   },
+  forward: jest.fn(() => Promise.resolve(true)),
 };
 
 const Providers: FC<PropsWithChildrenOnly> = ({ children }) => (
