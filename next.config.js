@@ -47,6 +47,7 @@ const scriptSrc = [
   "*.vercel-insights.com",
   "*.vercel.app",
   "*.googletagmanager.com",
+  "*.vercel.live",
 ];
 
 const ContentSecurityPolicy = `
