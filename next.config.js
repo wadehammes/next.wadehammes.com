@@ -47,12 +47,13 @@ const scriptSrc = [
   "*.vercel-insights.com",
   "*.vercel.app",
   "*.googletagmanager.com",
+  "vercel.live",
 ];
 
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src ${scriptSrc.join(" ")};
-  child-src *.youtube.com *.google.com *.twitter.com;
+  child-src *.youtube.com *.google.com *.twitter.com vercel.live;
   style-src 'self' 'unsafe-inline' *.googleapis.com;
   img-src * blob: data:;
   media-src 'none';
@@ -71,7 +72,7 @@ const securityHeaders = [
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
   {
     key: "Referrer-Policy",
-    value: "origin-when-cross-origin",
+    value: "strict-origin-when-cross-origin",
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   {
