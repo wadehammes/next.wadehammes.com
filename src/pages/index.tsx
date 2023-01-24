@@ -62,7 +62,7 @@ const Home: FC = (): ReactElement => {
             >
               Instagram
             </a>
-            , and{" "}
+            ,{" "}
             <a rel="me" href="https://mastodon.online/@wade">
               Mastodon
             </a>
