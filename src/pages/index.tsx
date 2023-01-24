@@ -42,23 +42,7 @@ const Home: FC = (): ReactElement => {
             <a href="https://filtermydisco.gs" target="_blank" rel="noreferrer">
               FilterMyDisco.gs
             </a>
-            , a new Discogs collection management tool. For fun, I{" "}
-            <a
-              href="https://instagram.com/nthoftype"
-              target="_blank"
-              rel="noreferrer"
-            >
-              build keyboards/cables
-            </a>{" "}
-            and{" "}
-            <a
-              href="https://www.youtube.com/watch?v=YqXR8nlEaKE"
-              target="_blank"
-              rel="noreferrer"
-            >
-              collect/play records
-            </a>
-            . Here's my{" "}
+            , a new Discogs collection management tool. Here's my{" "}
             <a href="mailto:w@dehammes.com" target="_blank" rel="noreferrer">
               email
             </a>
@@ -68,7 +52,7 @@ const Home: FC = (): ReactElement => {
               target="_blank"
               rel="noreferrer"
             >
-              code
+              Github
             </a>
             ,{" "}
             <a
@@ -76,15 +60,19 @@ const Home: FC = (): ReactElement => {
               target="_blank"
               rel="noreferrer"
             >
-              insta
+              Instagram
             </a>
             , and{" "}
+            <a rel="me" href="https://mastodon.online/@wade">
+              Mastodon
+            </a>
+            , and all other links{" "}
             <a
-              href="https://twitter.com/nthoftype"
+              href="https://linktr.ee/wadehammes"
               target="_blank"
               rel="noreferrer"
             >
-              twitter
+              here
             </a>
             .
           </P>
