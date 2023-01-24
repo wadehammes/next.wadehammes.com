@@ -1,9 +1,8 @@
 import App from "next/app";
 import React from "react";
-import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "src/styles/global";
-import { theme } from "src/styles/theme";
 import Script from "next/script";
+import { CSSRootVariables } from "src/styles/cssVariables";
 
 export default class WadeHammes extends App {
   render() {
@@ -11,10 +10,9 @@ export default class WadeHammes extends App {
 
     return (
       <>
+        <CSSRootVariables />
         <GlobalStyles />
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <Component {...pageProps} />
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-C9S06TQ2E4" />
         <Script id="gtag">
           {

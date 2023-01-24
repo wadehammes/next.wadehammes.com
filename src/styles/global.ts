@@ -1,5 +1,5 @@
 import { FontWeight } from "src/interfaces/common.interfaces";
-import { device, theme } from "src/styles/theme";
+import { device } from "src/styles/theme";
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
@@ -30,8 +30,8 @@ export const GlobalStyles = createGlobalStyle`
   }
   html,
   body {
-    background: ${theme.colors.black};
-    color: ${theme.colors.white};
+    background: var(--colors-trueBlack);
+    color: var(--colors-white);
     font-family: 'Space Mono', monospace;
     font-size: 14px;
 
@@ -46,22 +46,22 @@ export const GlobalStyles = createGlobalStyle`
     max-width: 100%;
   }
   a {
-    color: ${theme.colors.white};
+    color: var(--colors-white);
     font-family: inherit;
     text-decoration: underline;
     font-weight: ${FontWeight.Bold};
 
     &:hover {
-      background-color: ${theme.colors.white};
+      background-color: var(--colors-white);
       text-decoration: none;
-      color: ${theme.colors.black};
+      color: var(--colors-trueBlack);
       cursor: pointer;
     }
 
     &:focus {
-      background-color: ${theme.colors.white};
+      background-color: var(--colors-white);
       text-decoration: none;
-      color: ${theme.colors.black};
+      color: var(--colors-trueBlack);
     }
   }
   [hidden], .hidden {

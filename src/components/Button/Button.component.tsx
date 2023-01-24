@@ -11,7 +11,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
   display: flex;
   align-items: center;
   appearance: none;
-  color: ${({ theme }) => theme.colors.white};
+  color: var(--colors-white);
   border: none;
   border-radius: 1000px;
   background-color: transparent;
@@ -26,17 +26,17 @@ const ButtonElement = styled.button<ButtonElementProps>`
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.alphaBlack};
+    background-color: var(--colors-alphaBlack);
     cursor: pointer;
   }
 
   &:focus {
     outline: 0;
-    background-color: ${({ theme }) => theme.colors.alphaBlack};
+    background-color: var(--colors-alphaBlack);
   }
 
   &:focus:active {
-    background-color: ${({ theme }) => theme.colors.alphaBlack};
+    background-color: var(--colors-alphaBlack);
   }
 
   svg {
@@ -48,22 +48,22 @@ const ButtonElement = styled.button<ButtonElementProps>`
   ${({ variant }) =>
     variant === ButtonVariants.Primary &&
     css`
-      background: ${({ theme }) => theme.colors.white};
-      color: ${({ theme }) => theme.colors.trueBlack};
-      box-shadow: 2px 4px 15px ${({ theme }) => theme.colors.alphaBlack};
+      background: var(--colors-white);
+      color: var(--colors-trueBlack);
+      box-shadow: 2px 4px 15px var(--colors-alphaBlack);
 
       &:hover {
-        color: ${({ theme }) => theme.colors.white};
-        background-color: ${({ theme }) => theme.colors.gray};
+        color: var(--colors-white);
+        background-color: var(--colors-gray);
       }
 
       &:focus {
-        color: ${({ theme }) => theme.colors.white};
-        background-color: ${({ theme }) => theme.colors.gray};
+        color: var(--colors-white);
+        background-color: var(--colors-gray);
       }
 
       &:focus:active {
-        background-color: ${({ theme }) => theme.colors.gray};
+        background-color: var(--colors-gray);
       }
     `}
 `;

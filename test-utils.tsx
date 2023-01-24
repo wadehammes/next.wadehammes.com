@@ -1,10 +1,10 @@
 import React, { FC, ReactElement } from "react";
 import { render, RenderOptions } from "@testing-library/react";
-import { ThemeProvider } from "styled-components";
-import { theme } from "src/styles/theme";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
 import { PropsWithChildrenOnly } from "src/@types/react";
+import { CSSRootVariables } from "src/styles/cssVariables";
+import { GlobalStyles } from "src/styles/global";
 
 const mockRouter: NextRouter = {
   basePath: "/",
@@ -33,7 +33,9 @@ const mockRouter: NextRouter = {
 
 const Providers: FC<PropsWithChildrenOnly> = ({ children }) => (
   <RouterContext.Provider value={mockRouter}>
-    <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    <CSSRootVariables />
+    <GlobalStyles />
+    {children}
   </RouterContext.Provider>
 );
 
