@@ -1,8 +1,5 @@
 import { FC, useEffect, useRef } from "react";
-import {
-  randomDecFromInterval,
-  randomIntFromInterval,
-} from "src/utils/helpers";
+import { randomIntFromInterval } from "src/utils/helpers";
 import { SPIRALS_CONSTANTS as constant } from "src/components/Spirals/Spirals.constants";
 import { gsap } from "gsap";
 
@@ -28,11 +25,11 @@ export const Spiral: FC<SpiralProps> = ({
   angleOffset = 0,
   fill = Boolean(Math.random() > 0.5),
   strokeWidth = randomIntFromInterval(2, 12),
-  count = randomIntFromInterval(2, 32),
-  offset = randomIntFromInterval(30, 150),
-  h = randomIntFromInterval(60, 360),
-  s = `${randomIntFromInterval(10, 100)}%`,
-  l = `${randomIntFromInterval(10, 100)}%`,
+  count = randomIntFromInterval(12, 32),
+  offset = randomIntFromInterval(50, 150),
+  h = randomIntFromInterval(0, 360),
+  s = `${randomIntFromInterval(0, 100)}%`,
+  l = `${randomIntFromInterval(0, 100)}%`,
   rad = randomIntFromInterval(48, 64),
 }) => {
   const circles = [...new Array(count)].map((_, i) => {
@@ -90,7 +87,7 @@ export const Spirals: FC<SpiralsProps> = ({
 
     if (spiralsRef.current) {
       const animate: GSAPAnimation = gsap.to(spiralsRef.current, {
-        scale: randomDecFromInterval(2, 4),
+        scale: 1,
         rotation: 360 * plusOrMinus,
         duration: randomIntFromInterval(50, 1000),
         svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,
