@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import { SVG } from "src/components/SVG/SVG.component";
 import { SPIRALS_CONSTANTS as constant } from "src/components/Spirals/Spirals.constants";
 import { randomIntFromInterval } from "src/utils/helpers";
-import { theme } from "src/styles/theme";
 
 const Spirals = dynamic(() =>
   import("src/components/Spirals/Spirals.component"),
@@ -18,7 +17,7 @@ export const SpiralsSVG: FC<SpiralsSVGProps> = ({ visible = false }) => (
     className="fractal"
     viewBox={`0 0 ${constant.VIEWBOX} ${constant.VIEWBOX}`}
     visible={visible}
-    style={{ backgroundColor: theme.colors.black }}
+    style={{ backgroundColor: "var(--colors-trueBlack)" }}
   >
     <Spirals />
     <Spirals strokeWidth={0.5} fill={false} />

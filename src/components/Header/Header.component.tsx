@@ -21,7 +21,7 @@ const Logo = styled.div`
   &:hover {
     svg {
       fill: transparent;
-      stroke: ${({ theme }) => theme.colors.white};
+      stroke: var(--colors-white);
       paint-order: stroke;
     }
   }

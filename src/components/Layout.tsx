@@ -16,11 +16,11 @@ export const Grid = styled.div<GridProps>`
 `;
 
 export const Container = styled.div`
-  padding: ${({ theme }) => theme.sizing.mobilePadding};
+  padding: var(--sizing-mobilePadding);
   width: 100%;
 
   @media ${device.tablet} {
-    padding: ${({ theme }) => theme.sizing.desktopPadding};
+    padding: var(--sizing-desktopPadding);
   }
 `;
 
