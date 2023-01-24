@@ -89,7 +89,7 @@ export const Spirals: FC<SpiralsProps> = ({
       const animate: GSAPAnimation = gsap.to(spiralsRef.current, {
         scale: 1,
         rotation: 360 * plusOrMinus,
-        duration: randomIntFromInterval(50, 1000),
+        duration: randomIntFromInterval(250, 500),
         svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,
         smoothOrigin: true,
         repeat: -1,
