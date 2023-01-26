@@ -18,6 +18,28 @@ const HeaderContainer = styled(Container)`
   padding-bottom: 0;
 `;
 
+const ThemeToggleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+`;
+
+const ThemeToggle = styled.button`
+  background: transparent;
+  border: 0;
+  padding: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  > svg {
+    height: 24px;
+    width: 24px;
+  }
+`;
+
 const Logo = styled.div`
   width: 4rem;
 
@@ -36,28 +58,6 @@ const Logo = styled.div`
 
   @media ${device.tablet} {
     width: 5rem;
-  }
-`;
-
-const ThemeToggleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex: 1;
-`;
-
-const ThemeToggle = styled.button`
-  background: transparent;
-  border: 0;
-  padding: 0;
-
-  svg {
-    height: 24px;
-    width: 24px;
-  }
-
-  &:hover {
-    cursor: pointer;
   }
 `;
 
