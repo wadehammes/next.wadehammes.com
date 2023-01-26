@@ -11,7 +11,6 @@ const Group = styled.div`
   border-radius: 1000px;
   padding: 2px;
   color: var(--color-bg);
-  gap: 1rem;
   position: relative;
 
   &::after,
@@ -38,7 +37,6 @@ const Group = styled.div`
   }
 
   @media screen and (min-width: 60rem) {
-    gap: 0.5rem;
     font-size: 1rem;
   }
 `;
