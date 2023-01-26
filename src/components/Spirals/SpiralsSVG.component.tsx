@@ -17,7 +17,7 @@ export const SpiralsSVG: FC<SpiralsSVGProps> = ({ visible = false }) => (
     className="fractal"
     viewBox={`0 0 ${constant.VIEWBOX} ${constant.VIEWBOX}`}
     visible={visible}
-    style={{ backgroundColor: "var(--colors-trueBlack)" }}
+    style={{ backgroundColor: "var(--color-bg)" }}
   >
     <Spirals />
     <Spirals strokeWidth={0.5} fill={false} />

@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 const CrownWrapper = styled.span`
   display: block;
-  fill: var(--colors-white);
-  color: var(--colors-white);
+  fill: var(--color-text);
+  color: var(--color-text);
 `;
 
 export const Crown = () => (

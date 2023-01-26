@@ -42,7 +42,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body>
+        <body data-theme="dark">
           <Main />
           <NextScript />
         </body>
