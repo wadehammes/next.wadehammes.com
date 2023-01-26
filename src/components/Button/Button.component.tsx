@@ -11,11 +11,11 @@ const ButtonElement = styled.button<ButtonElementProps>`
   display: flex;
   align-items: center;
   appearance: none;
-  color: var(--color-text);
-  border: 2px solid transparent;
+  color: inherit;
+  border: 0;
   border-radius: 1000px;
   background-color: transparent;
-  padding: 0.75em 2em;
+  padding: 1rem;
   font-weight: 600;
   font-family: inherit;
   transition: transform 0.1s ease-in;
@@ -27,23 +27,22 @@ const ButtonElement = styled.button<ButtonElementProps>`
 
   &:hover {
     background-color: var(--color-bg);
-    border-color: var(--color-text);
-    transform: rotate(-2deg);
+    color: var(--color-text);
     cursor: pointer;
   }
 
   &:focus {
     outline: 0;
     background-color: var(--color-bg);
+    color: var(--color-text);
   }
 
   &:hover:active {
     background-color: var(--color-bg);
-    transform: rotate(-2deg) translateY(2px);
+    transform: scale(0.95);
   }
 
   svg {
-    margin-right: 0.75em;
     height: 1.25em;
     width: 1.25em;
   }
@@ -70,6 +69,58 @@ const ButtonElement = styled.button<ButtonElementProps>`
         color: var(--color-bg);
       }
     `}
+
+  ${({ hasTooltip }) =>
+    hasTooltip &&
+    css`
+      position: relative;
+
+      &::before {
+        position: absolute;
+        bottom: calc(100% + 15px);
+        left: -40px;
+        background-color: var(--color-text);
+        border-radius: 5px;
+        color: var(--color-bg);
+        content: attr(aria-label);
+        padding: 0.75rem 1rem;
+        text-transform: none;
+        transition: all 0.5s ease;
+        min-width: 125px;
+        max-width: 200px;
+      }
+
+      &::after {
+        position: absolute;
+        top: -15px;
+        left: 25px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid var(--color-text);
+        content: " ";
+        font-size: 0;
+        line-height: 0;
+        margin-left: -5px;
+        width: 0;
+      }
+
+      &::before,
+      &::after {
+        color: var(--color-bg);
+        font-size: 0.75rem;
+        opacity: 0;
+        pointer-events: none;
+        text-align: center;
+      }
+
+      &:focus::before,
+      &:focus::after,
+      &:hover::before,
+      &:hover::after {
+        opacity: 1;
+        transition: all 0.75s ease;
+      }
+    `}
 `;
 
 export const Button: FCWithChildren<ButtonProps> = ({
@@ -78,6 +129,8 @@ export const Button: FCWithChildren<ButtonProps> = ({
   variant = ButtonVariants.Primary,
   className,
   label,
+  hasTooltip,
+  ariaLabel,
 }) => (
   <ButtonElement
     type="button"
@@ -85,6 +138,8 @@ export const Button: FCWithChildren<ButtonProps> = ({
     className={className}
     variant={variant}
     onClick={handleClick}
+    hasTooltip={hasTooltip}
+    aria-label={ariaLabel ?? label}
   >
     {children ?? label ?? ""}
   </ButtonElement>

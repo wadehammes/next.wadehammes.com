@@ -1,6 +1,5 @@
 import { device } from "src/styles/theme";
 import styled from "styled-components";
-import { P } from "src/components/Typography";
 
 interface GridProps {
   gridHeight?: number | null;
@@ -30,16 +29,30 @@ export const Content = styled(Container)`
   height: 100%;
 `;
 
+export const FooterActions = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+
+  @media screen and (min-width: 72rem) {
+    justify-content: flex-end;
+  }
+`;
+
 export const Footer = styled.footer`
   position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
+  gap: 2rem;
   width: 100%;
   z-index: 1;
 
-  ${P} {
-    max-width: 70ch;
+  @media screen and (min-width: 72rem) {
+    flex-direction: row;
+    align-items: flex-end;
   }
 `;
