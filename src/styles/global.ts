@@ -53,16 +53,16 @@ export const GlobalStyles = createGlobalStyle`
     font-weight: ${FontWeight.Bold};
 
     &:hover {
-      background-color: var(--color-bg);
+      background-color: var(--color-text);
       text-decoration: none;
-      color: var(--colors-trueBlack);
+      color: var(--color-bg);
       cursor: pointer;
     }
 
     &:focus {
-      background-color: var(--color-bg);
+      background-color: var(--color-text);
       text-decoration: none;
-      color: var(--color-text);
+      color: var(--color-bg);
     }
   }
   [hidden], .hidden {

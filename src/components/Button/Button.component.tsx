@@ -12,7 +12,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
   align-items: center;
   appearance: none;
   color: var(--color-text);
-  border: none;
+  border: 2px solid transparent;
   border-radius: 1000px;
   background-color: transparent;
   padding: 0.75em 2em;
@@ -27,6 +27,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
 
   &:hover {
     background-color: var(--color-bg);
+    border-color: var(--color-text);
     transform: rotate(-2deg);
     cursor: pointer;
   }
@@ -36,8 +37,9 @@ const ButtonElement = styled.button<ButtonElementProps>`
     background-color: var(--color-bg);
   }
 
-  &:focus:active {
+  &:hover:active {
     background-color: var(--color-bg);
+    transform: rotate(-2deg) translateY(2px);
   }
 
   svg {
