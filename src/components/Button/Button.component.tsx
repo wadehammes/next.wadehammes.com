@@ -37,8 +37,9 @@ const ButtonElement = styled.button<ButtonElementProps>`
     background-color: var(--color-bg);
   }
 
-  &:focus:active {
+  &:hover:active {
     background-color: var(--color-bg);
+    transform: rotate(-2deg) translateY(2px);
   }
 
   svg {
