@@ -19,7 +19,7 @@ const HeaderContainer = styled(Container)`
 `;
 
 const Logo = styled.div`
-  width: 3rem;
+  width: 4rem;
 
   svg {
     transform: rotate(0);
