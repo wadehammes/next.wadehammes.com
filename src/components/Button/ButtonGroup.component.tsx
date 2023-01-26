@@ -6,11 +6,16 @@ const Group = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 0.5rem;
-  font-size: 1rem;
+  font-size: 1.25rem;
+  background: var(--color-text);
+  border-radius: 1000px;
+  padding: 2px;
+  color: var(--color-bg);
+  gap: 1rem;
 
-  > * + * {
-    margin-left: 0.75rem;
+  @media screen and (min-width: 60rem) {
+    gap: 0;
+    font-size: 1rem;
   }
 `;
 
