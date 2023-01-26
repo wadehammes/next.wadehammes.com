@@ -37,8 +37,13 @@ export default class MyDocument extends Document {
         <Head>
           <link rel="icon" href="favicon.webp" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Suez+One&display=swap"
             rel="stylesheet"
           />
         </Head>

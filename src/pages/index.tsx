@@ -7,6 +7,11 @@ import { SpiralsAbout } from "src/components/Spirals/SpiralsAbout.component";
 import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
 import { H1, P } from "src/components/Typography";
 import { isBrowser } from "src/utils/helpers";
+import styled from "styled-components";
+
+const HomeBio = styled(P)`
+  max-width: 74ch;
+`;
 
 const Home: FC = (): ReactElement => {
   const [clientReady, setClientReady] = useState<boolean>(false);
@@ -27,7 +32,7 @@ const Home: FC = (): ReactElement => {
       <Page ref={ref}>
         <Footer>
           <H1>Hi, I'm Wade.</H1>
-          <P>
+          <HomeBio>
             I'm a software engineer for{" "}
             <a
               href="https://www.gotrhythm.com"
@@ -75,7 +80,7 @@ const Home: FC = (): ReactElement => {
               here
             </a>
             .
-          </P>
+          </HomeBio>
           <SpiralsAbout />
         </Footer>
       </Page>
