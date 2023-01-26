@@ -16,7 +16,6 @@ interface UsePreferredTheme {
 
 export const usePreferredTheme = (): UsePreferredTheme => {
   const [currentTheme, setCurrentTheme] = useState<Themes>(() => {
-    // if window.matchMedia is not supported (SSR), return 'no-preference'
     if (!isBrowser()) {
       return Themes.NoPreference;
     }
@@ -72,6 +71,7 @@ export const usePreferredTheme = (): UsePreferredTheme => {
       };
     }
 
+    // Legacy support for browsers that don't utilize new listeners for matchMedia
     if (typeof isLight.addListener === "function") {
       const listener = () =>
         setCurrentTheme(() => {
@@ -86,9 +86,6 @@ export const usePreferredTheme = (): UsePreferredTheme => {
           return Themes.NoPreference;
         });
 
-      // This is two state updates if a user changes from dark to light, but
-      // both state updates will be consistent and should be batched by React,
-      // resulting in only one re-render
       isDark.addListener(listener);
       isLight.addListener(listener);
 
