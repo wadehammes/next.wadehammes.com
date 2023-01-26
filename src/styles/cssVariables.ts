@@ -13,7 +13,20 @@ export const CSSRootVariables = createGlobalStyle`
     --colors-purple: hsla(229,94%,76%,0.915);
     --colors-trueBlack: #000000;
     --colors-alphaBlack: rgba(0, 0, 0, 0.25);
-    --sizing-mobilePadding: 1.75em;
+    --sizing-mobilePadding: 2em;
     --sizing-desktopPadding: 5em;
+
+    --color-text: var(--colors-white);
+    --color-bg: var(--colors-trueBlack);
+  }
+
+  @media (prefers-color-scheme: light) {
+    
+  }
+
+  [data-theme="light"] {
+    --color-text: var(--colors-trueBlack);
+    --color-bg: var(--colors-white);
+    
   }
 `;

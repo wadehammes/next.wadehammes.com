@@ -11,14 +11,14 @@ const ButtonElement = styled.button<ButtonElementProps>`
   display: flex;
   align-items: center;
   appearance: none;
-  color: var(--colors-white);
+  color: var(--color-text);
   border: none;
   border-radius: 1000px;
   background-color: transparent;
   padding: 0.75em 2em;
   font-weight: 600;
   font-family: inherit;
-  transition: background-color 0.05s ease-in-out, transform 0.2s ease-in-out;
+  transition: transform 0.1s ease-in-out;
   font-size: 0.8em;
 
   @media ${device.tablet} {
@@ -26,17 +26,19 @@ const ButtonElement = styled.button<ButtonElementProps>`
   }
 
   &:hover {
-    background-color: var(--colors-alphaBlack);
+    background-color: var(--color-bg);
+    transform: rotate(-2deg);
     cursor: pointer;
   }
 
   &:focus {
     outline: 0;
-    background-color: var(--colors-alphaBlack);
+    background-color: var(--color-bg);
   }
 
   &:focus:active {
-    background-color: var(--colors-alphaBlack);
+    background-color: var(--color-bg);
+    transform: translateY(2px);
   }
 
   svg {
@@ -48,22 +50,23 @@ const ButtonElement = styled.button<ButtonElementProps>`
   ${({ variant }) =>
     variant === ButtonVariants.Primary &&
     css`
-      background: var(--colors-white);
-      color: var(--colors-trueBlack);
+      background: var(--color-text);
+      color: var(--color-bg);
       box-shadow: 2px 4px 15px var(--colors-alphaBlack);
 
       &:hover {
-        color: var(--colors-white);
-        background-color: var(--colors-gray);
+        background: var(--color-text);
+        color: var(--color-bg);
       }
 
-      &:focus {
-        color: var(--colors-white);
-        background-color: var(--colors-gray);
+      &:active {
+        background: var(--color-text);
+        color: var(--color-bg);
       }
 
       &:focus:active {
-        background-color: var(--colors-gray);
+        background: var(--color-text);
+        color: var(--color-bg);
       }
     `}
 `;

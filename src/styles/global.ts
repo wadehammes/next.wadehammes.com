@@ -30,10 +30,11 @@ export const GlobalStyles = createGlobalStyle`
   }
   html,
   body {
-    background: var(--colors-trueBlack);
-    color: var(--colors-white);
+    background: var(--color-bg);
+    color: var(--color-text);
     font-family: 'Space Mono', monospace;
     font-size: 14px;
+    transition: background 0.2s ease-in-out;
 
     @media ${device.tablet} {
       font-size: 16px;
@@ -46,22 +47,22 @@ export const GlobalStyles = createGlobalStyle`
     max-width: 100%;
   }
   a {
-    color: var(--colors-white);
+    color: var(--color-text);
     font-family: inherit;
     text-decoration: underline;
     font-weight: ${FontWeight.Bold};
 
     &:hover {
-      background-color: var(--colors-white);
+      background-color: var(--color-bg);
       text-decoration: none;
       color: var(--colors-trueBlack);
       cursor: pointer;
     }
 
     &:focus {
-      background-color: var(--colors-white);
+      background-color: var(--color-bg);
       text-decoration: none;
-      color: var(--colors-trueBlack);
+      color: var(--color-text);
     }
   }
   [hidden], .hidden {
