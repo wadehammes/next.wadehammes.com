@@ -23,7 +23,7 @@ export const SVG = styled.svg<SVGProps>`
   ${({ visible }) =>
     visible &&
     css`
-      opacity: 0.75;
+      opacity: 0.85;
     `}
 
   @media ${device.tablet} {
