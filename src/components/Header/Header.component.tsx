@@ -36,6 +36,12 @@ const Logo = styled.div`
     }
   }
 
+  &:active {
+    svg {
+      transform: rotate(-10deg);
+    }
+  }
+
   @media ${device.tablet} {
     width: 5rem;
   }
