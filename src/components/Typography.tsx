@@ -3,13 +3,14 @@ import { device } from "src/styles/theme";
 import styled from "styled-components";
 
 export const H1 = styled.h1`
-  font-size: 1.5rem;
+  font-size: 2rem;
+  font-family: "Suez One", serif;
   font-weight: ${FontWeight.Bold};
   padding-bottom: 1.5rem;
   line-height: 1.1;
 
   @media ${device.tablet} {
-    font-size: 3rem;
+    font-size: 4rem;
   }
 `;
 
