@@ -38,7 +38,6 @@ const ButtonElement = styled.button<ButtonElementProps>`
 
   &:focus:active {
     background-color: var(--color-bg);
-    transform: rotate(2deg);
   }
 
   svg {

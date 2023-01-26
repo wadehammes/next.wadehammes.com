@@ -25,20 +25,12 @@ const Logo = styled.div`
     transform: rotate(0);
     transition: transform 0.2s ease-in-out;
     transform-origin: center center;
-  }
 
-  &:hover {
-    svg {
+    &:hover {
       fill: transparent;
       stroke: var(--color-text);
       paint-order: stroke;
       transform: rotate(-5deg);
-    }
-
-    &:active {
-      svg {
-        transform: rotate(-10deg);
-      }
     }
   }
 
@@ -62,13 +54,6 @@ const ThemeToggle = styled.button`
   svg {
     height: 24px;
     width: 24px;
-    transition: transform 0.1s ease-in;
-    transform-origin: center center;
-    transform: rotate(0);
-  }
-
-  &:active svg {
-    transform: rotate(-15deg);
   }
 
   &:hover {

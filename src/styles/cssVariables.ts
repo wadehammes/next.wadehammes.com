@@ -21,12 +21,12 @@ export const CSSRootVariables = createGlobalStyle`
   }
 
   @media (prefers-color-scheme: light) {
-    
+    --color-text: var(--colors-trueBlack);
+    --color-bg: var(--colors-white);
   }
 
   [data-theme="light"] {
     --color-text: var(--colors-trueBlack);
     --color-bg: var(--colors-white);
-    
   }
 `;
