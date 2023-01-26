@@ -94,9 +94,8 @@ const ButtonElement = styled.button<ButtonElementProps>`
         position: absolute;
         top: -15px;
         left: 25px;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid var(--color-text);
+        border: 5px solid transparent;
+        border-top-color: var(--color-text);
         content: " ";
         font-size: 0;
         line-height: 0;
@@ -113,8 +112,6 @@ const ButtonElement = styled.button<ButtonElementProps>`
         text-align: center;
       }
 
-      &:focus::before,
-      &:focus::after,
       &:hover::before,
       &:hover::after {
         opacity: 1;
