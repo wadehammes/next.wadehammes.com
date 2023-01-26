@@ -23,15 +23,24 @@ const ThemeToggleContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
   flex: 1;
+  transition: transform 0.2s ease-in;
+  transform-origin: center center;
 `;
 
 const ThemeToggle = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: 0;
   padding: 0;
 
   &:hover {
     cursor: pointer;
+  }
+
+  &:hover:active {
+    transform: translateY(2px);
   }
 
   > svg {
@@ -45,14 +54,14 @@ const Logo = styled.div`
 
   svg {
     transform: rotate(0);
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transform-origin: center center;
 
     &:hover {
       fill: transparent;
       stroke: var(--color-text);
       paint-order: stroke;
-      transform: rotate(-5deg);
+      transform: rotate(-10deg);
     }
   }
 
