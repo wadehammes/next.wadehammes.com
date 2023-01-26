@@ -18,7 +18,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
   padding: 0.75em 2em;
   font-weight: 600;
   font-family: inherit;
-  transition: transform 0.1s ease-in-out;
+  transition: transform 0.1s ease-in;
   font-size: 0.8em;
 
   @media ${device.tablet} {
@@ -38,7 +38,7 @@ const ButtonElement = styled.button<ButtonElementProps>`
 
   &:focus:active {
     background-color: var(--color-bg);
-    transform: translateY(2px);
+    transform: rotate(2deg);
   }
 
   svg {
