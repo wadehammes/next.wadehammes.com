@@ -34,11 +34,11 @@ const Logo = styled.div`
       paint-order: stroke;
       transform: rotate(-5deg);
     }
-  }
 
-  &:active {
-    svg {
-      transform: rotate(-10deg);
+    &:active {
+      svg {
+        transform: rotate(-10deg);
+      }
     }
   }
 
