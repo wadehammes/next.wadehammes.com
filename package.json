@@ -20,6 +20,7 @@
     "html-react-parser": "^3.0.9",
     "next": "^13.2.1",
     "polished": "^4.2.2",
+    "postcss-styled-syntax": "^0.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intersection-observer": "^9.4.3",
