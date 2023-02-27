@@ -1,4 +1,4 @@
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/navigation";
 import { FC } from "react";
 import { Button } from "src/components/Button/Button.component";
 import { ButtonVariants } from "src/components/Button/Button.interfaces";

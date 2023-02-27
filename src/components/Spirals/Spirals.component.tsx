@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, useEffect, useRef } from "react";
 import { randomIntFromInterval } from "src/utils/helpers";
 import { SPIRALS_CONSTANTS as constant } from "src/components/Spirals/Spirals.constants";

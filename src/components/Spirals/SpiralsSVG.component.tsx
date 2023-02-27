@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 import dynamic from "next/dynamic";
 import { SVG } from "src/components/SVG/SVG.component";

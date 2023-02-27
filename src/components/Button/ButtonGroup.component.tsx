@@ -13,29 +13,6 @@ const Group = styled.div`
   color: var(--color-bg);
   position: relative;
 
-  &::after,
-  &::before {
-    position: absolute;
-    left: 50%;
-    border: 10px solid transparent;
-    border-top-color: solid var(--color-bg);
-    content: " ";
-    font-size: 0;
-    line-height: 0;
-    margin-left: -10px;
-    width: 0;
-  }
-
-  &::after {
-    top: 0;
-  }
-
-  &::before {
-    bottom: 0;
-    border-top-color: transparent;
-    border-bottom-color: var(--color-bg);
-  }
-
   @media screen and (min-width: 60rem) {
     font-size: 1rem;
   }
