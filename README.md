@@ -3,14 +3,3 @@
 # next.wadehammes.com
 
 Personal site powered by Next.js written in Typescript.
-
-## Future
-- Add MDX support for blog posts
-
-## Development
-
-```
-yarn dev
-```
-
-Happy developing, me. Thanks me. ☕
