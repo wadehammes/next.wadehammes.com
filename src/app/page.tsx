@@ -10,6 +10,7 @@ import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
 import { isBrowser } from "src/utils/helpers";
 
 const Home: FC = (): ReactElement => {
+  const [key, updateKey] = useState<Date>(new Date());
   const [clientReady, setClientReady] = useState<boolean>(false);
   const { inView, ref } = useInView({
     triggerOnce: true,
@@ -29,11 +30,11 @@ const Home: FC = (): ReactElement => {
         <Footer>
           <Bio />
           <FooterActions>
-            <SpiralsActions />
+            <SpiralsActions handleClick={updateKey} />
           </FooterActions>
         </Footer>
       </PageContainer>
-      {clientReady && <SpiralsSVG visible={inView} />}
+      {clientReady && <SpiralsSVG key={key.toDateString()} visible={inView} />}
     </>
   );
 };
