@@ -26,7 +26,7 @@ const Home: FC = (): ReactElement => {
 
   return (
     <>
-      <PageContainer ref={ref} key={key.toDateString()}>
+      <PageContainer ref={ref}>
         <Footer>
           <Bio />
           <FooterActions>
@@ -34,7 +34,7 @@ const Home: FC = (): ReactElement => {
           </FooterActions>
         </Footer>
       </PageContainer>
-      {clientReady && <SpiralsSVG visible={inView} />}
+      {clientReady && <SpiralsSVG key={key.toDateString()} visible={inView} />}
     </>
   );
 };
