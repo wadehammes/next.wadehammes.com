@@ -16,11 +16,7 @@ export const Bio = () => (
         Rhythm
       </a>
       , helping build the best customer experience in retail renewable energy,
-      while currently living in Washington, D.C. My hobby project is{" "}
-      <a href="https://filtermydisco.gs" target="_blank" rel="noreferrer">
-        FilterMyDisco.gs
-      </a>
-      , a new Discogs collection management tool. Here's my{" "}
+      while currently living in Washington, D.C. Here's my{" "}
       <a href="mailto:w@dehammes.com" target="_blank" rel="noreferrer">
         email
       </a>
@@ -33,8 +29,8 @@ export const Bio = () => (
         Instagram
       </a>
       ,{" "}
-      <a rel="me" href="https://mastodon.online/@wade">
-        Mastodon
+      <a rel="me" href="https://twitter.com/nthoftype">
+        X (Twitter)
       </a>
       , and all other links{" "}
       <a href="https://linktr.ee/wadehammes" target="_blank" rel="noreferrer">
