@@ -20,7 +20,7 @@
     "@testing-library/react": "^14.0.0",
     "gsap": "^3.12.2",
     "html-react-parser": "^4.2.1",
-    "next": "^13.4.19",
+    "next": "^13.5.0",
     "polished": "^4.2.2",
     "postcss-styled-syntax": "^0.4.0",
     "react": "^18.2.0",
