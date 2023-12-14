@@ -18,11 +18,11 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v2.2.4
         with:
-          version: 8.6.12
+          version: 8.12.1
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18.16.1
+          node-version: 18.18.0
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install

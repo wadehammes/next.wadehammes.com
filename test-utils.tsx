@@ -1,6 +1,6 @@
 import React, { FC, ReactElement } from "react";
 import { render, RenderOptions } from "@testing-library/react";
-import { RouterContext } from "next/dist/shared/lib/router-context";
+import { RouterContext } from "next/dist/shared/lib/router-context.shared-runtime";
 import { NextRouter } from "next/router";
 import { PropsWithChildrenOnly } from "src/@types/react";
 import { CSSRootVariables } from "src/styles/cssVariables";
