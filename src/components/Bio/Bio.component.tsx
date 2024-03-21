@@ -13,10 +13,15 @@ export const Bio = () => (
     <HomeBio>
       I'm a software engineer for{" "}
       <a href="https://www.gotrhythm.com" target="_blank" rel="noreferrer">
-        Rhythm
+        Rhythm Energy
       </a>
-      , helping build the best customer experience in retail renewable energy,
-      while currently living in Washington, D.C. Here's my{" "}
+      , helping build the best customer experience in retail renewable energy, a
+      co-founder of{" "}
+      <a href="https://www.provisioner.agency" target="_blank" rel="noreferrer">
+        Provisioner
+      </a>
+      , the locally grown creative agency...all while living in Washington, D.C.
+      Here's my{" "}
       <a href="mailto:w@dehammes.com" target="_blank" rel="noreferrer">
         email
       </a>
@@ -28,13 +33,9 @@ export const Bio = () => (
       <a href="https://instagram.com/wade" target="_blank" rel="noreferrer">
         Instagram
       </a>
-      ,{" "}
-      <a rel="me" href="https://twitter.com/nthoftype">
-        X (Twitter)
-      </a>
-      , and all other links{" "}
+      , and{" "}
       <a href="https://linktr.ee/wadehammes" target="_blank" rel="noreferrer">
-        here
+        all other links
       </a>
       .
     </HomeBio>
