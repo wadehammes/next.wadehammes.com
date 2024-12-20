@@ -1,13 +1,13 @@
 "use client";
 
-import { FC } from "react";
 import dynamic from "next/dynamic";
+import type { FC } from "react";
 import { SVG } from "src/components/SVG/SVG.component";
 import { SPIRALS_CONSTANTS as constant } from "src/components/Spirals/Spirals.constants";
 import { randomIntFromInterval } from "src/utils/helpers";
 
-const Spirals = dynamic(() =>
-  import("src/components/Spirals/Spirals.component"),
+const Spirals = dynamic(
+  () => import("src/components/Spirals/Spirals.component"),
 );
 
 interface SpiralsSVGProps {

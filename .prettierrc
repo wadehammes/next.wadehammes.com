@@ -1,7 +1,0 @@
-{
-  "trailingComma": "all",
-  "parser": "babel-ts",
-  "tabWidth": 2,
-  "semi": true
-}
-

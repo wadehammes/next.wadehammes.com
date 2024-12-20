@@ -11,7 +11,7 @@ jobs:
       run:
         working-directory: ./
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Checkout code
         with:
           fetch-depth: 0
@@ -34,9 +34,7 @@ jobs:
         run: pnpm install
       - name: Run TSC
         run: pnpm tsc:ci
-      - name: Run ESLint
+      - name: Run Biome
         run: pnpm lint:ci
-      - name: Run Stylelint
-        run: pnpm lint:css
       - name: Run Jest
         run: pnpm test:ci

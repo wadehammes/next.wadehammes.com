@@ -1,7 +1,7 @@
 "use client";
 
-import { forwardRef, Ref } from "react";
-import { PropsWithChildrenOnly } from "src/@types/react";
+import { type Ref, forwardRef } from "react";
+import type { PropsWithChildrenOnly } from "src/@types/react";
 import { Header } from "src/components/Header/Header.component";
 import { Content, Grid } from "src/components/Layout";
 

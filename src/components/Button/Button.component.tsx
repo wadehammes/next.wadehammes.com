@@ -1,7 +1,7 @@
-import { FCWithChildren } from "src/@types/react";
+import type { FCWithChildren } from "src/@types/react";
 import {
-  ButtonElementProps,
-  ButtonProps,
+  type ButtonElementProps,
+  type ButtonProps,
   ButtonVariants,
 } from "src/components/Button/Button.interfaces";
 import { device } from "src/styles/theme";

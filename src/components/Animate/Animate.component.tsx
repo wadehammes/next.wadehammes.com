@@ -1,5 +1,5 @@
-import React, { Children, ReactNode } from "react";
-import { FCWithChildren } from "src/@types/react";
+import { Children, type ReactNode } from "react";
+import type { FCWithChildren } from "src/@types/react";
 import styled, { css } from "styled-components";
 
 interface AnimateWrapperProps {

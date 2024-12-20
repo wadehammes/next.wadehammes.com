@@ -1,9 +1,9 @@
 "use client";
 
-import { FC, useEffect, useRef } from "react";
-import { randomIntFromInterval } from "src/utils/helpers";
-import { SPIRALS_CONSTANTS as constant } from "src/components/Spirals/Spirals.constants";
 import { gsap } from "gsap";
+import { type FC, useEffect, useRef } from "react";
+import { SPIRALS_CONSTANTS as constant } from "src/components/Spirals/Spirals.constants";
+import { randomIntFromInterval } from "src/utils/helpers";
 
 gsap.defaults({ transformPerspective: constant.VIEWBOX * 2 });
 
@@ -100,7 +100,7 @@ export const Spirals: FC<SpiralsProps> = ({
 
       animate.play();
     }
-  }, [spiralsRef]);
+  }, []);
 
   const spirals = [...new Array(spiralCount)].map((_, i) => {
     const spiralsOffset = (360 / spiralCount) * i;

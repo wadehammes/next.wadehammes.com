@@ -1,9 +1,9 @@
-import { FC } from "react";
-import styled from "styled-components";
-import { Crown } from "src/styles/icons/crown";
 import Link from "next/link";
-import { device } from "src/styles/theme";
+import type { FC } from "react";
 import { Container } from "src/components/Layout";
+import { Crown } from "src/styles/icons/crown";
+import { device } from "src/styles/theme";
+import styled from "styled-components";
 
 const HeaderContainer = styled(Container)`
   display: flex;
