@@ -1,11 +1,42 @@
+const StylelintPlugin = require("stylelint-webpack-plugin");
+
 module.exports = {
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
-  swcMinify: true,
   compiler: {
     // ssr and displayName are configured by default
     styledComponents: true,
     reactRemoveProperties: false,
+  },
+  webpack(config) {
+    config.plugins.push(new StylelintPlugin());
+
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.(".svg"),
+    );
+
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: fileLoaderRule.issuer,
+      use: {
+        loader: "@svgr/webpack",
+        options: {
+          svgoConfig: {
+            plugins: [
+              {
+                name: "removeViewBox",
+                active: false,
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    // Modify the file loader rule to ignore *.svg, since we have it handled now.
+    fileLoaderRule.exclude = /\.svg$/i;
+
+    return config;
   },
   async headers() {
     return [

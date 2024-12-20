@@ -1,10 +1,10 @@
 "use client";
 
+import isValidProp from "@emotion/is-prop-valid";
 import StyledComponentsRegistry from "src/lib/registry";
 import { CSSRootVariables } from "src/styles/cssVariables";
 import { GlobalStyles } from "src/styles/global";
 import { StyleSheetManager } from "styled-components";
-import isValidProp from "@emotion/is-prop-valid";
 
 export default function RootLayout({
   // Layouts must accept a children prop.

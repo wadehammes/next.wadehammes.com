@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { PropsWithChildrenOnly } from "src/@types/react";
+import type { FC } from "react";
+import type { PropsWithChildrenOnly } from "src/@types/react";
 import styled from "styled-components";
 
 const Group = styled.div`

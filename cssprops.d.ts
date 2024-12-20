@@ -1,6 +1,6 @@
-import { CSSProp } from 'styled-components';
+import type { CSSProp } from "styled-components";
 
-declare module 'react' {
+declare module "react" {
   interface Attributes {
     css?: CSSProp;
   }

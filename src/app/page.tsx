@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, ReactElement, useEffect, useState } from "react";
+import { type FC, type ReactElement, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Bio } from "src/components/Bio/Bio.component";
 import { Footer, FooterActions } from "src/components/Layout";

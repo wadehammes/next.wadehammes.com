@@ -1,8 +1,8 @@
-import React, { FC, ReactElement } from "react";
-import { render, RenderOptions } from "@testing-library/react";
+import { type RenderOptions, render } from "@testing-library/react";
 import { RouterContext } from "next/dist/shared/lib/router-context.shared-runtime";
-import { NextRouter } from "next/router";
-import { PropsWithChildrenOnly } from "src/@types/react";
+import type { NextRouter } from "next/router";
+import type { FC, ReactElement } from "react";
+import type { PropsWithChildrenOnly } from "src/@types/react";
 import { CSSRootVariables } from "src/styles/cssVariables";
 import { GlobalStyles } from "src/styles/global";
 
