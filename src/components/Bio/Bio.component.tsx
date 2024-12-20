@@ -32,6 +32,14 @@ export const Bio = () => (
       <a href="https://instagram.com/wade" target="_blank" rel="noreferrer">
         Instagram
       </a>
+      ,{" "}
+      <a
+        href="https://bsky.app/profile/wadehammes.com"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Bluesky
+      </a>
       , and{" "}
       <a href="https://linktr.ee/wadehammes" target="_blank" rel="noreferrer">
         all other links

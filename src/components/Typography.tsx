@@ -4,8 +4,7 @@ import styled from "styled-components";
 
 export const H1 = styled.h1`
   font-size: 2rem;
-  font-family: "Suez One", serif;
-  font-weight: ${FontWeight.Bold};
+  font-weight: 700;
   padding-bottom: 1.5rem;
   line-height: 1.1;
 

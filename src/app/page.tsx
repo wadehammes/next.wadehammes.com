@@ -1,42 +1,18 @@
-"use client";
+import type { Metadata } from "next";
+import { HomePage } from "src/components/HomePage/HomePage.component";
 
-import { type FC, type ReactElement, useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
-import { Bio } from "src/components/Bio/Bio.component";
-import { Footer, FooterActions } from "src/components/Layout";
-import { PageContainer } from "src/components/PageContainer/Page.component";
-import { SpiralsActions } from "src/components/Spirals/SpiralsActions";
-import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
-import { isBrowser } from "src/utils/helpers";
+export function generateMetadata(): Metadata {
+  return {
+    metadataBase: new URL("https://wadehammes.com/"),
+    creator: "Wade Hammes",
+    publisher: "Wade Hammes",
+    description:
+      "Wade Hammes is a software engineer for Rhythm Energy, helping build the best customer experience in retail renewable energy, and a co-founder of Provisioner, a full-service creative agency helping to grow brands.",
+  };
+}
 
-const Home: FC = (): ReactElement => {
-  const [key, updateKey] = useState<Date>(new Date());
-  const [clientReady, setClientReady] = useState<boolean>(false);
-  const { inView, ref } = useInView({
-    triggerOnce: true,
-    initialInView: true,
-    fallbackInView: true,
-  });
-
-  useEffect(() => {
-    if (isBrowser() && inView) {
-      setClientReady(true);
-    }
-  }, [inView]);
-
-  return (
-    <>
-      <PageContainer ref={ref}>
-        <Footer>
-          <Bio />
-          <FooterActions>
-            <SpiralsActions handleClick={updateKey} />
-          </FooterActions>
-        </Footer>
-      </PageContainer>
-      {clientReady && <SpiralsSVG key={key.toDateString()} visible={inView} />}
-    </>
-  );
+const Home = () => {
+  return <HomePage />;
 };
 
 export default Home;
