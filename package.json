@@ -21,6 +21,7 @@
     "@jest/types": "^29.6.3",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/react": "^16.1.0",
+    "classnames": "^2.5.1",
     "gsap": "^3.12.5",
     "html-react-parser": "^5.2.1",
     "next": "^15.1.2",

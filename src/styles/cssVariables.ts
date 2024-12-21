@@ -11,7 +11,7 @@ export const CSSRootVariables = createGlobalStyle`
     --colors-green: hsla(145,55%,58%,1);
     --colors-red: hsla(350,95%,58%,0.83);
     --colors-purple: hsla(229,94%,76%,0.915);
-    --colors-trueBlack: #000000;
+    --colors-trueBlack: #171717;
     --colors-alphaBlack: rgba(0, 0, 0, 0.25);
     --sizing-mobilePadding: 2em;
     --sizing-desktopPadding: 5em;

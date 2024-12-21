@@ -32,7 +32,7 @@ export const GlobalStyles = createGlobalStyle`
   body {
     background: var(--color-bg);
     color: var(--color-text);
-    font-family: 'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 14px;
     transition: background 0.2s ease-in-out;
 
@@ -42,6 +42,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   body {
     line-height: 1;
+    font-family: var(--font-mono);
   }
   img {
     max-width: 100%;
