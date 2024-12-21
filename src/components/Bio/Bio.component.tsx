@@ -11,7 +11,7 @@ export const Bio = () => (
   <div>
     <H1>Hi, I'm Wade.</H1>
     <HomeBio>
-      I'm a software engineer for{" "}
+      I'm a senior software engineer for{" "}
       <a href="https://www.gotrhythm.com" target="_blank" rel="noreferrer">
         Rhythm Energy
       </a>
