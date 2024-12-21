@@ -8,6 +8,10 @@ module.exports = {
     styledComponents: true,
     reactRemoveProperties: false,
   },
+  env: {
+    ENVIRONMENT: process.env.ENVIRONMENT,
+    GOOGLE_ANALYTICS_KEY: process.env.GOOGLE_ANALYTICS_KEY,
+  },
   webpack(config) {
     config.plugins.push(new StylelintPlugin());
 

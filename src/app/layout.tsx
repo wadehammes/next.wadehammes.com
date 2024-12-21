@@ -1,6 +1,7 @@
 "use client";
 
 import isValidProp from "@emotion/is-prop-valid";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Space_Mono } from "next/font/google";
 import StyledComponentsRegistry from "src/lib/registry";
 import { CSSRootVariables } from "src/styles/cssVariables";
@@ -22,11 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={spaceMono.className}
-      style={{ fontFamily: spaceMono.style.fontFamily }}
-    >
+    <html lang="en" className={spaceMono.className}>
       <body>
         <StyledComponentsRegistry>
           <CSSRootVariables />
@@ -35,6 +32,7 @@ export default function RootLayout({
             {children}
           </StyleSheetManager>
         </StyledComponentsRegistry>
+        <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_KEY as string} />
       </body>
     </html>
   );
