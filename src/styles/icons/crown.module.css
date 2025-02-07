@@ -1,0 +1,5 @@
+.crownWrapper {
+  display: block;
+  fill: var(--color-text);
+  color: var(--color-text);
+} 

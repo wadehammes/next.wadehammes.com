@@ -1,2 +1,3 @@
-export type PropsWithChildrenOnly = React.PropsWithChildren<unknown>;
-export type FCWithChildren<T> = React.FC<React.PropsWithChildren<T>>;
+export type PropsWithChildrenOnly = {
+  children: React.ReactNode;
+};

@@ -1,39 +1,25 @@
-import { device } from "src/styles/theme";
-import styled, { css } from "styled-components";
+import classNames from "classnames";
+import styles from "src/components/SVG/SVG.module.css";
 
-const TOP = "24rem";
-
-interface SVGProps {
+interface SVGProps extends React.SVGProps<SVGSVGElement> {
   visible: boolean;
+  className?: string;
+  children?: React.ReactNode;
 }
 
-export const SVG = styled.svg<SVGProps>`
-  position: fixed;
-  top: -${TOP};
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 0;
-  height: calc(100% + ${TOP});
-  width: 100%;
-  width: 100vw;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+export const SVG = ({ visible, className, children, ...props }: SVGProps) => (
+  <svg
+    className={classNames(
+      styles.svg,
+      {
+        [styles.visible]: visible,
+      },
+      className,
+    )}
+    {...props}
+  >
+    {children}
+  </svg>
+);
 
-  ${({ visible }) =>
-    visible &&
-    css`
-      opacity: 0.85;
-    `}
-
-  @media ${device.tablet} {
-    top: 0;
-    height: 100%;
-
-    ${({ visible }) =>
-      visible &&
-      css`
-        opacity: 1;
-      `}
-  }
-`;
+export default SVG;

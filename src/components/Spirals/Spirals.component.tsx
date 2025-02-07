@@ -1,9 +1,11 @@
 "use client";
 
 import { gsap } from "gsap";
-import { type FC, useEffect, useRef } from "react";
-import { SPIRALS_CONSTANTS as constant } from "src/components/Spirals/Spirals.constants";
-import { randomIntFromInterval } from "src/utils/helpers";
+import { useEffect, useRef } from "react";
+import {
+  SPIRALS_CONSTANTS as constant,
+  type SpiralsConfig,
+} from "src/components/Spirals/Spirals.utils";
 
 gsap.defaults({ transformPerspective: constant.VIEWBOX * 2 });
 
@@ -19,28 +21,30 @@ interface SpiralProps {
   s?: string;
   l?: string;
   rad?: number;
+  opacitySubtraction?: number;
 }
 
-export const Spiral: FC<SpiralProps> = ({
+export const Spiral = ({
   centerX = constant.VIEWBOX / 2,
   centerY = constant.VIEWBOX / 2,
   angleOffset = 0,
-  fill = Boolean(Math.random() > 0.5),
-  strokeWidth = randomIntFromInterval(2, 12),
-  count = randomIntFromInterval(12, 32),
-  offset = randomIntFromInterval(50, 150),
-  h = randomIntFromInterval(0, 360),
-  s = `${randomIntFromInterval(0, 100)}%`,
-  l = `${randomIntFromInterval(0, 100)}%`,
-  rad = randomIntFromInterval(48, 64),
-}) => {
+  fill = false,
+  strokeWidth = 0,
+  count = 12,
+  offset = 50,
+  h = 0,
+  s = "50%",
+  l = "50%",
+  rad = 48,
+  opacitySubtraction = constant.OPACITY_SUBTRACTION,
+}: SpiralProps) => {
   const circles = [...new Array(count)].map((_, i) => {
     const angle =
-      angleOffset * constant.DEGREES_TO_RADIUS + i * ((Math.PI * 2) / count);
+      angleOffset * constant.DEGREES_TO_RADIANS + i * ((Math.PI * 2) / count);
     const x = centerX + (Math.sin(angle) * (offset * i)) / 2;
     const y = centerY + (Math.cos(angle) * (offset * i)) / 2;
     const radius = rad + i;
-    const opacity = 1 - constant.OPACITY_SUBTRACTION * i;
+    const opacity = 1 - opacitySubtraction * i;
 
     return (
       <circle
@@ -60,68 +64,82 @@ export const Spiral: FC<SpiralProps> = ({
 };
 
 interface SpiralsProps {
-  fill?: boolean;
-  strokeWidth?: number;
-  spiralCount?: number;
-  circleCount?: number;
-  circleOffset?: number;
-  h?: number;
-  s?: string;
-  l?: string;
-  rad?: number;
+  config: SpiralsConfig;
 }
 
-export const Spirals: FC<SpiralsProps> = ({
-  fill = Boolean(Math.random() > 0.5),
-  strokeWidth = 0,
-  spiralCount = randomIntFromInterval(4, 12),
-  circleOffset = randomIntFromInterval(20, 120),
-  circleCount = randomIntFromInterval(6, 24),
-  h = randomIntFromInterval(0, 360),
-  s = `${randomIntFromInterval(0, 100)}%`,
-  l = `${randomIntFromInterval(0, 100)}%`,
-  rad = randomIntFromInterval(48, 64),
-}) => {
+export const Spirals = ({ config }: SpiralsProps) => {
   const spiralsRef = useRef<SVGGElement>(null);
+  const rotationAnimationRef = useRef<GSAPAnimation | null>(null);
+  const scaleAnimationRef = useRef<GSAPAnimation | null>(null);
+  const randomDirectionRef = useRef<number>(Math.random() < 0.5 ? 1 : -1);
 
+  // Initialize rotation animation (only once)
   useEffect(() => {
-    const plusOrMinus: number = Math.random() < 0.5 ? -1 : 1;
-
     if (spiralsRef.current) {
-      const animate: GSAPAnimation = gsap.to(spiralsRef.current, {
-        scale: 1,
-        rotation: 360 * plusOrMinus,
-        duration: randomIntFromInterval(250, 500),
+      // Kill existing rotation animation if it exists
+      if (rotationAnimationRef.current) {
+        rotationAnimationRef.current.kill();
+      }
+
+      rotationAnimationRef.current = gsap.to(spiralsRef.current, {
+        rotation: 360 * randomDirectionRef.current,
+        duration: config.animationSpeed / 1000,
         svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,
         smoothOrigin: true,
         repeat: -1,
-        yoyo: true,
+        yoyo: false,
+        ease: "none",
       });
-
-      animate.play();
     }
+  }, [config.animationSpeed]);
+
+  // Handle scale changes smoothly
+  useEffect(() => {
+    if (spiralsRef.current) {
+      // Kill existing scale animation if it exists
+      if (scaleAnimationRef.current) {
+        scaleAnimationRef.current.kill();
+      }
+
+      // Create smooth scale animation
+      scaleAnimationRef.current = gsap.to(spiralsRef.current, {
+        scale: config.animationScale,
+        duration: 0.5, // Smooth transition duration
+        svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,
+        smoothOrigin: true,
+        ease: "power2.out", // Smooth easing
+      });
+    }
+  }, [config.animationScale]);
+
+  // Cleanup animations on unmount
+  useEffect(() => {
+    return () => {
+      if (rotationAnimationRef.current) {
+        rotationAnimationRef.current.kill();
+      }
+      if (scaleAnimationRef.current) {
+        scaleAnimationRef.current.kill();
+      }
+    };
   }, []);
 
-  const spirals = [...new Array(spiralCount)].map((_, i) => {
-    const spiralsOffset = (360 / spiralCount) * i;
+  const spirals = [...new Array(config.spiralCount)].map((_, i) => {
+    const spiralsOffset = (360 / config.spiralCount) * i;
 
     return (
       <Spiral
         angleOffset={spiralsOffset}
-        fill={fill}
-        strokeWidth={
-          !fill && strokeWidth
-            ? randomIntFromInterval(0, strokeWidth)
-            : strokeWidth
-        }
-        offset={circleOffset}
-        count={circleCount}
-        h={h}
-        s={s}
-        l={l}
-        rad={rad}
-        // eslint-disable-next-line react/no-array-index-key
-        key={`spiral-${i}`}
+        fill={config.fill}
+        strokeWidth={config.strokeWidth}
+        offset={config.circleOffset}
+        count={config.circleCount}
+        h={config.hue}
+        s={`${config.saturation}%`}
+        l={`${config.lightness}%`}
+        rad={config.circleRadius}
+        opacitySubtraction={config.opacitySubtraction}
+        key={`spiral-${spiralsOffset}-${i}`}
       />
     );
   });

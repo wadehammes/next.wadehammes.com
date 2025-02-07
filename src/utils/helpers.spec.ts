@@ -1,4 +1,7 @@
-import { randomDecFromInterval, randomIntFromInterval } from "./helpers";
+import {
+  randomDecFromInterval,
+  randomIntFromInterval,
+} from "src/utils/helpers";
 
 describe("randomIntFromInterval", () => {
   it("generated integer is between the two provided integers", () => {

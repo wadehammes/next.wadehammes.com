@@ -14,4 +14,5 @@ export interface ButtonProps extends ButtonElementProps {
   handleClick?: () => void;
   className?: string;
   label?: string;
+  children?: React.ReactNode;
 }
