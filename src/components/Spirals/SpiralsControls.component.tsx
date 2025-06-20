@@ -2,10 +2,12 @@
 
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
+import type { SpiralsConfig } from "src/components/Spirals/Spirals.utils";
 import {
+  generateSpiralFileName,
   hexToOklch,
+  type OklchColor,
   oklchToHex,
-  type SpiralsConfig,
 } from "src/components/Spirals/Spirals.utils";
 import styles from "src/components/Spirals/SpiralsControls.module.css";
 import { saveSvg } from "src/utils/helpers";
@@ -58,23 +60,6 @@ export const SpiralsControls = ({
     if (e.key === "Escape") {
       onToggleAction();
     }
-  };
-
-  const generateFileName = () => {
-    if (configs.length === 0) {
-      return "spirals.svg";
-    }
-
-    if (configs.length === 1) {
-      const name = configs[0]?.name || "spiral";
-      return `${name.toLowerCase().replace(/\s+/g, "-")}.svg`;
-    }
-
-    // For multiple sets, create a combined name
-    const names = configs.map((config) =>
-      (config?.name || "spiral").toLowerCase().replace(/\s+/g, "-"),
-    );
-    return `${names.join("-")}.svg`;
   };
 
   return (
@@ -134,7 +119,9 @@ export const SpiralsControls = ({
               </button>
               <button
                 type="button"
-                onClick={() => saveSvg(".fractal", generateFileName())}
+                onClick={() =>
+                  saveSvg(".fractal", generateSpiralFileName(configs))
+                }
                 className={classNames(
                   styles.button,
                   styles.headerButton,
@@ -424,16 +411,16 @@ export const SpiralsControls = ({
                         )}
                         onChange={(e) => {
                           if (colorThrottleRefs.current[index]) {
-                            clearTimeout(colorThrottleRefs.current[index]!);
+                            clearTimeout(colorThrottleRefs.current[index]);
                           }
-                          const { l, c, h } = hexToOklch(e.target.value);
+                          const oklch: OklchColor = hexToOklch(e.target.value);
                           colorThrottleRefs.current[index] = setTimeout(() => {
                             onConfigChangeAction(
                               {
                                 ...config,
-                                lightness: l,
-                                chroma: c,
-                                hue: h,
+                                lightness: oklch.l,
+                                chroma: oklch.c,
+                                hue: oklch.h,
                               },
                               index,
                             );
@@ -456,7 +443,9 @@ export const SpiralsControls = ({
           <div className={styles.downloadSection}>
             <button
               type="button"
-              onClick={() => saveSvg(".fractal", generateFileName())}
+              onClick={() =>
+                saveSvg(".fractal", generateSpiralFileName(configs))
+              }
               className={classNames(styles.button, styles.downloadButton)}
               aria-label="Download SVG"
             >

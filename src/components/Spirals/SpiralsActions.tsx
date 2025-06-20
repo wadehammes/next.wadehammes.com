@@ -2,6 +2,7 @@ import { Button } from "src/components/Button/Button.component";
 import { ButtonVariants } from "src/components/Button/Button.interfaces";
 import { ButtonGroup } from "src/components/Button/ButtonGroup.component";
 import type { SpiralsConfig } from "src/components/Spirals/Spirals.utils";
+import { generateSpiralFileName } from "src/components/Spirals/Spirals.utils";
 import DownloadIcon from "src/styles/icons/download.svg";
 import Gamepad from "src/styles/icons/gamepad.svg";
 import RefreshIcon from "src/styles/icons/refresh.svg";
@@ -25,23 +26,6 @@ export const SpiralsActions = ({
     return null;
   }
 
-  const generateFileName = () => {
-    if (spiralConfigs.length === 0) {
-      return "spirals.svg";
-    }
-
-    if (spiralConfigs.length === 1) {
-      const name = spiralConfigs[0]?.name || "spiral";
-      return `${name.toLowerCase().replace(/\s+/g, "-")}.svg`;
-    }
-
-    // For multiple sets, create a combined name
-    const names = spiralConfigs.map((config) =>
-      (config?.name || "spiral").toLowerCase().replace(/\s+/g, "-"),
-    );
-    return `${names.join("-")}.svg`;
-  };
-
   return (
     <ButtonGroup>
       <Button
@@ -64,7 +48,9 @@ export const SpiralsActions = ({
         variant={ButtonVariants.Text}
         hasTooltip
         ariaLabel="Download SVG"
-        handleClick={() => saveSvg(".fractal", generateFileName())}
+        handleClick={() =>
+          saveSvg(".fractal", generateSpiralFileName(spiralConfigs))
+        }
       >
         <DownloadIcon />
       </Button>

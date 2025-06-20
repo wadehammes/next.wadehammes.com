@@ -1,5 +1,6 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Space_Mono } from "next/font/google";
+import { SpiralsProvider } from "src/contexts/SpiralsContext";
 import "src/styles/global.css";
 
 const spaceMono = Space_Mono({
@@ -25,7 +26,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <main>{children}</main>
+        <SpiralsProvider>
+          <main>{children}</main>
+        </SpiralsProvider>
         <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_KEY as string} />
       </body>
     </html>
