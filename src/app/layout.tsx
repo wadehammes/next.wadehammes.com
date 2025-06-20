@@ -20,6 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={spaceMono.className}>
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+        />
+      </head>
       <body>
         <main>{children}</main>
         <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_KEY as string} />
