@@ -394,6 +394,18 @@ export const SpiralsControls = ({
             ))}
           </ul>
 
+          {/* Download Button - Desktop Only */}
+          <div className={styles.downloadSection}>
+            <button
+              type="button"
+              onClick={() => saveSvg(".fractal", generateFileName())}
+              className={classNames(styles.button, styles.downloadButton)}
+              aria-label="Download SVG"
+            >
+              💾 Download
+            </button>
+          </div>
+
           {/* Floating Add Button */}
           <button
             type="button"
@@ -402,18 +414,6 @@ export const SpiralsControls = ({
             aria-label="Add new spiral set"
           >
             +
-          </button>
-        </div>
-
-        {/* Fixed Download Button - Desktop Only */}
-        <div className={styles.downloadSection}>
-          <button
-            type="button"
-            onClick={() => saveSvg(".fractal", generateFileName())}
-            className={classNames(styles.button, styles.downloadButton)}
-            aria-label="Download SVG"
-          >
-            💾 Download
           </button>
         </div>
       </div>

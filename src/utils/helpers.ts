@@ -30,7 +30,18 @@ export const saveSvg = (svgEl: string, name: string): boolean => {
     downloadLink.target = "_blank";
     document.body.appendChild(downloadLink);
     downloadLink.click();
-    document.body.removeChild(downloadLink);
+
+    // Clean up the download link and URL
+    setTimeout(() => {
+      try {
+        if (downloadLink.parentNode) {
+          document.body.removeChild(downloadLink);
+        }
+        URL.revokeObjectURL(svgUrl);
+      } catch (error) {
+        console.warn("Error cleaning up download link:", error);
+      }
+    }, 100);
 
     return true;
   }
