@@ -27,26 +27,145 @@ export const adjustLightnessForTheme = (lightness: number): number => {
   return lightness;
 };
 
-// Color conversion utilities
-export const oklchToHex = (l: number, c: number, h: number): string => {
-  // Use culori to convert OKLCH to hex
-  const color = oklch({ mode: "oklch", l, c, h });
-  return formatHex(color) || "#000000";
+// Performance optimization: Cache for shape calculations
+const shapeCache = new Map<string, string>();
+
+// Cache key generator for shape calculations
+const generateCacheKey = (
+  shape: string,
+  cx: number,
+  cy: number,
+  radius: number,
+  polygonSides?: number,
+) => {
+  return `${shape}-${cx.toFixed(2)}-${cy.toFixed(2)}-${radius.toFixed(2)}-${polygonSides || 0}`;
 };
 
-export const hexToOklch = (
-  hex: string,
-): { l: number; c: number; h: number } => {
-  // Use culori to convert hex to OKLCH
+// Utility: Generate points for a regular polygon
+export function getPolygonPoints(
+  cx: number,
+  cy: number,
+  radius: number,
+  sides: number,
+): string {
+  const cacheKey = generateCacheKey("polygon", cx, cy, radius, sides);
+
+  if (shapeCache.has(cacheKey)) {
+    const cached = shapeCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+  }
+
+  const points: string[] = [];
+  for (let i = 0; i < sides; i++) {
+    const angle = (i * 2 * Math.PI) / sides - Math.PI / 2;
+    const x = cx + radius * Math.cos(angle);
+    const y = cy + radius * Math.sin(angle);
+    points.push(`${x},${y}`);
+  }
+
+  const result = points.join(" ");
+  shapeCache.set(cacheKey, result);
+  return result;
+}
+
+// Utility: Generate points for an equilateral triangle
+export function getTrianglePoints(
+  cx: number,
+  cy: number,
+  radius: number,
+): string {
+  const cacheKey = generateCacheKey("triangle", cx, cy, radius);
+
+  if (shapeCache.has(cacheKey)) {
+    const cached = shapeCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+  }
+
+  const points = [
+    `${cx},${cy - radius}`,
+    `${cx - radius * 0.866},${cy + radius * 0.5}`,
+    `${cx + radius * 0.866},${cy + radius * 0.5}`,
+  ];
+
+  const result = points.join(" ");
+  shapeCache.set(cacheKey, result);
+  return result;
+}
+
+// Clear shape cache when needed (e.g., on window resize)
+export const clearShapeCache = () => {
+  shapeCache.clear();
+};
+
+// Performance optimization: Batch color conversions
+const colorConversionCache = new Map<string, string>();
+
+export interface OklchColor {
+  l: number;
+  c: number;
+  h: number;
+}
+
+export const hexToOklch = (hex: string): OklchColor => {
+  if (colorConversionCache.has(hex)) {
+    const cached = colorConversionCache.get(hex);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        if (
+          typeof parsed === "object" &&
+          parsed !== null &&
+          typeof parsed.l === "number" &&
+          typeof parsed.c === "number" &&
+          typeof parsed.h === "number"
+        ) {
+          return parsed;
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }
+
   const color = oklch(parseHex(hex));
   if (!color) {
-    return { l: 0.6, c: 0.2, h: 0 };
+    return { l: 0.5, c: 0.2, h: 0 };
   }
-  return {
-    l: color.l,
-    c: color.c,
-    h: color.h,
+
+  const result = {
+    l: color.l || 0.5,
+    c: color.c || 0.2,
+    h: color.h || 0,
   };
+
+  colorConversionCache.set(hex, JSON.stringify(result));
+  return result;
+};
+
+export const oklchToHex = (l: number, c: number, h: number): string => {
+  const cacheKey = `${l}-${c}-${h}`;
+
+  if (colorConversionCache.has(cacheKey)) {
+    const cached = colorConversionCache.get(cacheKey);
+    if (typeof cached === "string") {
+      return cached;
+    }
+  }
+
+  const color = oklch({ l, c, h });
+  const hex = formatHex(color) || "#000000";
+
+  colorConversionCache.set(cacheKey, hex);
+  return hex;
+};
+
+// Clear color cache when needed
+export const clearColorCache = () => {
+  colorConversionCache.clear();
 };
 
 // Helper function to generate a UUID using crypto.randomUUID
@@ -116,88 +235,6 @@ export const DEFAULT_CONFIG: SpiralsConfig = {
   name: "Cool Filled",
 };
 
-export const PRESET_CONFIGS = {
-  calm: {
-    ...DEFAULT_CONFIG,
-    animationSpeed: 30000,
-    spiralCount: 4,
-    circleCount: 8,
-    opacitySubtraction: 0.06,
-    lightness: adjustLightnessForTheme(0.6),
-    chroma: 0.15,
-    hue: 180,
-    shape: "circle",
-    polygonSides: 6,
-    name: "Peaceful Tranquil",
-  },
-  vibrant: {
-    ...DEFAULT_CONFIG,
-    animationSpeed: 30000,
-    spiralCount: 8,
-    circleCount: 16,
-    opacitySubtraction: 0.1,
-    lightness: adjustLightnessForTheme(0.7),
-    chroma: 0.3,
-    hue: 0,
-    shape: "square",
-    polygonSides: 4,
-    name: "Vibrant Dynamic",
-  },
-  minimal: {
-    ...DEFAULT_CONFIG,
-    fill: false,
-    strokeWidth: 2,
-    spiralCount: 3,
-    circleCount: 5,
-    opacitySubtraction: 0.05,
-    lightness: adjustLightnessForTheme(0.8),
-    chroma: 0.05,
-    hue: 0,
-    shape: "triangle",
-    polygonSides: 3,
-    name: "Minimal Outline",
-  },
-  cosmic: {
-    ...DEFAULT_CONFIG,
-    animationSpeed: 30000,
-    spiralCount: 10,
-    circleCount: 18,
-    opacitySubtraction: 0.12,
-    lightness: adjustLightnessForTheme(0.4),
-    chroma: 0.25,
-    hue: 280,
-    shape: "polygon",
-    polygonSides: 8,
-    name: "Cosmic Mysterious",
-  },
-  sunset: {
-    ...DEFAULT_CONFIG,
-    animationSpeed: 25000,
-    spiralCount: 7,
-    circleCount: 14,
-    opacitySubtraction: 0.09,
-    lightness: adjustLightnessForTheme(0.65),
-    chroma: 0.28,
-    hue: 30,
-    shape: "circle",
-    polygonSides: 6,
-    name: "Warm Golden",
-  },
-  ocean: {
-    ...DEFAULT_CONFIG,
-    animationSpeed: 35000,
-    spiralCount: 5,
-    circleCount: 10,
-    opacitySubtraction: 0.07,
-    lightness: adjustLightnessForTheme(0.55),
-    chroma: 0.22,
-    hue: 200,
-    shape: "square",
-    polygonSides: 4,
-    name: "Oceanic Cool",
-  },
-} as const;
-
 const generateSpiralName = (config: SpiralsConfig): string => {
   const speedWords =
     config.animationSpeed > 25000
@@ -222,6 +259,7 @@ const generateSpiralName = (config: SpiralsConfig): string => {
   const styleWords = config.fill
     ? ["Filled", "Solid", "Rich"]
     : ["Outline", "Wire", "Skeletal"];
+
   const densityWords =
     config.spiralCount > 8
       ? ["Dense", "Complex", "Layered"]
@@ -241,8 +279,10 @@ const generateSpiralName = (config: SpiralsConfig): string => {
   const speedWord = speedWords[Math.floor(Math.random() * speedWords.length)];
   const colorWord = colorWords[Math.floor(Math.random() * colorWords.length)];
   const styleWord = styleWords[Math.floor(Math.random() * styleWords.length)];
+
   const densityWord =
     densityWords[Math.floor(Math.random() * densityWords.length)];
+
   const sizeWord = sizeWords[Math.floor(Math.random() * sizeWords.length)];
 
   const patterns = [
@@ -270,6 +310,7 @@ export const generateRandomConfig = (): SpiralsConfig => {
 
   // Generate base lightness and adjust for theme
   const baseLightness = Math.random() * 0.4 + 0.5; // 0.5–0.9 (original range)
+
   const adjustedLightness = adjustLightnessForTheme(baseLightness);
 
   const config: SpiralsConfig = {
@@ -294,6 +335,7 @@ export const generateRandomConfig = (): SpiralsConfig => {
   };
 
   config.name = generateSpiralName(config);
+
   return config;
 };
 
@@ -307,3 +349,19 @@ export const adjustConfigsForTheme = (
     lightness: adjustLightnessForTheme(config.lightness),
   }));
 };
+
+// Utility: Generate a file name for spiral SVG download
+export function generateSpiralFileName(configs: { name?: string }[]): string {
+  if (configs.length === 0) {
+    return "spirals.svg";
+  }
+  if (configs.length === 1) {
+    const name = configs[0]?.name || "spiral";
+    return `${name.toLowerCase().replace(/\s+/g, "-")}.svg`;
+  }
+  // For multiple sets, create a combined name
+  const names = configs.map((config) =>
+    (config?.name || "spiral").toLowerCase().replace(/\s+/g, "-"),
+  );
+  return `${names.join("-")}.svg`;
+}
