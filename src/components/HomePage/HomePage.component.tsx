@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import { Bio } from "src/components/Bio/Bio.component";
 import PageContainer from "src/components/PageContainer/Page.component";
 import {
+  adjustConfigsForTheme,
   DEFAULT_CONFIG,
   generateRandomConfig,
   type SpiralsConfig,
@@ -13,6 +14,7 @@ import SpiralsActions from "src/components/Spirals/SpiralsActions";
 import { SpiralsControls } from "src/components/Spirals/SpiralsControls.component";
 import SpiralsSVG from "src/components/Spirals/SpiralsSVG.component";
 import { isBrowser } from "src/helpers/helpers";
+import { usePreferredTheme } from "src/hooks/usePreferredTheme";
 
 export const HomePage = () => {
   const [key] = useState<Date>(new Date());
@@ -21,6 +23,7 @@ export const HomePage = () => {
     DEFAULT_CONFIG,
   ]); // Start with a single default config
   const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(false);
+  const { currentTheme } = usePreferredTheme();
   const { inView, ref } = useInView({
     triggerOnce: true,
     initialInView: true,
@@ -38,6 +41,13 @@ export const HomePage = () => {
     }
   }, []);
 
+  // Adjust spiral configs when theme changes
+  useEffect(() => {
+    if (isBrowser() && spiralConfigs.length > 0) {
+      setSpiralConfigs((prevConfigs) => adjustConfigsForTheme(prevConfigs));
+    }
+  }, [currentTheme, spiralConfigs.length]);
+
   useEffect(() => {
     if (isBrowser() && inView) {
       setClientReady(true);
@@ -52,7 +62,7 @@ export const HomePage = () => {
 
   const handleAddSpiralSet = () => {
     const newConfig = generateRandomConfig();
-    setSpiralConfigs([...spiralConfigs, newConfig]);
+    setSpiralConfigs([newConfig, ...spiralConfigs]);
   };
 
   const handleRemoveSpiralSet = (index: number) => {
@@ -81,6 +91,7 @@ export const HomePage = () => {
               onTogglePlayground={handleTogglePlayground}
               isPlaygroundOpen={isPlaygroundOpen}
               spiralConfigs={spiralConfigs}
+              onRandomizeAllAction={handleRandomizeAll}
             />
           </div>
         </footer>

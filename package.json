@@ -23,6 +23,7 @@
     "@svgr/webpack": "^8.1.0",
     "@testing-library/react": "^16.3.0",
     "classnames": "^2.5.1",
+    "culori": "^4.0.1",
     "gsap": "^3.13.0",
     "html-react-parser": "^5.2.5",
     "next": "^15.3.4",

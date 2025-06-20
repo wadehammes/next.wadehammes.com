@@ -1,5 +1,3 @@
-"use client";
-
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Space_Mono } from "next/font/google";
 import "src/styles/global.css";

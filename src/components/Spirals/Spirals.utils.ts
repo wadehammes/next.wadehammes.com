@@ -1,58 +1,51 @@
+import { formatHex, oklch, parseHex } from "culori";
+
 export const SPIRALS_CONSTANTS = {
   VIEWBOX: 1500,
   DEGREES_TO_RADIANS: (1 * Math.PI) / 180,
   OPACITY_SUBTRACTION: 0.075,
 };
 
-// Color conversion utilities
-export const hslToHex = (h: number, s: number, l: number): string => {
-  const lightness = l / 100;
-  const a = (s * Math.min(lightness, 1 - lightness)) / 100;
-  const f = (n: number) => {
-    const k = (n + h / 30) % 12;
-    const color = lightness - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-    return Math.round(255 * color)
-      .toString(16)
-      .padStart(2, "0");
-  };
-  return `#${f(0)}${f(8)}${f(4)}`;
-};
+// Helper function to adjust lightness based on theme
+export const adjustLightnessForTheme = (lightness: number): number => {
+  // Check if we're in light mode by looking at the body data attribute and html classes
+  if (typeof document !== "undefined") {
+    const isLightMode =
+      document.body.dataset.theme === "light" ||
+      document.documentElement.classList.contains("theme-light") ||
+      (!document.body.dataset.theme &&
+        !document.documentElement.classList.contains("theme-dark") &&
+        window.matchMedia("(prefers-color-scheme: light)").matches);
 
-export const hexToHsl = (hex: string): { h: number; s: number; l: number } => {
-  const cleanHex = hex.replace("#", "");
-
-  const r = Number.parseInt(cleanHex.substr(0, 2), 16) / 255;
-  const g = Number.parseInt(cleanHex.substr(2, 2), 16) / 255;
-  const b = Number.parseInt(cleanHex.substr(4, 2), 16) / 255;
-
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  let h = 0;
-  let s = 0;
-  const l = (max + min) / 2;
-
-  if (max !== min) {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-    switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
-        break;
-      case g:
-        h = (b - r) / d + 2;
-        break;
-      case b:
-        h = (r - g) / d + 4;
-        break;
+    if (isLightMode) {
+      // For light mode, use darker colors (0.2-0.6 range)
+      return Math.max(0.2, Math.min(0.6, lightness * 0.6));
     }
-    h /= 6;
   }
 
+  // For dark mode, keep the original lightness
+  return lightness;
+};
+
+// Color conversion utilities
+export const oklchToHex = (l: number, c: number, h: number): string => {
+  // Use culori to convert OKLCH to hex
+  const color = oklch({ mode: "oklch", l, c, h });
+  return formatHex(color) || "#000000";
+};
+
+export const hexToOklch = (
+  hex: string,
+): { l: number; c: number; h: number } => {
+  // Use culori to convert hex to OKLCH
+  const color = oklch(parseHex(hex));
+  if (!color) {
+    return { l: 0.6, c: 0.2, h: 0 };
+  }
   return {
-    h: Math.round(h * 360),
-    s: Math.round(s * 100),
-    l: Math.round(l * 100),
+    l: color.l,
+    c: color.c,
+    h: color.h,
   };
 };
 
@@ -71,11 +64,13 @@ export interface SpiralsConfig {
   fill: boolean;
   strokeWidth: number;
   opacitySubtraction: number;
+  shape: "circle" | "square" | "triangle" | "polygon";
+  polygonSides: number; // For polygon shape
 
   // Colors
-  hue: number;
-  saturation: number;
-  lightness: number;
+  lightness: number; // OKLCH Lightness (0-1)
+  chroma: number; // OKLCH Chroma (0-0.4 typically)
+  hue: number; // OKLCH Hue (0-360)
 
   // Metadata
   name?: string;
@@ -96,11 +91,13 @@ export const DEFAULT_CONFIG: SpiralsConfig = {
   fill: true,
   strokeWidth: 0,
   opacitySubtraction: 0.08,
+  shape: "circle",
+  polygonSides: 6,
 
   // Colors
+  lightness: adjustLightnessForTheme(0.5),
+  chroma: 0.2,
   hue: 220,
-  saturation: 60,
-  lightness: 50,
 
   // Metadata
   name: "Cool Filled",
@@ -113,8 +110,11 @@ export const PRESET_CONFIGS = {
     spiralCount: 4,
     circleCount: 8,
     opacitySubtraction: 0.06,
+    lightness: adjustLightnessForTheme(0.6),
+    chroma: 0.15,
     hue: 180,
-    saturation: 40,
+    shape: "circle",
+    polygonSides: 6,
     name: "Peaceful Tranquil",
   },
   vibrant: {
@@ -123,9 +123,11 @@ export const PRESET_CONFIGS = {
     spiralCount: 8,
     circleCount: 16,
     opacitySubtraction: 0.1,
+    lightness: adjustLightnessForTheme(0.7),
+    chroma: 0.3,
     hue: 0,
-    saturation: 80,
-    lightness: 60,
+    shape: "square",
+    polygonSides: 4,
     name: "Vibrant Dynamic",
   },
   minimal: {
@@ -135,9 +137,11 @@ export const PRESET_CONFIGS = {
     spiralCount: 3,
     circleCount: 6,
     opacitySubtraction: 0.05,
+    lightness: adjustLightnessForTheme(0.8),
+    chroma: 0.05,
     hue: 0,
-    saturation: 0,
-    lightness: 70,
+    shape: "triangle",
+    polygonSides: 3,
     name: "Minimal Outline",
   },
   cosmic: {
@@ -146,9 +150,11 @@ export const PRESET_CONFIGS = {
     spiralCount: 10,
     circleCount: 18,
     opacitySubtraction: 0.12,
+    lightness: adjustLightnessForTheme(0.4),
+    chroma: 0.25,
     hue: 280,
-    saturation: 70,
-    lightness: 40,
+    shape: "polygon",
+    polygonSides: 8,
     name: "Cosmic Mysterious",
   },
   sunset: {
@@ -157,9 +163,11 @@ export const PRESET_CONFIGS = {
     spiralCount: 7,
     circleCount: 14,
     opacitySubtraction: 0.09,
+    lightness: adjustLightnessForTheme(0.65),
+    chroma: 0.28,
     hue: 30,
-    saturation: 75,
-    lightness: 55,
+    shape: "circle",
+    polygonSides: 6,
     name: "Warm Golden",
   },
   ocean: {
@@ -168,9 +176,11 @@ export const PRESET_CONFIGS = {
     spiralCount: 5,
     circleCount: 10,
     opacitySubtraction: 0.07,
+    lightness: adjustLightnessForTheme(0.55),
+    chroma: 0.22,
     hue: 200,
-    saturation: 65,
-    lightness: 45,
+    shape: "square",
+    polygonSides: 4,
     name: "Oceanic Cool",
   },
 } as const;
@@ -238,9 +248,20 @@ const generateSpiralName = (config: SpiralsConfig): string => {
 };
 
 export const generateRandomConfig = (): SpiralsConfig => {
+  const shapes: Array<"circle" | "square" | "triangle" | "polygon"> = [
+    "circle",
+    "square",
+    "triangle",
+    "polygon",
+  ];
+
+  // Generate base lightness and adjust for theme
+  const baseLightness = Math.random() * 0.4 + 0.5; // 0.5–0.9 (original range)
+  const adjustedLightness = adjustLightnessForTheme(baseLightness);
+
   const config: SpiralsConfig = {
     animationSpeed: Math.floor(Math.random() * 20000) + 15000, // 15-35 seconds
-    animationScale: Math.random() * 0.9 + 0.85, // 0.85-1.75
+    animationScale: Math.random() * 0.9 + 1.1, // 1.1-2.0
     spiralCount: Math.floor(Math.random() * 8) + 3, // 3-10
     circleCount: Math.floor(Math.random() * 12) + 6, // 6-17
     circleOffset: Math.floor(Math.random() * 80) + 30, // 30-110
@@ -248,11 +269,23 @@ export const generateRandomConfig = (): SpiralsConfig => {
     fill: Math.random() > 0.5,
     strokeWidth: Math.random() * 6, // 0-6
     opacitySubtraction: Math.random() * 0.08 + 0.04, // 0.04-0.12
+    lightness: adjustedLightness,
+    chroma: Math.random() * 0.2 + 0.15, // 0.15–0.35 (more vibrant)
     hue: Math.floor(Math.random() * 360),
-    saturation: Math.floor(Math.random() * 50) + 30, // 30-80
-    lightness: Math.floor(Math.random() * 40) + 30, // 30-70
+    shape: shapes[Math.floor(Math.random() * shapes.length)],
+    polygonSides: Math.floor(Math.random() * 5) + 3, // 3-7
   };
 
   config.name = generateSpiralName(config);
   return config;
+};
+
+// Function to adjust existing configs for theme changes
+export const adjustConfigsForTheme = (
+  configs: SpiralsConfig[],
+): SpiralsConfig[] => {
+  return configs.map((config) => ({
+    ...config,
+    lightness: adjustLightnessForTheme(config.lightness),
+  }));
 };

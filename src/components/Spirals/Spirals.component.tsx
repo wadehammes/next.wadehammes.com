@@ -9,6 +9,101 @@ import {
 
 gsap.defaults({ transformPerspective: constant.VIEWBOX * 2 });
 
+interface ShapeProps {
+  cx: number;
+  cy: number;
+  radius: number;
+  shape: "circle" | "square" | "triangle" | "polygon";
+  polygonSides: number;
+  fill: string;
+  stroke: string;
+  strokeWidth: number;
+}
+
+const Shape = ({
+  cx,
+  cy,
+  radius,
+  shape,
+  polygonSides,
+  fill,
+  stroke,
+  strokeWidth,
+}: ShapeProps) => {
+  switch (shape) {
+    case "circle":
+      return (
+        <circle
+          cx={cx}
+          cy={cy}
+          r={radius}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+        />
+      );
+
+    case "square":
+      return (
+        <rect
+          x={cx - radius}
+          y={cy - radius}
+          width={radius * 2}
+          height={radius * 2}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+        />
+      );
+
+    case "triangle": {
+      const trianglePoints = [
+        `${cx},${cy - radius}`,
+        `${cx - radius * 0.866},${cy + radius * 0.5}`,
+        `${cx + radius * 0.866},${cy + radius * 0.5}`,
+      ].join(" ");
+      return (
+        <polygon
+          points={trianglePoints}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+        />
+      );
+    }
+
+    case "polygon": {
+      const points = [];
+      for (let i = 0; i < polygonSides; i++) {
+        const angle = (i * 2 * Math.PI) / polygonSides - Math.PI / 2;
+        const x = cx + radius * Math.cos(angle);
+        const y = cy + radius * Math.sin(angle);
+        points.push(`${x},${y}`);
+      }
+      return (
+        <polygon
+          points={points.join(" ")}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+        />
+      );
+    }
+
+    default:
+      return (
+        <circle
+          cx={cx}
+          cy={cy}
+          r={radius}
+          fill={fill}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+        />
+      );
+  }
+};
+
 interface SpiralProps {
   centerX?: number;
   centerY?: number;
@@ -17,11 +112,13 @@ interface SpiralProps {
   strokeWidth?: number;
   count?: number;
   offset?: number;
+  l?: number;
+  c?: number;
   h?: number;
-  s?: string;
-  l?: string;
   rad?: number;
   opacitySubtraction?: number;
+  shape?: "circle" | "square" | "triangle" | "polygon";
+  polygonSides?: number;
 }
 
 export const Spiral = ({
@@ -32,11 +129,13 @@ export const Spiral = ({
   strokeWidth = 0,
   count = 12,
   offset = 50,
+  l = 0.5,
+  c = 0.2,
   h = 0,
-  s = "50%",
-  l = "50%",
   rad = 48,
   opacitySubtraction = constant.OPACITY_SUBTRACTION,
+  shape = "circle",
+  polygonSides = 6,
 }: SpiralProps) => {
   const circles = [...new Array(count)].map((_, i) => {
     const angle =
@@ -47,15 +146,16 @@ export const Spiral = ({
     const opacity = 1 - opacitySubtraction * i;
 
     return (
-      <circle
+      <Shape
+        key={`shape-${i}`}
         cx={x}
         cy={y}
-        r={radius}
-        fill={fill ? `hsla(${h},${s},${l},${opacity})` : "transparent"}
-        stroke={`hsla(${h},${s},${l},${opacity})`}
+        radius={radius}
+        shape={shape}
+        polygonSides={polygonSides}
+        fill={fill ? `oklch(${l} ${c} ${h} / ${opacity})` : "transparent"}
+        stroke={`oklch(${l} ${c} ${h} / ${opacity})`}
         strokeWidth={!fill && strokeWidth ? strokeWidth : 0}
-        // eslint-disable-next-line react/no-array-index-key
-        key={`circle-${i}`}
       />
     );
   });
@@ -101,13 +201,13 @@ export const Spirals = ({ config }: SpiralsProps) => {
         scaleAnimationRef.current.kill();
       }
 
-      // Create smooth scale animation
+      // Create smooth scale animation with bounce effect
       scaleAnimationRef.current = gsap.to(spiralsRef.current, {
         scale: config.animationScale,
-        duration: 0.5, // Smooth transition duration
+        duration: 0.8, // Longer duration for more dramatic effect
         svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,
         smoothOrigin: true,
-        ease: "power2.out", // Smooth easing
+        ease: "back.out(1.7)", // Bounce effect for more dramatic scaling
       });
     }
   }, [config.animationScale]);
@@ -134,11 +234,13 @@ export const Spirals = ({ config }: SpiralsProps) => {
         strokeWidth={config.strokeWidth}
         offset={config.circleOffset}
         count={config.circleCount}
+        l={config.lightness}
+        c={config.chroma}
         h={config.hue}
-        s={`${config.saturation}%`}
-        l={`${config.lightness}%`}
         rad={config.circleRadius}
         opacitySubtraction={config.opacitySubtraction}
+        shape={config.shape}
+        polygonSides={config.polygonSides}
         key={`spiral-${spiralsOffset}-${i}`}
       />
     );
