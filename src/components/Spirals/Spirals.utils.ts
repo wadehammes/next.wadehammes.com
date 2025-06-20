@@ -67,6 +67,7 @@ export interface SpiralsConfig {
   circleCount: number;
   circleOffset: number;
   elementSize: number;
+  spiralSpacing: number; // Distance multiplier for spiral expansion (0.25-1)
 
   // Visual Style
   fill: boolean;
@@ -97,6 +98,7 @@ export const DEFAULT_CONFIG: SpiralsConfig = {
   circleCount: 12,
   circleOffset: 60,
   elementSize: 40,
+  spiralSpacing: 0.75,
 
   // Visual Style
   fill: true,
@@ -146,7 +148,7 @@ export const PRESET_CONFIGS = {
     fill: false,
     strokeWidth: 2,
     spiralCount: 3,
-    circleCount: 6,
+    circleCount: 5,
     opacitySubtraction: 0.05,
     lightness: adjustLightnessForTheme(0.8),
     chroma: 0.05,
@@ -274,7 +276,7 @@ export const generateRandomConfig = (): SpiralsConfig => {
     animationSpeed: Math.floor(Math.random() * 20000) + 15000, // 15-35 seconds
     animationScale: Math.random() * 0.9 + 1.1, // 1.1-2.0
     spiralCount: Math.floor(Math.random() * 8) + 3, // 3-10
-    circleCount: Math.floor(Math.random() * 12) + 6, // 6-17
+    circleCount: Math.floor(Math.random() * 26) + 5, // 5-30
     circleOffset: Math.floor(Math.random() * 80) + 30, // 30-110
     elementSize: Math.floor(Math.random() * 78) + 2, // 2-80 (tiny dots to large circles)
     fill: Math.random() > 0.5,
@@ -285,6 +287,7 @@ export const generateRandomConfig = (): SpiralsConfig => {
     hue: Math.floor(Math.random() * 360),
     shape: shapes[Math.floor(Math.random() * shapes.length)],
     polygonSides: Math.floor(Math.random() * 5) + 3, // 3-7
+    spiralSpacing: Math.random() * 0.75 + 0.25, // 0.25-1
 
     // Unique identifier
     id: generateUUID(),

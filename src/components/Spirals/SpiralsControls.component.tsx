@@ -1,7 +1,7 @@
 "use client";
 
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   hexToOklch,
   oklchToHex,
@@ -31,6 +31,9 @@ export const SpiralsControls = ({
 }: SpiralsControlsProps) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+
+  // Throttle refs for each color input
+  const colorThrottleRefs = useRef<Record<number, NodeJS.Timeout | null>>({});
 
   // Handle transitions when panel opens/closes
   useEffect(() => {
@@ -225,6 +228,58 @@ export const SpiralsControls = ({
                     </span>
                   </div>
 
+                  {/* Shape Count Control */}
+                  <div className={styles.controlGroup}>
+                    <label htmlFor={`count-${index}`}>Shape Count</label>
+                    <input
+                      id={`count-${index}`}
+                      type="range"
+                      min="5"
+                      max="30"
+                      step="1"
+                      value={config.circleCount}
+                      onChange={(e) =>
+                        onConfigChangeAction(
+                          {
+                            ...config,
+                            circleCount: Number(e.target.value),
+                          },
+                          index,
+                        )
+                      }
+                      className={styles.slider}
+                    />
+                    <span className={styles.value}>
+                      {config.circleCount} shapes
+                    </span>
+                  </div>
+
+                  {/* Spiral Spacing Control */}
+                  <div className={styles.controlGroup}>
+                    <label htmlFor={`spacing-${index}`}>Spiral Spacing</label>
+                    <input
+                      id={`spacing-${index}`}
+                      type="range"
+                      min="0.25"
+                      max="1"
+                      step="0.05"
+                      value={config.spiralSpacing}
+                      onChange={(e) =>
+                        onConfigChangeAction(
+                          {
+                            ...config,
+                            spiralSpacing: Number(e.target.value),
+                          },
+                          index,
+                        )
+                      }
+                      className={styles.slider}
+                    />
+                    <span className={styles.value}>
+                      {config.spiralSpacing.toFixed(2)}
+                    </span>
+                  </div>
+
                   {/* Shape Size Control */}
                   <div className={styles.controlGroup}>
                     <label htmlFor={`radius-${index}`}>Shape Size</label>
@@ -368,16 +423,21 @@ export const SpiralsControls = ({
                           config.hue,
                         )}
                         onChange={(e) => {
+                          if (colorThrottleRefs.current[index]) {
+                            clearTimeout(colorThrottleRefs.current[index]!);
+                          }
                           const { l, c, h } = hexToOklch(e.target.value);
-                          onConfigChangeAction(
-                            {
-                              ...config,
-                              lightness: l,
-                              chroma: c,
-                              hue: h,
-                            },
-                            index,
-                          );
+                          colorThrottleRefs.current[index] = setTimeout(() => {
+                            onConfigChangeAction(
+                              {
+                                ...config,
+                                lightness: l,
+                                chroma: c,
+                                hue: h,
+                              },
+                              index,
+                            );
+                          }, 50);
                         }}
                         className={styles.colorPicker}
                       />

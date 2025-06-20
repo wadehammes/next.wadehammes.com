@@ -1,13 +1,11 @@
 "use client";
 
 import { gsap } from "gsap";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import {
   SPIRALS_CONSTANTS as constant,
   type SpiralsConfig,
 } from "src/components/Spirals/Spirals.utils";
-
-gsap.defaults({ transformPerspective: constant.VIEWBOX * 2 });
 
 interface ShapeProps {
   cx: number;
@@ -18,6 +16,7 @@ interface ShapeProps {
   fill: string;
   stroke: string;
   strokeWidth: number;
+  onRef?: (ref: SVGElement | null) => void;
 }
 
 const Shape = ({
@@ -29,32 +28,37 @@ const Shape = ({
   fill,
   stroke,
   strokeWidth,
+  onRef,
 }: ShapeProps) => {
-  switch (shape) {
-    case "circle":
-      return (
-        <circle
-          cx={cx}
-          cy={cy}
-          r={radius}
-          fill={fill}
-          stroke={stroke}
-          strokeWidth={strokeWidth}
-        />
-      );
+  // Memoize polygon points calculation
+  const polygonPoints = useMemo(() => {
+    if (shape !== "polygon") return "";
+    const points = [];
+    for (let i = 0; i < polygonSides; i++) {
+      const angle = (i * 2 * Math.PI) / polygonSides - Math.PI / 2;
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
+      points.push(`${x},${y}`);
+    }
+    return points.join(" ");
+  }, [shape, polygonSides, cx, cy, radius]);
 
-    case "square":
+  switch (shape) {
+    case "square": {
+      const size = radius * 2;
       return (
         <rect
+          ref={onRef}
           x={cx - radius}
           y={cy - radius}
-          width={radius * 2}
-          height={radius * 2}
+          width={size}
+          height={size}
           fill={fill}
           stroke={stroke}
           strokeWidth={strokeWidth}
         />
       );
+    }
 
     case "triangle": {
       const trianglePoints = [
@@ -64,6 +68,7 @@ const Shape = ({
       ].join(" ");
       return (
         <polygon
+          ref={onRef}
           points={trianglePoints}
           fill={fill}
           stroke={stroke}
@@ -73,16 +78,10 @@ const Shape = ({
     }
 
     case "polygon": {
-      const points = [];
-      for (let i = 0; i < polygonSides; i++) {
-        const angle = (i * 2 * Math.PI) / polygonSides - Math.PI / 2;
-        const x = cx + radius * Math.cos(angle);
-        const y = cy + radius * Math.sin(angle);
-        points.push(`${x},${y}`);
-      }
       return (
         <polygon
-          points={points.join(" ")}
+          ref={onRef}
+          points={polygonPoints}
           fill={fill}
           stroke={stroke}
           strokeWidth={strokeWidth}
@@ -93,6 +92,7 @@ const Shape = ({
     default:
       return (
         <circle
+          ref={onRef}
           cx={cx}
           cy={cy}
           r={radius}
@@ -119,6 +119,7 @@ interface SpiralProps {
   opacitySubtraction?: number;
   shape?: "circle" | "square" | "triangle" | "polygon";
   polygonSides?: number;
+  spiralSpacing?: number;
 }
 
 export const Spiral = ({
@@ -136,29 +137,127 @@ export const Spiral = ({
   opacitySubtraction = constant.OPACITY_SUBTRACTION,
   shape = "circle",
   polygonSides = 6,
+  spiralSpacing = 0.75,
 }: SpiralProps) => {
-  const circles = [...new Array(count)].map((_, i) => {
-    const angle =
-      angleOffset * constant.DEGREES_TO_RADIANS + i * ((Math.PI * 2) / count);
-    const x = centerX + (Math.sin(angle) * (offset * i)) / 2;
-    const y = centerY + (Math.cos(angle) * (offset * i)) / 2;
-    const radius = rad + i;
-    const opacity = 1 - opacitySubtraction * i;
+  const shapeRefs = useRef<(SVGElement | null)[]>([]);
+  const prevConfig = useRef({ count, offset, spiralSpacing, angleOffset, rad });
 
+  // Memoize shape positions to avoid recalculating on every render
+  const shapePositions = useMemo(() => {
+    return [...new Array(count)].map((_, i) => {
+      const angle =
+        angleOffset * constant.DEGREES_TO_RADIANS + i * ((Math.PI * 2) / count);
+      const distance = offset * (i + 1) * spiralSpacing;
+      const x = centerX + Math.sin(angle) * distance;
+      const y = centerY + Math.cos(angle) * distance;
+      const radius = rad + i;
+      const opacity = 1 - opacitySubtraction * i;
+
+      return { x, y, radius, opacity };
+    });
+  }, [
+    count,
+    angleOffset,
+    offset,
+    spiralSpacing,
+    centerX,
+    centerY,
+    rad,
+    opacitySubtraction,
+  ]);
+
+  // Optimized config comparison without JSON.stringify
+  const configChanged = useCallback(() => {
+    const current = { count, offset, spiralSpacing, angleOffset, rad };
+    const prev = prevConfig.current;
     return (
-      <Shape
-        key={`shape-${i}`}
-        cx={x}
-        cy={y}
-        radius={radius}
-        shape={shape}
-        polygonSides={polygonSides}
-        fill={fill ? `oklch(${l} ${c} ${h} / ${opacity})` : "transparent"}
-        stroke={`oklch(${l} ${c} ${h} / ${opacity})`}
-        strokeWidth={!fill && strokeWidth ? strokeWidth : 0}
-      />
+      current.count !== prev.count ||
+      current.offset !== prev.offset ||
+      current.spiralSpacing !== prev.spiralSpacing ||
+      current.angleOffset !== prev.angleOffset ||
+      current.rad !== prev.rad
     );
-  });
+  }, [count, offset, spiralSpacing, angleOffset, rad]);
+
+  // Only animate position/size, not color
+  useEffect(() => {
+    if (configChanged()) {
+      shapeRefs.current.forEach((shapeRef, i) => {
+        if (shapeRef && i < count) {
+          const { x, y, radius } = shapePositions[i];
+          gsap.to(shapeRef, {
+            duration: 0.6,
+            ease: "power2.out",
+            overwrite: "auto",
+            ...(shape === "circle" && {
+              attr: { cx: x, cy: y, r: radius },
+            }),
+            ...(shape === "square" && {
+              attr: {
+                x: x - radius,
+                y: y - radius,
+                width: radius * 2,
+                height: radius * 2,
+              },
+            }),
+            ...(shape === "triangle" && {
+              attr: {
+                points: [
+                  `${x},${y - radius}`,
+                  `${x - radius * 0.866},${y + radius * 0.5}`,
+                  `${x + radius * 0.866},${y + radius * 0.5}`,
+                ].join(" "),
+              },
+            }),
+            ...(shape === "polygon" && {
+              attr: {
+                points: (() => {
+                  const points = [];
+                  for (let j = 0; j < polygonSides; j++) {
+                    const angle =
+                      (j * 2 * Math.PI) / polygonSides - Math.PI / 2;
+                    const px = x + radius * Math.cos(angle);
+                    const py = y + radius * Math.sin(angle);
+                    points.push(`${px},${py}`);
+                  }
+                  return points.join(" ");
+                })(),
+              },
+            }),
+          });
+        }
+      });
+      prevConfig.current = { count, offset, spiralSpacing, angleOffset, rad };
+    }
+    // Only depend on position/size-related props
+  }, [
+    configChanged,
+    count,
+    shape,
+    polygonSides,
+    shapePositions,
+    angleOffset,
+    offset,
+    spiralSpacing,
+    rad,
+  ]);
+
+  const circles = shapePositions.map(({ x, y, radius, opacity }, i) => (
+    <Shape
+      key={`shape-${i}`}
+      onRef={(ref) => {
+        shapeRefs.current[i] = ref;
+      }}
+      cx={x}
+      cy={y}
+      radius={radius}
+      shape={shape}
+      polygonSides={polygonSides}
+      fill={fill ? `oklch(${l} ${c} ${h} / ${opacity})` : "transparent"}
+      stroke={`oklch(${l} ${c} ${h} / ${opacity})`}
+      strokeWidth={!fill && strokeWidth ? strokeWidth : 0}
+    />
+  ));
 
   return <g>{circles}</g>;
 };
@@ -173,6 +272,46 @@ export const Spirals = ({ config }: SpiralsProps) => {
   const scaleAnimationRef = useRef<GSAPAnimation | null>(null);
   const randomDirectionRef = useRef<number>(Math.random() < 0.5 ? 1 : -1);
 
+  // Memoize spirals array to prevent unnecessary re-renders
+  const spirals = useMemo(() => {
+    return [...new Array(config.spiralCount)].map((_, i) => {
+      const spiralsOffset = (360 / config.spiralCount) * i;
+
+      return (
+        <Spiral
+          angleOffset={spiralsOffset}
+          fill={config.fill}
+          strokeWidth={config.strokeWidth}
+          offset={config.circleOffset}
+          count={config.circleCount}
+          l={config.lightness}
+          c={config.chroma}
+          h={config.hue}
+          rad={config.elementSize}
+          opacitySubtraction={config.opacitySubtraction}
+          shape={config.shape}
+          polygonSides={config.polygonSides}
+          spiralSpacing={config.spiralSpacing}
+          key={`spiral-${spiralsOffset}-${i}`}
+        />
+      );
+    });
+  }, [
+    config.spiralCount,
+    config.fill,
+    config.strokeWidth,
+    config.circleOffset,
+    config.circleCount,
+    config.lightness,
+    config.chroma,
+    config.hue,
+    config.elementSize,
+    config.opacitySubtraction,
+    config.shape,
+    config.polygonSides,
+    config.spiralSpacing,
+  ]);
+
   // Initialize rotation animation (only once)
   useEffect(() => {
     if (spiralsRef.current) {
@@ -181,6 +320,7 @@ export const Spirals = ({ config }: SpiralsProps) => {
         rotationAnimationRef.current.kill();
       }
 
+      // Create new rotation animation
       rotationAnimationRef.current = gsap.to(spiralsRef.current, {
         rotation: 360 * randomDirectionRef.current,
         duration: config.animationSpeed / 1000,
@@ -189,6 +329,7 @@ export const Spirals = ({ config }: SpiralsProps) => {
         repeat: -1,
         yoyo: false,
         ease: "none",
+        overwrite: "auto", // Allow overwriting to prevent conflicts
       });
     }
   }, [config.animationSpeed]);
@@ -208,6 +349,7 @@ export const Spirals = ({ config }: SpiralsProps) => {
         svgOrigin: `${constant.VIEWBOX / 2} ${constant.VIEWBOX / 2}`,
         smoothOrigin: true,
         ease: "back.out(1.7)", // Bounce effect for more dramatic scaling
+        overwrite: "auto", // Allow overwriting to prevent conflicts
       });
     }
   }, [config.animationScale]);
@@ -223,28 +365,6 @@ export const Spirals = ({ config }: SpiralsProps) => {
       }
     };
   }, []);
-
-  const spirals = [...new Array(config.spiralCount)].map((_, i) => {
-    const spiralsOffset = (360 / config.spiralCount) * i;
-
-    return (
-      <Spiral
-        angleOffset={spiralsOffset}
-        fill={config.fill}
-        strokeWidth={config.strokeWidth}
-        offset={config.circleOffset}
-        count={config.circleCount}
-        l={config.lightness}
-        c={config.chroma}
-        h={config.hue}
-        rad={config.elementSize}
-        opacitySubtraction={config.opacitySubtraction}
-        shape={config.shape}
-        polygonSides={config.polygonSides}
-        key={`spiral-${spiralsOffset}-${i}`}
-      />
-    );
-  });
 
   return <g ref={spiralsRef}>{spirals}</g>;
 };
