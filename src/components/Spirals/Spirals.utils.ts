@@ -49,7 +49,15 @@ export const hexToOklch = (
   };
 };
 
+// Helper function to generate a UUID using crypto.randomUUID
+const generateUUID = (): string => {
+  return crypto.randomUUID();
+};
+
 export interface SpiralsConfig {
+  // Unique identifier
+  id: string;
+
   // Animation
   animationSpeed: number;
   animationScale: number;
@@ -77,6 +85,9 @@ export interface SpiralsConfig {
 }
 
 export const DEFAULT_CONFIG: SpiralsConfig = {
+  // Unique identifier
+  id: generateUUID(),
+
   // Animation
   animationSpeed: 30000,
   animationScale: 1,
@@ -274,6 +285,9 @@ export const generateRandomConfig = (): SpiralsConfig => {
     hue: Math.floor(Math.random() * 360),
     shape: shapes[Math.floor(Math.random() * shapes.length)],
     polygonSides: Math.floor(Math.random() * 5) + 3, // 3-7
+
+    // Unique identifier
+    id: generateUUID(),
   };
 
   config.name = generateSpiralName(config);
@@ -286,6 +300,7 @@ export const adjustConfigsForTheme = (
 ): SpiralsConfig[] => {
   return configs.map((config) => ({
     ...config,
+    id: generateUUID(), // Generate new UUID for each config
     lightness: adjustLightnessForTheme(config.lightness),
   }));
 };

@@ -14,7 +14,7 @@ interface SpiralsControlsProps {
   configs: SpiralsConfig[];
   onConfigChangeAction: (config: SpiralsConfig, index: number) => void;
   onAddSpiralSetAction: () => void;
-  onRemoveSpiralSetAction: (index: number) => void;
+  onRemoveSpiralSetAction: (id: string) => void;
   onRandomizeAllAction: () => void;
   isOpen: boolean;
   onToggleAction: () => void;
@@ -147,7 +147,7 @@ export const SpiralsControls = ({
           <ul className={styles.spiralSets}>
             {configs.map((config, index) => (
               <li
-                key={`spiral-set-${config.name}-${index}`}
+                key={config.id}
                 className={styles.spiralSet}
                 style={
                   {
@@ -159,7 +159,7 @@ export const SpiralsControls = ({
                   <h4 className={styles.setName}>{config.name}</h4>
                   <button
                     type="button"
-                    onClick={() => onRemoveSpiralSetAction(index)}
+                    onClick={() => onRemoveSpiralSetAction(config.id)}
                     className={styles.removeButton}
                     aria-label={`Remove spiral set ${config.name}`}
                     disabled={configs.length === 1}
