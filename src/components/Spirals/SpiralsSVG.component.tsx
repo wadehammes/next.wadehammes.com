@@ -36,13 +36,13 @@ export const SpiralsSVG = ({ visible = false, configs }: SpiralsSVGProps) => {
         transition: "opacity 1s ease-in-out",
       }}
     >
-      {/* Render all spiral configurations */}
-      {configs.map((config, index) => (
-        <Spirals
-          key={`spiral-config-${config.name}-${index}`}
-          config={config}
-        />
-      ))}
+      {/* Render all spiral configurations in reverse order so newest appear on top */}
+      {configs
+        .slice()
+        .reverse()
+        .map((config) => (
+          <Spirals key={`spiral-config-${config.id}`} config={config} />
+        ))}
     </SVG>
   );
 };

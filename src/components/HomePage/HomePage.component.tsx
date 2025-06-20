@@ -14,7 +14,6 @@ import SpiralsActions from "src/components/Spirals/SpiralsActions";
 import { SpiralsControls } from "src/components/Spirals/SpiralsControls.component";
 import SpiralsSVG from "src/components/Spirals/SpiralsSVG.component";
 import { isBrowser } from "src/helpers/helpers";
-import { usePreferredTheme } from "src/hooks/usePreferredTheme";
 
 export const HomePage = () => {
   const [key] = useState<Date>(new Date());
@@ -23,7 +22,6 @@ export const HomePage = () => {
     DEFAULT_CONFIG,
   ]); // Start with a single default config
   const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(false);
-  const { currentTheme } = usePreferredTheme();
   const { inView, ref } = useInView({
     triggerOnce: true,
     initialInView: true,
@@ -46,7 +44,7 @@ export const HomePage = () => {
     if (isBrowser() && spiralConfigs.length > 0) {
       setSpiralConfigs((prevConfigs) => adjustConfigsForTheme(prevConfigs));
     }
-  }, [currentTheme, spiralConfigs.length]);
+  }, [spiralConfigs.length]);
 
   useEffect(() => {
     if (isBrowser() && inView) {
@@ -65,15 +63,19 @@ export const HomePage = () => {
     setSpiralConfigs([newConfig, ...spiralConfigs]);
   };
 
-  const handleRemoveSpiralSet = (index: number) => {
+  const handleRemoveSpiralSet = (id: string) => {
     if (spiralConfigs.length > 1) {
-      const updatedConfigs = spiralConfigs.filter((_, i) => i !== index);
+      const updatedConfigs = spiralConfigs.filter((config) => config.id !== id);
       setSpiralConfigs(updatedConfigs);
     }
   };
 
   const handleRandomizeAll = () => {
-    const newConfigs = spiralConfigs.map(() => generateRandomConfig());
+    // Randomize the number of spiral sets (2-5)
+    const newSpiralCount = Math.floor(Math.random() * 4) + 2; // 2-5 sets
+    const newConfigs = Array.from({ length: newSpiralCount }, () =>
+      generateRandomConfig(),
+    );
     setSpiralConfigs(newConfigs);
   };
 
