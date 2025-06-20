@@ -66,7 +66,7 @@ export interface SpiralsConfig {
   spiralCount: number;
   circleCount: number;
   circleOffset: number;
-  circleRadius: number;
+  elementSize: number;
 
   // Visual Style
   fill: boolean;
@@ -96,7 +96,7 @@ export const DEFAULT_CONFIG: SpiralsConfig = {
   spiralCount: 6,
   circleCount: 12,
   circleOffset: 60,
-  circleRadius: 40,
+  elementSize: 40,
 
   // Visual Style
   fill: true,
@@ -228,11 +228,11 @@ const generateSpiralName = (config: SpiralsConfig): string => {
         : ["Sparse", "Minimal", "Open"];
 
   const sizeWords =
-    config.circleRadius < 10
+    config.elementSize < 10
       ? ["Tiny", "Micro", "Dotted"]
-      : config.circleRadius < 25
+      : config.elementSize < 25
         ? ["Small", "Delicate", "Fine"]
-        : config.circleRadius < 45
+        : config.elementSize < 45
           ? ["Medium", "Standard", "Classic"]
           : ["Large", "Bold", "Prominent"];
 
@@ -276,7 +276,7 @@ export const generateRandomConfig = (): SpiralsConfig => {
     spiralCount: Math.floor(Math.random() * 8) + 3, // 3-10
     circleCount: Math.floor(Math.random() * 12) + 6, // 6-17
     circleOffset: Math.floor(Math.random() * 80) + 30, // 30-110
-    circleRadius: Math.floor(Math.random() * 78) + 2, // 2-80 (tiny dots to large circles)
+    elementSize: Math.floor(Math.random() * 78) + 2, // 2-80 (tiny dots to large circles)
     fill: Math.random() > 0.5,
     strokeWidth: Math.random() * 6, // 0-6
     opacitySubtraction: Math.random() * 0.08 + 0.04, // 0.04-0.12
