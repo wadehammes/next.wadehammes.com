@@ -1,19 +1,25 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
   "formatter": {
-    "include": ["*.ts", "*.tsx", "*.mts", "*.cts"],
+    "includes": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.mts",
+      "**/*.cts",
+      "!**/*.json",
+      "!**/*.md",
+      "!**/.eslintrc",
+      "!**/.vscode"
+    ],
     "enabled": true,
     "formatWithErrors": true,
     "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
     "lineWidth": 80,
-    "attributePosition": "auto",
-    "ignore": ["**/*.json", "**/*.md", "**/.eslintrc", ".vscode"]
+    "attributePosition": "auto"
   },
-  "organizeImports": {
-    "enabled": true
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -39,13 +45,23 @@
         "noDangerouslySetInnerHtml": "warn"
       },
       "style": {
-        "useLiteralEnumMembers": "off"
+        "useLiteralEnumMembers": "off",
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       },
       "suspicious": {
         "noArrayIndexKey": "off"
       }
     },
-    "ignore": ["**/next.config.js", ".vscode"]
+    "includes": ["**", "!**/next.config.js", "!**/.vscode"]
   },
   "javascript": {
     "formatter": {

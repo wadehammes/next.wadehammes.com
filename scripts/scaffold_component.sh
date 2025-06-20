@@ -1,71 +1,52 @@
 #!/bin/bash
 
-# generate boilerplate component content
-create_component_file() {
-  touch "$component_name.component.tsx"
-  {
-    echo 'import React, { FC } from "react";'
-    echo 'import styled from "styled-components";'
-    echo
-    echo "const ${component_name}Wrapper = styled.div``;" 
-    echo
-    echo "export const ${component_name}: FC = ({ children }) => ("
-    echo "  <${component_name}Wrapper data-testid=\"wh${component_name}\">{children}</${component_name}Wrapper>"
-    echo ");"
-    echo
-    echo "export default ${component_name};"
-  }  >> "$component_name.component.tsx"
-}
-
-
-# generate boilerplate spec content
-create_spec_file() {
-  touch "$component_name.spec.tsx"
-  {
-    echo 'import React from "react";'
-    echo 'import { render, screen, waitFor } from "test-utils";'
-    echo "import { ${component_name} } from \"src/components/${component_name}/${component_name}.component\";"
-    echo
-    echo "const testId = \"wh${component_name}\""
-    echo
-    echo "describe(\"${component_name}\", () => {"
-    echo "  it(\"renders ${component_name}\", async () => {"
-    echo "    render(<${component_name} />);"
-    echo
-    echo "    const component = await screen.findByTestId(testId);"
-    echo
-    echo "    await waitFor(() => {"
-    echo "      expect(component).toBeVisible();"
-    echo "    });"
-    echo "  });"
-    echo "});"
-  } >> "$component_name.spec.tsx"
-}
-
-# Absolute path this script is in, thus /home/user/bin
-script_pwd=$(dirname "$BASH_SOURCE")
-
-component_name=$1
-
-if [ "$component_name" = "" ]; then
-  echo "Error: Component name not provided - you must provide a valid app name followed by the name of the component"
-  echo "ex: scaffold_component <component_name>"
-  exit 1
+# Check if component name is provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <component-name>"
+    exit 1
 fi
 
-dir="./src/components/$component_name"
+COMPONENT_NAME=$1
+COMPONENT_DIR="src/components/$COMPONENT_NAME"
 
-if [ ! -d $dir ]; then
-  mkdir "$dir"
-  pushd $dir > /dev/null
-  create_component_file
-  create_spec_file
-  popd > /dev/null
-  echo "✨Successfully scaffolded ${component_name}✨"
-  echo "Head over to src/components/$component_name to start building"
-  echo "Happy hacking 😁"
-  exit 0
-else
-  echo "Error: $component_name already exists. Aborting scaffolding."
-  exit 1
-fi
+# Create component directory
+mkdir -p "$COMPONENT_DIR"
+
+# Create component file
+cat > "$COMPONENT_DIR/$COMPONENT_NAME.component.tsx" << EOF
+import classNames from "classnames";
+import styles from "./$COMPONENT_NAME.module.css";
+
+interface ${COMPONENT_NAME}Props {
+  className?: string;
+}
+
+export const ${COMPONENT_NAME} = ({ className }: ${COMPONENT_NAME}Props) => {
+  return (
+    <div className={classNames(styles.${COMPONENT_NAME,}, className)}>
+      ${COMPONENT_NAME}
+    </div>
+  );
+};
+
+export default ${COMPONENT_NAME};
+EOF
+
+# Create CSS module file
+cat > "$COMPONENT_DIR/$COMPONENT_NAME.module.css" << EOF
+.${COMPONENT_NAME,} {
+  /* Add your styles here */
+}
+EOF
+
+# Create index file
+cat > "$COMPONENT_DIR/index.ts" << EOF
+export { ${COMPONENT_NAME} } from "./$COMPONENT_NAME.component";
+export { default } from "./$COMPONENT_NAME.component";
+EOF
+
+echo "Component $COMPONENT_NAME created successfully!"
+echo "Files created:"
+echo "  - $COMPONENT_DIR/$COMPONENT_NAME.component.tsx"
+echo "  - $COMPONENT_DIR/$COMPONENT_NAME.module.css"
+echo "  - $COMPONENT_DIR/index.ts"

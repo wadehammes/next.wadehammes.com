@@ -1,12 +1,8 @@
 "use client";
 
-import isValidProp from "@emotion/is-prop-valid";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Space_Mono } from "next/font/google";
-import StyledComponentsRegistry from "src/lib/registry";
-import { CSSRootVariables } from "src/styles/cssVariables";
-import { GlobalStyles } from "src/styles/global";
-import { StyleSheetManager } from "styled-components";
+import "src/styles/global.css";
 
 const spaceMono = Space_Mono({
   subsets: ["latin"],
@@ -25,13 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={spaceMono.className}>
       <body>
-        <StyledComponentsRegistry>
-          <CSSRootVariables />
-          <GlobalStyles />
-          <StyleSheetManager shouldForwardProp={isValidProp}>
-            {children}
-          </StyleSheetManager>
-        </StyledComponentsRegistry>
+        <main>{children}</main>
         <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_KEY as string} />
       </body>
     </html>

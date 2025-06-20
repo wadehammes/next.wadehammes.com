@@ -1,16 +1,9 @@
-import { H1, P } from "src/components/Typography";
-import styled from "styled-components";
-
-const HomeBio = styled(P)`
-  max-width: 74ch;
-  margin: 0;
-  padding: 0;
-`;
+import styles from "src/components/Bio/Bio.module.css";
 
 export const Bio = () => (
   <div>
-    <H1>Hi, I'm Wade.</H1>
-    <HomeBio>
+    <h1>Hi, I'm Wade.</h1>
+    <p className={styles.bio}>
       I'm a senior software engineer for{" "}
       <a href="https://www.gotrhythm.com" target="_blank" rel="noreferrer">
         Rhythm Energy
@@ -45,6 +38,8 @@ export const Bio = () => (
         all other links
       </a>
       .
-    </HomeBio>
+    </p>
   </div>
 );
+
+export default Bio;
