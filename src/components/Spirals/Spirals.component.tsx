@@ -237,7 +237,7 @@ export const Spirals = ({ config }: SpiralsProps) => {
         l={config.lightness}
         c={config.chroma}
         h={config.hue}
-        rad={config.circleRadius}
+        rad={config.elementSize}
         opacitySubtraction={config.opacitySubtraction}
         shape={config.shape}
         polygonSides={config.polygonSides}

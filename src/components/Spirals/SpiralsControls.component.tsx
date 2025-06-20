@@ -225,30 +225,28 @@ export const SpiralsControls = ({
                     </span>
                   </div>
 
-                  {/* Circle Radius Control */}
+                  {/* Shape Size Control */}
                   <div className={styles.controlGroup}>
-                    <label htmlFor={`radius-${index}`}>Circle Size</label>
+                    <label htmlFor={`radius-${index}`}>Shape Size</label>
                     <input
                       id={`radius-${index}`}
                       type="range"
                       min="2"
                       max="80"
                       step="2"
-                      value={config.circleRadius}
+                      value={config.elementSize}
                       onChange={(e) =>
                         onConfigChangeAction(
                           {
                             ...config,
-                            circleRadius: Number(e.target.value),
+                            elementSize: Number(e.target.value),
                           },
                           index,
                         )
                       }
                       className={styles.slider}
                     />
-                    <span className={styles.value}>
-                      {config.circleRadius}px
-                    </span>
+                    <span className={styles.value}>{config.elementSize}px</span>
                   </div>
 
                   {/* Style Control */}
