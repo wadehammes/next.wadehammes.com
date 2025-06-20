@@ -4,19 +4,87 @@
   box-sizing: border-box;
 }
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -26,15 +94,15 @@ time, mark, audio, video {
 }
 
 :root {
-  --colors-gray: #7E888C;
+  --colors-gray: #7e888c;
   --colors-black: #393d3f;
   --colors-white: #fdfdff;
   --colors-silver: #c6c5b9;
   --colors-teal: #62929e;
   --colors-blue: #546a7b;
-  --colors-green: hsla(145,55%,58%,1);
-  --colors-red: hsla(350,95%,58%,0.83);
-  --colors-purple: hsla(229,94%,76%,0.915);
+  --colors-green: hsla(145, 55%, 58%, 1);
+  --colors-red: hsla(350, 95%, 58%, 0.83);
+  --colors-purple: hsla(229, 94%, 76%, 0.915);
   --colors-trueBlack: #171717;
   --colors-alphaBlack: rgba(0, 0, 0, 0.25);
   --sizing-mobilePadding: 2em;
@@ -42,6 +110,27 @@ time, mark, audio, video {
 
   --color-text: var(--colors-white);
   --color-bg: var(--colors-trueBlack);
+
+  /* SpiralsControls specific variables */
+  --spirals-border-color: rgba(126, 136, 140, 0.3);
+  --spirals-border-color-hover: rgba(126, 136, 140, 0.5);
+  --spirals-bg-subtle: rgba(126, 136, 140, 0.1);
+  --spirals-bg-hover: rgba(126, 136, 140, 0.2);
+  --spirals-text-muted: rgba(126, 136, 140, 0.8);
+  --spirals-add-green: #34c759;
+  --spirals-add-green-bg: rgba(52, 199, 89, 0.2);
+  --spirals-add-green-border: rgba(52, 199, 89, 0.3);
+  --spirals-add-green-hover: rgba(52, 199, 89, 0.3);
+  --spirals-add-green-border-hover: rgba(52, 199, 89, 0.5);
+  --spirals-remove-red: #ff3b30;
+  --spirals-remove-red-bg: rgba(255, 59, 48, 0.2);
+  --spirals-remove-red-border: rgba(255, 59, 48, 0.3);
+  --spirals-remove-red-hover: rgba(255, 59, 48, 0.3);
+  --spirals-remove-red-border-hover: rgba(255, 59, 48, 0.5);
+  --spirals-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --spirals-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.3);
+  --spirals-border-radius: 8px;
+  --spirals-border-radius-desktop: 6px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -51,9 +140,16 @@ time, mark, audio, video {
   }
 }
 
-[data-theme="light"] {
+[data-theme="light"],
+.theme-light {
   --color-text: var(--colors-trueBlack);
   --color-bg: var(--colors-white);
+}
+
+[data-theme="dark"],
+.theme-dark {
+  --color-text: var(--colors-white);
+  --color-bg: var(--colors-trueBlack);
 }
 
 html,
@@ -127,11 +223,13 @@ a {
   }
 }
 
-[hidden], .hidden {
+[hidden],
+.hidden {
   display: none;
 }
 
-strong, b {
+strong,
+b {
   font-weight: 700;
 }
 
@@ -164,11 +262,17 @@ strong, b {
   height: 100%;
   padding: var(--sizing-mobilePadding);
   width: 100%;
-  padding-bottom: calc(var(--sizing-mobilePadding) + env(safe-area-inset-bottom));
+  padding-bottom: calc(
+    var(--sizing-mobilePadding) +
+    env(safe-area-inset-bottom)
+  );
 
   @media (min-width: 768px) {
     padding: var(--sizing-desktopPadding);
-    padding-bottom: calc(var(--sizing-desktopPadding) + env(safe-area-inset-bottom));
+    padding-bottom: calc(
+      var(--sizing-desktopPadding) +
+      env(safe-area-inset-bottom)
+    );
   }
 }
 

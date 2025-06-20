@@ -1,9 +1,10 @@
 "use client";
 
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import {
-  hexToHsl,
-  hslToHex,
+  hexToOklch,
+  oklchToHex,
   type SpiralsConfig,
 } from "src/components/Spirals/Spirals.utils";
 import styles from "src/components/Spirals/SpiralsControls.module.css";
@@ -85,7 +86,10 @@ export const SpiralsControls = ({
     >
       {/* Slide-out Panel */}
       <div
-        className={`${styles.panel} ${isOpen ? styles.open : ""} ${isTransitioning ? styles.transitioning : ""}`}
+        className={classNames(styles.panel, {
+          [styles.open]: isOpen,
+          [styles.transitioning]: isTransitioning,
+        })}
       >
         <div className={styles.panelContent}>
           <div className={styles.header}>
@@ -97,37 +101,57 @@ export const SpiralsControls = ({
                 className={styles.closeButton}
                 aria-label="Close controls"
               >
-                ×
+                <span className={styles.closeIcon}>+</span>
               </button>
             </div>
             <div className={styles.headerButtons}>
               <button
                 type="button"
                 onClick={onRandomizeAllAction}
-                className={styles.button}
+                className={classNames(
+                  styles.button,
+                  styles.headerButton,
+                  styles.randomizeButton,
+                )}
                 aria-label="Randomize all spiral sets"
               >
-                🎲 Randomize
+                🎲 Random
               </button>
               <button
                 type="button"
                 onClick={onAddSpiralSetAction}
-                className={styles.button}
+                className={classNames(
+                  styles.button,
+                  styles.headerButton,
+                  styles.addButtonDesktop,
+                )}
                 aria-label="Add new spiral set"
               >
-                ➕ Add Set
+                + Add
+              </button>
+              <button
+                type="button"
+                onClick={() => saveSvg(".fractal", generateFileName())}
+                className={classNames(
+                  styles.button,
+                  styles.headerButton,
+                  styles.downloadButtonMobile,
+                )}
+                aria-label="Download SVG"
+              >
+                💾 Save
               </button>
             </div>
           </div>
 
-          <div className={styles.spiralSets}>
+          <ul className={styles.spiralSets}>
             {configs.map((config, index) => (
-              <div
+              <li
                 key={`spiral-set-${config.name}-${index}`}
                 className={styles.spiralSet}
                 style={
                   {
-                    "--spiral-color": `hsl(${config.hue}, ${config.saturation}%, ${config.lightness}%)`,
+                    "--spiral-color": `oklch(${config.lightness} ${config.chroma} ${config.hue})`,
                   } as React.CSSProperties
                 }
               >
@@ -144,173 +168,249 @@ export const SpiralsControls = ({
                   </button>
                 </div>
 
-                {/* Speed Control */}
-                <div className={styles.controlGroup}>
-                  <label htmlFor={`speed-${index}`}>Speed</label>
-                  <input
-                    id={`speed-${index}`}
-                    type="range"
-                    min="5000"
-                    max="60000"
-                    step="1000"
-                    value={config.animationSpeed}
-                    onChange={(e) =>
-                      onConfigChangeAction(
-                        {
-                          ...config,
-                          animationSpeed: Number(e.target.value),
-                        },
-                        index,
-                      )
-                    }
-                    className={styles.slider}
-                  />
-                  <span className={styles.value}>
-                    {Math.round(config.animationSpeed / 1000)}s
-                  </span>
-                </div>
+                <fieldset className={styles.controlsFieldset}>
+                  <legend className={styles.controlsLegend}>
+                    Spiral Configuration
+                  </legend>
 
-                {/* Scale Control */}
-                <div className={styles.controlGroup}>
-                  <label htmlFor={`size-${index}`}>Scale</label>
-                  <input
-                    id={`size-${index}`}
-                    type="range"
-                    min="1"
-                    max="3"
-                    step="0.1"
-                    value={config.animationScale}
-                    onChange={(e) =>
-                      onConfigChangeAction(
-                        {
-                          ...config,
-                          animationScale: Number(e.target.value),
-                        },
-                        index,
-                      )
-                    }
-                    className={styles.slider}
-                  />
-                  <span className={styles.value}>{config.animationScale}x</span>
-                </div>
-
-                {/* Circle Radius Control */}
-                <div className={styles.controlGroup}>
-                  <label htmlFor={`radius-${index}`}>Circle Size</label>
-                  <input
-                    id={`radius-${index}`}
-                    type="range"
-                    min="2"
-                    max="80"
-                    step="2"
-                    value={config.circleRadius}
-                    onChange={(e) =>
-                      onConfigChangeAction(
-                        {
-                          ...config,
-                          circleRadius: Number(e.target.value),
-                        },
-                        index,
-                      )
-                    }
-                    className={styles.slider}
-                  />
-                  <span className={styles.value}>{config.circleRadius}px</span>
-                </div>
-
-                {/* Style Control */}
-                <div className={styles.controlGroup}>
-                  <label htmlFor={`style-${index}`}>Style</label>
-                  <select
-                    id={`style-${index}`}
-                    value={config.fill ? "filled" : "outline"}
-                    onChange={(e) => {
-                      const isFilled = e.target.value === "filled";
-                      onConfigChangeAction(
-                        {
-                          ...config,
-                          fill: isFilled,
-                          strokeWidth: isFilled ? 0 : config.strokeWidth || 2,
-                        },
-                        index,
-                      );
-                    }}
-                    className={styles.select}
-                  >
-                    <option value="filled">Filled</option>
-                    <option value="outline">Outline</option>
-                  </select>
-                </div>
-
-                {/* Stroke Width Control (only when outline) */}
-                {!config.fill && (
+                  {/* Speed Control */}
                   <div className={styles.controlGroup}>
-                    <label htmlFor={`stroke-${index}`}>Stroke Width</label>
+                    <label htmlFor={`speed-${index}`}>Speed</label>
                     <input
-                      id={`stroke-${index}`}
+                      id={`speed-${index}`}
                       type="range"
-                      min="0.5"
-                      max="8"
-                      step="0.5"
-                      value={config.strokeWidth}
+                      min="5000"
+                      max="60000"
+                      step="1000"
+                      value={config.animationSpeed}
                       onChange={(e) =>
                         onConfigChangeAction(
                           {
                             ...config,
-                            strokeWidth: Number(e.target.value),
+                            animationSpeed: Number(e.target.value),
                           },
                           index,
                         )
                       }
                       className={styles.slider}
                     />
-                    <span className={styles.value}>{config.strokeWidth}</span>
+                    <span className={styles.value}>
+                      {Math.round(config.animationSpeed / 1000)}s
+                    </span>
                   </div>
-                )}
 
-                {/* Color Controls */}
-                <div className={styles.colorControls}>
+                  {/* Scale Control */}
                   <div className={styles.controlGroup}>
-                    <label htmlFor={`color-${index}`}>Color</label>
+                    <label htmlFor={`size-${index}`}>Scale</label>
                     <input
-                      id={`color-${index}`}
-                      type="color"
-                      value={hslToHex(
-                        config.hue,
-                        config.saturation,
-                        config.lightness,
-                      )}
-                      onChange={(e) => {
-                        const { h, s, l } = hexToHsl(e.target.value);
+                      id={`size-${index}`}
+                      type="range"
+                      min="0.5"
+                      max="5"
+                      step="0.1"
+                      value={config.animationScale}
+                      onChange={(e) =>
                         onConfigChangeAction(
                           {
                             ...config,
-                            hue: h,
-                            saturation: s,
-                            lightness: l,
+                            animationScale: Number(e.target.value),
+                          },
+                          index,
+                        )
+                      }
+                      className={styles.slider}
+                    />
+                    <span className={styles.value}>
+                      {config.animationScale}x
+                    </span>
+                  </div>
+
+                  {/* Circle Radius Control */}
+                  <div className={styles.controlGroup}>
+                    <label htmlFor={`radius-${index}`}>Circle Size</label>
+                    <input
+                      id={`radius-${index}`}
+                      type="range"
+                      min="2"
+                      max="80"
+                      step="2"
+                      value={config.circleRadius}
+                      onChange={(e) =>
+                        onConfigChangeAction(
+                          {
+                            ...config,
+                            circleRadius: Number(e.target.value),
+                          },
+                          index,
+                        )
+                      }
+                      className={styles.slider}
+                    />
+                    <span className={styles.value}>
+                      {config.circleRadius}px
+                    </span>
+                  </div>
+
+                  {/* Style Control */}
+                  <div className={styles.controlGroup}>
+                    <label htmlFor={`style-${index}`}>Style</label>
+                    <select
+                      id={`style-${index}`}
+                      value={config.fill ? "filled" : "outline"}
+                      onChange={(e) => {
+                        const isFilled = e.target.value === "filled";
+                        onConfigChangeAction(
+                          {
+                            ...config,
+                            fill: isFilled,
+                            strokeWidth: isFilled ? 0 : config.strokeWidth || 2,
                           },
                           index,
                         );
                       }}
-                      className={styles.colorPicker}
-                    />
-                    <span className={styles.value}>
-                      HSL({config.hue}, {config.saturation}%, {config.lightness}
-                      %)
-                    </span>
+                      className={styles.select}
+                    >
+                      <option value="filled">Filled</option>
+                      <option value="outline">Outline</option>
+                    </select>
                   </div>
-                </div>
-              </div>
+
+                  {/* Shape Control */}
+                  <div className={styles.controlGroup}>
+                    <label htmlFor={`shape-${index}`}>Shape</label>
+                    <select
+                      id={`shape-${index}`}
+                      value={config.shape}
+                      onChange={(e) => {
+                        onConfigChangeAction(
+                          {
+                            ...config,
+                            shape: e.target.value as
+                              | "circle"
+                              | "square"
+                              | "triangle"
+                              | "polygon",
+                          },
+                          index,
+                        );
+                      }}
+                      className={styles.select}
+                    >
+                      <option value="circle">Circle</option>
+                      <option value="square">Square</option>
+                      <option value="triangle">Triangle</option>
+                      <option value="polygon">Polygon</option>
+                    </select>
+                  </div>
+
+                  {/* Polygon Sides Control (only when polygon is selected) */}
+                  {config.shape === "polygon" && (
+                    <div className={styles.controlGroup}>
+                      <label htmlFor={`sides-${index}`}>Polygon Sides</label>
+                      <input
+                        id={`sides-${index}`}
+                        type="range"
+                        min="3"
+                        max="12"
+                        step="1"
+                        value={config.polygonSides}
+                        onChange={(e) =>
+                          onConfigChangeAction(
+                            {
+                              ...config,
+                              polygonSides: Number(e.target.value),
+                            },
+                            index,
+                          )
+                        }
+                        className={styles.slider}
+                      />
+                      <span className={styles.value}>
+                        {config.polygonSides} sides
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Stroke Width Control (only when outline) */}
+                  {!config.fill && (
+                    <div className={styles.controlGroup}>
+                      <label htmlFor={`stroke-${index}`}>Stroke Width</label>
+                      <input
+                        id={`stroke-${index}`}
+                        type="range"
+                        min="0.5"
+                        max="8"
+                        step="0.5"
+                        value={config.strokeWidth}
+                        onChange={(e) =>
+                          onConfigChangeAction(
+                            {
+                              ...config,
+                              strokeWidth: Number(e.target.value),
+                            },
+                            index,
+                          )
+                        }
+                        className={styles.slider}
+                      />
+                      <span className={styles.value}>{config.strokeWidth}</span>
+                    </div>
+                  )}
+
+                  {/* Color Controls */}
+                  <div className={styles.colorControls}>
+                    <div className={styles.controlGroup}>
+                      <label htmlFor={`color-${index}`}>Color</label>
+                      <input
+                        id={`color-${index}`}
+                        type="color"
+                        value={oklchToHex(
+                          config.lightness,
+                          config.chroma,
+                          config.hue,
+                        )}
+                        onChange={(e) => {
+                          const { l, c, h } = hexToOklch(e.target.value);
+                          onConfigChangeAction(
+                            {
+                              ...config,
+                              lightness: l,
+                              chroma: c,
+                              hue: h,
+                            },
+                            index,
+                          );
+                        }}
+                        className={styles.colorPicker}
+                      />
+                      <span className={styles.value}>
+                        OKLCH({config.lightness.toFixed(2)},{" "}
+                        {config.chroma.toFixed(2)}, {config.hue.toFixed(0)})
+                      </span>
+                    </div>
+                  </div>
+                </fieldset>
+              </li>
             ))}
-          </div>
+          </ul>
+
+          {/* Floating Add Button */}
+          <button
+            type="button"
+            onClick={onAddSpiralSetAction}
+            className={styles.floatingAddButton}
+            aria-label="Add new spiral set"
+          >
+            +
+          </button>
         </div>
 
-        {/* Fixed Download Button */}
+        {/* Fixed Download Button - Desktop Only */}
         <div className={styles.downloadSection}>
           <button
             type="button"
             onClick={() => saveSvg(".fractal", generateFileName())}
-            className={styles.downloadButton}
+            className={classNames(styles.button, styles.downloadButton)}
             aria-label="Download SVG"
           >
             💾 Download

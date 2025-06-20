@@ -6,6 +6,7 @@
       "**/*.tsx",
       "**/*.mts",
       "**/*.cts",
+      "**/*.css",
       "!**/*.json",
       "!**/*.md",
       "!**/.eslintrc",
@@ -75,6 +76,11 @@
       "attributePosition": "auto",
       "indentStyle": "space",
       "indentWidth": 2
+    }
+  },
+  "css": {
+    "parser": {
+      "cssModules": true
     }
   }
 }

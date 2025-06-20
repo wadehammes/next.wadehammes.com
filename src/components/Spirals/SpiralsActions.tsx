@@ -2,26 +2,24 @@ import { Button } from "src/components/Button/Button.component";
 import { ButtonVariants } from "src/components/Button/Button.interfaces";
 import { ButtonGroup } from "src/components/Button/ButtonGroup.component";
 import type { SpiralsConfig } from "src/components/Spirals/Spirals.utils";
-import { Themes, usePreferredTheme } from "src/hooks/usePreferredTheme";
 import DownloadIcon from "src/styles/icons/download.svg";
 import Gamepad from "src/styles/icons/gamepad.svg";
-import Moon from "src/styles/icons/moon.svg";
-import Sun from "src/styles/icons/sun.svg";
+import RefreshIcon from "src/styles/icons/refresh.svg";
 import { saveSvg } from "src/utils/helpers";
 
 interface SpiralsActionsProps {
   onTogglePlayground?: () => void;
   isPlaygroundOpen?: boolean;
   spiralConfigs?: SpiralsConfig[];
+  onRandomizeAllAction?: () => void;
 }
 
 export const SpiralsActions = ({
   onTogglePlayground,
   isPlaygroundOpen = false,
   spiralConfigs = [],
+  onRandomizeAllAction,
 }: SpiralsActionsProps) => {
-  const { currentTheme, updateTheme } = usePreferredTheme();
-
   // Hide the actions when the panel is open
   if (isPlaygroundOpen) {
     return null;
@@ -49,14 +47,6 @@ export const SpiralsActions = ({
       <Button
         variant={ButtonVariants.Text}
         hasTooltip
-        ariaLabel="Download SVG"
-        handleClick={() => saveSvg(".fractal", generateFileName())}
-      >
-        <DownloadIcon />
-      </Button>
-      <Button
-        variant={ButtonVariants.Text}
-        hasTooltip
         ariaLabel="Controls"
         handleClick={onTogglePlayground}
       >
@@ -65,15 +55,18 @@ export const SpiralsActions = ({
       <Button
         variant={ButtonVariants.Text}
         hasTooltip
-        ariaLabel={currentTheme === Themes.Light ? "Dark mode" : "Light mode"}
-        className="theme"
-        handleClick={() =>
-          updateTheme(
-            currentTheme === Themes.Light ? Themes.Dark : Themes.Light,
-          )
-        }
+        ariaLabel="New Spirals"
+        handleClick={onRandomizeAllAction}
       >
-        {currentTheme === Themes.Light ? <Moon /> : <Sun />}
+        <RefreshIcon />
+      </Button>
+      <Button
+        variant={ButtonVariants.Text}
+        hasTooltip
+        ariaLabel="Download SVG"
+        handleClick={() => saveSvg(".fractal", generateFileName())}
+      >
+        <DownloadIcon />
       </Button>
     </ButtonGroup>
   );
