@@ -15,14 +15,12 @@ import {
 } from "src/components/Spirals/Spirals.utils";
 import { isBrowser } from "src/helpers/helpers";
 
-// State interface
 interface SpiralsState {
   configs: SpiralsConfig[];
   isPlaygroundOpen: boolean;
   clientReady: boolean;
 }
 
-// Action types
 type SpiralsAction =
   | { type: "UPDATE_CONFIG"; payload: { config: SpiralsConfig; index: number } }
   | { type: "ADD_SPIRAL_SET" }
@@ -33,14 +31,12 @@ type SpiralsAction =
   | { type: "INITIALIZE_RANDOM" }
   | { type: "ADJUST_FOR_THEME" };
 
-// Initial state
 const initialState: SpiralsState = {
   configs: [DEFAULT_CONFIG],
   isPlaygroundOpen: false,
   clientReady: false,
 };
 
-// Reducer function
 const spiralsReducer = (
   state: SpiralsState,
   action: SpiralsAction,
@@ -70,15 +66,14 @@ const spiralsReducer = (
           configs: state.configs.filter((config) => config.id !== id),
         };
       }
-      return state; // Don't remove if only one config left
+      return state;
     }
 
     case "RANDOMIZE_ALL": {
-      // Performance optimization: Fewer spiral sets when pulse is enabled
-      const hasPulseEnabled = Math.random() > 0.2; // 80% chance (increased from 60%)
-      const maxSpiralCount = hasPulseEnabled ? 4 : 5; // Allow more sets when pulsing (increased from 3)
+      const hasPulseEnabled = Math.random() > 0.2;
+      const maxSpiralCount = hasPulseEnabled ? 4 : 5;
       const newSpiralCount =
-        Math.floor(Math.random() * (maxSpiralCount - 1)) + 2; // 2-maxSpiralCount
+        Math.floor(Math.random() * (maxSpiralCount - 1)) + 2;
       const newConfigs = Array.from({ length: newSpiralCount }, () =>
         generateRandomConfig(),
       );
@@ -103,11 +98,10 @@ const spiralsReducer = (
     }
 
     case "INITIALIZE_RANDOM": {
-      // Performance optimization: Fewer spiral sets when pulse is enabled
-      const hasPulseEnabled = Math.random() > 0.2; // 80% chance (increased from 60%)
-      const maxSpiralCount = hasPulseEnabled ? 4 : 5; // Allow more sets when pulsing (increased from 3)
+      const hasPulseEnabled = Math.random() > 0.2;
+      const maxSpiralCount = hasPulseEnabled ? 4 : 5;
       const initialSpiralCount =
-        Math.floor(Math.random() * (maxSpiralCount - 1)) + 2; // 2-maxSpiralCount
+        Math.floor(Math.random() * (maxSpiralCount - 1)) + 2;
       const initialConfigs = Array.from({ length: initialSpiralCount }, () =>
         generateRandomConfig(),
       );
@@ -129,16 +123,13 @@ const spiralsReducer = (
   }
 };
 
-// Context interface
 interface SpiralsContextType {
   state: SpiralsState;
   dispatch: React.Dispatch<SpiralsAction>;
 }
 
-// Create context
 const SpiralsContext = createContext<SpiralsContextType | undefined>(undefined);
 
-// Provider component
 interface SpiralsProviderProps {
   children: ReactNode;
 }
@@ -146,14 +137,12 @@ interface SpiralsProviderProps {
 export const SpiralsProvider = ({ children }: SpiralsProviderProps) => {
   const [state, dispatch] = useReducer(spiralsReducer, initialState);
 
-  // Initialize with random spiral sets on client only
   useEffect(() => {
     if (isBrowser()) {
       dispatch({ type: "INITIALIZE_RANDOM" });
     }
   }, []);
 
-  // Adjust spiral configs when theme changes
   useEffect(() => {
     if (isBrowser() && state.configs.length > 0) {
       dispatch({ type: "ADJUST_FOR_THEME" });
@@ -167,7 +156,6 @@ export const SpiralsProvider = ({ children }: SpiralsProviderProps) => {
   );
 };
 
-// Custom hook to use the context
 export const useSpirals = () => {
   const context = useContext(SpiralsContext);
   if (context === undefined) {
