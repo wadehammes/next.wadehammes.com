@@ -74,7 +74,11 @@ const spiralsReducer = (
     }
 
     case "RANDOMIZE_ALL": {
-      const newSpiralCount = Math.floor(Math.random() * 4) + 2; // 2-5 sets
+      // Performance optimization: Fewer spiral sets when pulse is enabled
+      const hasPulseEnabled = Math.random() > 0.2; // 80% chance (increased from 60%)
+      const maxSpiralCount = hasPulseEnabled ? 4 : 5; // Allow more sets when pulsing (increased from 3)
+      const newSpiralCount =
+        Math.floor(Math.random() * (maxSpiralCount - 1)) + 2; // 2-maxSpiralCount
       const newConfigs = Array.from({ length: newSpiralCount }, () =>
         generateRandomConfig(),
       );
@@ -99,7 +103,11 @@ const spiralsReducer = (
     }
 
     case "INITIALIZE_RANDOM": {
-      const initialSpiralCount = Math.floor(Math.random() * 4) + 2; // 2-5 sets
+      // Performance optimization: Fewer spiral sets when pulse is enabled
+      const hasPulseEnabled = Math.random() > 0.2; // 80% chance (increased from 60%)
+      const maxSpiralCount = hasPulseEnabled ? 4 : 5; // Allow more sets when pulsing (increased from 3)
+      const initialSpiralCount =
+        Math.floor(Math.random() * (maxSpiralCount - 1)) + 2; // 2-maxSpiralCount
       const initialConfigs = Array.from({ length: initialSpiralCount }, () =>
         generateRandomConfig(),
       );

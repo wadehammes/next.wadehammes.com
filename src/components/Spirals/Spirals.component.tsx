@@ -113,6 +113,10 @@ interface SpiralProps {
   shape?: "circle" | "square" | "triangle" | "polygon";
   polygonSides?: number;
   spiralSpacing?: number;
+  pulseEnabled?: boolean;
+  pulseSpeed?: number;
+  pulseIntensity?: number;
+  pulseOffset?: number;
 }
 
 // Memoize the Spiral component to prevent unnecessary re-renders
@@ -133,8 +137,13 @@ export const Spiral = memo(
     shape = "circle",
     polygonSides = 6,
     spiralSpacing = 0.75,
+    pulseEnabled = false,
+    pulseSpeed = 1.5,
+    pulseIntensity = 0.2,
+    pulseOffset = 0,
   }: SpiralProps) => {
     const shapeRefs = useRef<(SVGElement | null)[]>([]);
+    const pulseAnimationRefs = useRef<(GSAPAnimation | null)[]>([]);
     const prevConfig = useRef({
       count,
       offset,
@@ -233,6 +242,88 @@ export const Spiral = memo(
       rad,
     ]);
 
+    // Pulse animation effect - Performance optimized
+    useEffect(() => {
+      if (!pulseEnabled) {
+        // Kill all pulse animations if disabled
+        pulseAnimationRefs.current.forEach((anim) => {
+          if (anim) {
+            anim.kill();
+          }
+        });
+        pulseAnimationRefs.current = [];
+        return;
+      }
+
+      // Performance optimization: Only animate a subset of shapes
+      const maxPulsingShapes = Math.min(count, 10); // Increased from 6 to 10 for more visible effect
+      const pulseInterval = Math.max(1, Math.floor(count / maxPulsingShapes));
+
+      // Throttle animations to prevent overwhelming the GPU
+      const animationDelay = 0.05; // Reduced from 0.1 to 0.05 for more immediate effect
+      let animationCount = 0;
+
+      // Performance monitoring: Track active animations
+      const activeAnimations: GSAPAnimation[] = [];
+
+      // Create pulse animations for selected shapes only
+      shapeRefs.current.forEach((shapeRef, i) => {
+        if (shapeRef && i < count && i % pulseInterval === 0) {
+          // Kill existing pulse animation for this shape
+          if (pulseAnimationRefs.current[i]) {
+            pulseAnimationRefs.current[i]?.kill();
+          }
+
+          // Calculate phase offset for this shape to create wave effect
+          const shapePhaseOffset = (i / count) * Math.PI * 2 + pulseOffset;
+
+          // Create pulse animation with optimized settings and throttling
+          const pulseAnim = gsap.to(shapeRef, {
+            scale: 1 + pulseIntensity,
+            duration: pulseSpeed,
+            ease: "power1.out", // Changed from power2.inOut for more dramatic effect
+            repeat: -1,
+            yoyo: true,
+            delay:
+              (shapePhaseOffset / (Math.PI * 2)) * pulseSpeed +
+              animationCount * animationDelay,
+            overwrite: "auto",
+            // Performance optimizations
+            force3D: true, // Force hardware acceleration
+            transformOrigin: "center center", // Optimize transform origin
+          });
+
+          pulseAnimationRefs.current[i] = pulseAnim;
+          activeAnimations.push(pulseAnim);
+          animationCount++;
+        } else if (pulseAnimationRefs.current[i]) {
+          // Kill animations for shapes that shouldn't pulse
+          pulseAnimationRefs.current[i]?.kill();
+          pulseAnimationRefs.current[i] = null;
+        }
+      });
+
+      // Performance logging (only in development)
+      if (
+        process.env.NODE_ENV === "development" &&
+        activeAnimations.length > 0
+      ) {
+        console.log(
+          `🎯 Pulse Performance: ${activeAnimations.length} active animations for ${count} shapes`,
+        );
+      }
+
+      // Cleanup function
+      return () => {
+        pulseAnimationRefs.current.forEach((anim) => {
+          if (anim) {
+            anim.kill();
+          }
+        });
+        pulseAnimationRefs.current = [];
+      };
+    }, [pulseEnabled, pulseSpeed, pulseIntensity, pulseOffset, count]);
+
     // Memoize the shape elements to prevent unnecessary re-renders
     const shapeElements = useMemo(() => {
       return shapePositions.map(({ x, y, radius, opacity }, i) => (
@@ -290,6 +381,10 @@ export const Spirals = memo(({ config }: SpiralsProps) => {
           shape={config.shape}
           polygonSides={config.polygonSides}
           spiralSpacing={config.spiralSpacing}
+          pulseEnabled={config.pulseEnabled}
+          pulseSpeed={config.pulseSpeed}
+          pulseIntensity={config.pulseIntensity}
+          pulseOffset={config.pulseOffset}
           key={`spiral-${spiralsOffset}-${i}`}
         />
       );
@@ -308,6 +403,10 @@ export const Spirals = memo(({ config }: SpiralsProps) => {
     config.shape,
     config.polygonSides,
     config.spiralSpacing,
+    config.pulseEnabled,
+    config.pulseSpeed,
+    config.pulseIntensity,
+    config.pulseOffset,
   ]);
 
   // Initialize rotation animation (only once)
