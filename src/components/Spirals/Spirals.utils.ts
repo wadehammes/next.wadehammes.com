@@ -181,6 +181,12 @@ export interface SpiralsConfig {
   animationSpeed: number;
   animationScale: number;
 
+  // Pulse Effects
+  pulseEnabled: boolean;
+  pulseSpeed: number; // Duration in seconds
+  pulseIntensity: number; // Scale factor (0.1-0.5)
+  pulseOffset: number; // Phase offset in radians (0-2π)
+
   // Spiral Structure
   spiralCount: number;
   circleCount: number;
@@ -211,6 +217,12 @@ export const DEFAULT_CONFIG: SpiralsConfig = {
   // Animation
   animationSpeed: 30000,
   animationScale: 1,
+
+  // Pulse Effects
+  pulseEnabled: true,
+  pulseSpeed: 0.8,
+  pulseIntensity: 0.25,
+  pulseOffset: 0,
 
   // Spiral Structure
   spiralCount: 6,
@@ -313,11 +325,23 @@ export const generateRandomConfig = (): SpiralsConfig => {
 
   const adjustedLightness = adjustLightnessForTheme(baseLightness);
 
+  // Performance optimization: Reduce complexity when pulse is enabled
+  const pulseEnabled = Math.random() > 0.2; // 80% chance of being enabled (increased from 60%)
+  const maxSpiralCount = pulseEnabled ? 6 : 10; // Fewer spirals when pulsing
+  const maxCircleCount = pulseEnabled ? 20 : 30; // Fewer shapes when pulsing
+
   const config: SpiralsConfig = {
     animationSpeed: Math.floor(Math.random() * 20000) + 15000, // 15-35 seconds
     animationScale: Math.random() * 0.9 + 1.1, // 1.1-2.0
-    spiralCount: Math.floor(Math.random() * 8) + 3, // 3-10
-    circleCount: Math.floor(Math.random() * 26) + 5, // 5-30
+
+    // Pulse Effects - More noticeable and frequent
+    pulseEnabled,
+    pulseSpeed: Math.random() * 1.5 + 0.5, // 0.5-2.0 seconds (faster for more impact)
+    pulseIntensity: Math.random() * 0.35 + 0.1, // 0.1-0.45 scale factor (increased intensity)
+    pulseOffset: Math.random() * Math.PI * 2, // 0-2π radians
+
+    spiralCount: Math.floor(Math.random() * (maxSpiralCount - 2)) + 3, // 3-maxSpiralCount
+    circleCount: Math.floor(Math.random() * (maxCircleCount - 4)) + 5, // 5-maxCircleCount
     circleOffset: Math.floor(Math.random() * 80) + 30, // 30-110
     elementSize: Math.floor(Math.random() * 78) + 2, // 2-80 (tiny dots to large circles)
     fill: Math.random() > 0.5,
