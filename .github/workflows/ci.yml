@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup PNPM
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           package_json_file: package.json
       - name: Read Node.js version from .tool-versions

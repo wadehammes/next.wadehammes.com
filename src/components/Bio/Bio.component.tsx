@@ -13,7 +13,7 @@ export const Bio = () => (
       <a href="https://www.provisioner.agency" target="_blank" rel="noreferrer">
         Provisioner
       </a>
-      , a full-service creative agency helping to grow brands. Here's my{" "}
+      , a full-service creative agency helping grow brands. Here's my{" "}
       <a href="mailto:w@dehammes.com" target="_blank" rel="noreferrer">
         email
       </a>
