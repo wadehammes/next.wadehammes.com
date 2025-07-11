@@ -1,0 +1,69 @@
+/* Critical CSS for above-the-fold content */
+:root {
+  --colors-gray: #7e888c;
+  --colors-black: #393d3f;
+  --colors-white: #fdfdff;
+  --colors-silver: #c6c5b9;
+  --colors-teal: #62929e;
+  --colors-blue: #546a7b;
+  --colors-green: hsla(145, 55%, 58%, 1);
+  --colors-red: hsla(350, 95%, 58%, 0.83);
+  --colors-purple: hsla(229, 94%, 76%, 0.915);
+  --colors-trueBlack: #171717;
+  --colors-alphaBlack: rgba(0, 0, 0, 0.25);
+  --sizing-mobilePadding: 2em;
+  --sizing-desktopPadding: 5em;
+  --color-text: var(--colors-white);
+  --color-bg: var(--colors-trueBlack);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-text: var(--colors-trueBlack);
+    --color-bg: var(--colors-white);
+  }
+}
+
+[data-theme="light"],
+.theme-light {
+  --color-text: var(--colors-trueBlack);
+  --color-bg: var(--colors-white);
+}
+
+[data-theme="dark"],
+.theme-dark {
+  --color-text: var(--colors-white);
+  --color-bg: var(--colors-trueBlack);
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  transition: background 0.2s ease-in-out;
+  height: 100dvh;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  html,
+  body {
+    font-size: 16px;
+  }
+}
+
+body {
+  line-height: 1;
+  font-family: var(--font-mono);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

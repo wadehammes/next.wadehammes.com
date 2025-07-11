@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   // Performance optimizations
   experimental: {
     optimizePackageImports: ["culori", "gsap", "polished"],
+    optimizeCss: true,
+    optimizeServerReact: true,
   },
 
   // Turbopack configuration (stable)
