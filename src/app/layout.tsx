@@ -1,6 +1,7 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Space_Mono } from "next/font/google";
 import { SpiralsProvider } from "src/contexts/SpiralsContext";
+import "src/styles/critical.css";
 import "src/styles/global.css";
 
 const spaceMono = Space_Mono({
@@ -8,6 +9,7 @@ const spaceMono = Space_Mono({
   weight: ["400", "700"],
   display: "swap",
   variable: "--font-mono",
+  preload: true,
 });
 
 export default function RootLayout({
