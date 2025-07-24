@@ -20,12 +20,6 @@ export enum LinkTarget {
   Self = "_self",
 }
 
-export interface AnimatedWrapperProps {
-  wait?: number;
-  animate?: boolean;
-  index?: number;
-}
-
 export enum ContentStyleTypes {
   None = "None",
   Card = "Card",
