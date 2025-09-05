@@ -212,12 +212,20 @@
   scroll-behavior: smooth;
   width: 100%;
   min-height: 0; /* Allow flex item to shrink */
-  height: calc(100dvh - 84px - 40px); /* Subtract header (~84px) and download button (~40px) heights */
+  height: calc(
+    100dvh -
+    84px -
+    40px
+  ); /* Subtract header (~84px) and download button (~40px) heights */
 
   @media (min-width: 768px) {
     gap: 1.5rem;
     padding: 1.5rem;
-    height: calc(100dvh - 108px - 44px); /* Desktop header (~108px) and download button (~44px) */
+    height: calc(
+      100dvh -
+      108px -
+      44px
+    ); /* Desktop header (~108px) and download button (~44px) */
   }
 }
 
