@@ -3,7 +3,7 @@ import { HomePage } from "src/components/HomePage/HomePage.component";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Wade Hammes - Software Engineer / Fun Guy",
+    title: "Wade Hammes",
     metadataBase: new URL("https://wadehammes.com/"),
     creator: "Wade Hammes",
     publisher: "Wade Hammes",
