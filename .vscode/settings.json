@@ -3,6 +3,8 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "cSpell.words": [
     "gsap",
+    "prismic",
+    "prismicio",
     "VIEWBOX",
     "yoyo"
   ],
