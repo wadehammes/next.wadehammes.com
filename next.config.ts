@@ -143,6 +143,31 @@ const nextConfig: NextConfig = {
           ...securityHeaders,
         ],
       },
+      // Slice Machine embeds this route in an iframe. `/:path*` also matches
+      // `/slice-simulator`; Next merges rules and the LAST duplicate header key wins,
+      // so these blocks must come AFTER `/:path*` or strict CSP overrides them.
+      {
+        source: "/slice-simulator",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+          },
+          ...sliceSimulatorSecurityHeaders,
+        ],
+      },
+      {
+        source: "/slice-simulator/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+          },
+          ...sliceSimulatorSecurityHeaders,
+        ],
+      },
       // After `/:path*`: override Cache-Control only (Prismic sets cookies + redirect; must not cache).
       {
         source: "/api/preview",
@@ -200,7 +225,8 @@ const scriptSrc = [
   "https:",
 ];
 
-const ContentSecurityPolicy = `
+function buildContentSecurityPolicy(frameAncestors: string) {
+  return `
   default-src 'self';
   script-src ${scriptSrc.join(" ")};
   child-src *.youtube.com *.google.com *.twitter.com vercel.live;
@@ -211,48 +237,62 @@ const ContentSecurityPolicy = `
   font-src 'self' fonts.gstatic.com;
   worker-src 'self' *.vercel.app;
   manifest-src 'self' *.vercel.app;
-  frame-ancestors 'none';
+  frame-ancestors ${frameAncestors};
   base-uri 'self';
   form-action 'self';
 `;
+}
 
-const securityHeaders = [
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-  {
-    key: "Content-Security-Policy",
-    value: ContentSecurityPolicy.replace(/\n/g, ""),
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
-  {
-    key: "Referrer-Policy",
-    value: "strict-origin-when-cross-origin",
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-  {
-    key: "X-Frame-Options",
-    value: "DENY",
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-  {
-    key: "X-Content-Type-Options",
-    value: "nosniff",
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control
-  {
-    key: "X-DNS-Prefetch-Control",
-    value: "on",
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-  {
-    key: "Strict-Transport-Security",
-    value: "max-age=31536000; includeSubDomains; preload",
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
-  {
-    key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
-  },
-];
+/** Origins allowed to iframe `/slice-simulator` (Slice Machine + Prismic). */
+const sliceSimulatorFrameAncestors = [
+  "'self'",
+  "http://localhost:4431",
+  "http://127.0.0.1:4431",
+  "http://localhost:9999",
+  "http://127.0.0.1:9999",
+  "https://*.prismic.io",
+].join(" ");
+
+function createSecurityHeaders(frameAncestors: string) {
+  const headers: { key: string; value: string }[] = [
+    {
+      key: "Content-Security-Policy",
+      value: buildContentSecurityPolicy(frameAncestors).replace(/\n/g, ""),
+    },
+    {
+      key: "Referrer-Policy",
+      value: "strict-origin-when-cross-origin",
+    },
+  ];
+  // Framing policy is `frame-ancestors` in CSP only. We intentionally omit
+  // `X-Frame-Options`: Next merges header rules by key, and a later rule cannot
+  // "unset" it for `/slice-simulator`, which blocked Slice Machine if DENY stuck.
+  headers.push(
+    {
+      key: "X-Content-Type-Options",
+      value: "nosniff",
+    },
+    {
+      key: "X-DNS-Prefetch-Control",
+      value: "on",
+    },
+    {
+      key: "Strict-Transport-Security",
+      value: "max-age=31536000; includeSubDomains; preload",
+    },
+    {
+      key: "Permissions-Policy",
+      value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+    },
+  );
+  return headers;
+}
+
+const securityHeaders = createSecurityHeaders("'none'");
+
+const sliceSimulatorSecurityHeaders = createSecurityHeaders(
+  sliceSimulatorFrameAncestors,
+);
 
 // Bundle analyzer (only in development)
 if (process.env.ANALYZE === "true") {
