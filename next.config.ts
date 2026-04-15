@@ -225,11 +225,16 @@ const scriptSrc = [
   "https:",
 ];
 
+/** Embedded iframes (Prismic preview / toolbar, YouTube, etc.). */
+const frameSrc =
+  "*.youtube.com *.google.com *.twitter.com vercel.live *.prismic.io";
+
 function buildContentSecurityPolicy(frameAncestors: string) {
   return `
   default-src 'self';
   script-src ${scriptSrc.join(" ")};
-  child-src *.youtube.com *.google.com *.twitter.com vercel.live;
+  frame-src ${frameSrc};
+  child-src ${frameSrc};
   style-src 'self' 'unsafe-inline' *.googleapis.com;
   img-src * blob: data:;
   media-src 'none';
