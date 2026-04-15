@@ -1,0 +1,66 @@
+/* Global: must load from root layout so preview-only UI always has rules (Turbopack + RSC). */
+.prismic-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2147483647;
+  display: flex;
+  justify-content: center;
+  padding: max(0.65rem, env(safe-area-inset-top)) 1rem 0;
+  pointer-events: none;
+}
+
+.prismic-preview__pill {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0.5rem 0.45rem 1rem;
+  border-radius: 9999px;
+  background: var(--colors-teal);
+  color: var(--colors-white);
+  border: 1px solid rgba(253, 253, 255, 0.35);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.22);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  max-width: calc(100vw - 2rem);
+}
+
+.prismic-preview__label {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prismic-preview__close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.prismic-preview__close:hover {
+  background: var(--colors-alphaBlack);
+}
+
+.prismic-preview__close:focus-visible {
+  outline: 2px solid var(--colors-white);
+  outline-offset: 2px;
+}

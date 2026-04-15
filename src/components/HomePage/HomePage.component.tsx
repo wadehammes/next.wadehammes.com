@@ -9,6 +9,7 @@ import SpiralsActions from "src/components/Spirals/SpiralsActions";
 import { SpiralsControls } from "src/components/Spirals/SpiralsControls.component";
 import { useSpirals } from "src/contexts/SpiralsContext";
 import { isBrowser } from "src/helpers/helpers";
+import type { ParsedPage } from "src/prismic/parsePage";
 
 // Lazy load the SpiralsSVG component for better performance
 const SpiralsSVG = lazy(
@@ -35,7 +36,12 @@ const SpiralsSVGFallback = () => (
   </div>
 );
 
-export const HomePage = () => {
+export interface HomePageProps {
+  /** Home `page` document from Prismic (optional when CMS is unset or missing). */
+  homePage?: ParsedPage | null;
+}
+
+export const HomePage = ({ homePage }: HomePageProps) => {
   const { state, dispatch } = useSpirals();
   const { configs, isPlaygroundOpen, clientReady } = state;
 
@@ -72,7 +78,7 @@ export const HomePage = () => {
     <>
       <PageContainer ref={ref}>
         <footer className="footer">
-          <Bio />
+          <Bio copy={homePage?.copy ?? null} />
           <div className="footerActions">
             <SpiralsActions
               onTogglePlayground={actionHandlers.togglePlayground}

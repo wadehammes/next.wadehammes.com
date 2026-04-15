@@ -5,10 +5,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
 
-  // Performance optimizations
+  // Performance optimizations (`optimizeCss` omitted — Critters drops CSS for preview-only selectors.)
   experimental: {
     optimizePackageImports: ["culori", "gsap", "polished"],
-    optimizeCss: true,
     optimizeServerReact: true,
   },
 
@@ -142,6 +141,25 @@ const nextConfig: NextConfig = {
               "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
           },
           ...securityHeaders,
+        ],
+      },
+      // After `/:path*`: override Cache-Control only (Prismic sets cookies + redirect; must not cache).
+      {
+        source: "/api/preview",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-store, max-age=0, must-revalidate",
+          },
+        ],
+      },
+      {
+        source: "/api/exit-preview",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-store, max-age=0, must-revalidate",
+          },
         ],
       },
       {

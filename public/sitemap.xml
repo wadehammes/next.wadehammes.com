@@ -2,22 +2,30 @@
 
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://wadehammes.com/robots.txt</loc>
-    <lastmod>2025-07-11T08:25:52.047Z</lastmod>
+    <loc>https://wadehammes.com/</loc>
+    <lastmod>2026-04-15T01:57:34.461Z</lastmod>
   </url>
   <url>
-    <loc>https://wadehammes.com/manifest.webmanifest</loc>
-    <lastmod>2025-07-11T08:25:52.047Z</lastmod>
+    <loc>https://wadehammes.com/_global-error</loc>
+    <lastmod>2026-04-15T01:57:34.461Z</lastmod>
+  </url>
+  <url>
+    <loc>https://wadehammes.com/_not-found</loc>
+    <lastmod>2026-04-15T01:57:34.461Z</lastmod>
   </url>
   <url>
     <loc>https://wadehammes.com/favicon.ico</loc>
-    <lastmod>2025-07-11T08:25:52.047Z</lastmod>
+    <lastmod>2026-04-15T01:57:34.461Z</lastmod>
   </url>
   <url>
-    <loc>https://wadehammes.com/</loc>
-    <lastmod>2025-07-11T08:25:52.047Z</lastmod>
+    <loc>https://wadehammes.com/manifest.webmanifest</loc>
+    <lastmod>2026-04-15T01:57:34.461Z</lastmod>
   </url>
   <url>
     <loc>https://wadehammes.com/opengraph-image.png</loc>
-    <lastmod>2025-07-11T08:25:52.047Z</lastmod>
+    <lastmod>2026-04-15T01:57:34.461Z</lastmod>
+  </url>
+  <url>
+    <loc>https://wadehammes.com/robots.txt</loc>
+    <lastmod>2026-04-15T01:57:34.461Z</lastmod>
   </url></urlset>

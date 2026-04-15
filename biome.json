@@ -10,7 +10,8 @@
       "!**/*.json",
       "!**/*.md",
       "!**/.eslintrc",
-      "!**/.vscode"
+      "!**/.vscode",
+      "!**/prismic.generated.ts"
     ],
     "enabled": true,
     "formatWithErrors": true,
@@ -62,7 +63,12 @@
         "noArrayIndexKey": "off"
       }
     },
-    "includes": ["**", "!**/next.config.js", "!**/.vscode"]
+    "includes": [
+      "**",
+      "!**/next.config.js",
+      "!**/.vscode",
+      "!**/prismic.generated.ts"
+    ]
   },
   "javascript": {
     "formatter": {
