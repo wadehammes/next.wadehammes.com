@@ -27,13 +27,14 @@ export default async function RootLayout({
 }) {
   const prismicRepo = getPrismicRepositoryName();
   const isPreview = (await draftMode()).isEnabled;
+  const gaId = process.env.GOOGLE_ANALYTICS_KEY;
 
   const body = (
     <>
       <SpiralsProvider>
         <main>{children}</main>
       </SpiralsProvider>
-      <GoogleAnalytics gaId={process.env.GOOGLE_ANALYTICS_KEY as string} />
+      {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
     </>
   );
 
