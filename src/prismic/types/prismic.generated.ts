@@ -163,14 +163,14 @@ declare module "@prismicio/client" {
 	
 	namespace Content {
 		export type {
-			HomeDocument,
-			HomeDocumentData,
-			HomeDocumentDataSlicesSlice,
 			AllDocumentTypes,
 			HeroSectionSlice,
+			HeroSectionSliceDefault, 
 			HeroSectionSliceDefaultPrimary,
 			HeroSectionSliceVariation,
-			HeroSectionSliceDefault
+			HomeDocument,
+			HomeDocumentData,
+			HomeDocumentDataSlicesSlice
 		}
 	}
 }
