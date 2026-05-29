@@ -2,7 +2,7 @@
   "name": "next-wade-hammes",
   "version": "0.0.1",
   "private": true,
-  "packageManager": "pnpm@10.33.3",
+  "packageManager": "pnpm@11.4.0",
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' next dev -p 4431",
     "build": "next build && make sitemap",
@@ -36,21 +36,21 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.15",
+    "@biomejs/biome": "^2.4.16",
     "@jest/types": "^30.4.1",
     "@next/bundle-analyzer": "^16.2.6",
     "@prismicio/types": "^0.2.9",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.7.0",
-    "@types/react": "^19.2.14",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
     "csstype": "^3.2.3",
     "dotenv": "^17.4.2",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "prismic-ts-codegen": "^0.1.30",
-    "ts-jest": "^29.4.9",
+    "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   }
