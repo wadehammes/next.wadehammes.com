@@ -5,7 +5,10 @@ import Crown from "src/styles/icons/crown.svg";
 
 export const Header = () => {
   return (
-    <header className={classNames("container", styles.headerContainer)}>
+    <header
+      className={classNames("container", styles.headerContainer)}
+      data-testid="rhHeader"
+    >
       <div className={styles.logo}>
         <Link href="/">
           <span className="crownWrapper">

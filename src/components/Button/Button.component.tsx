@@ -17,6 +17,7 @@ export const Button = ({
   <button
     type="button"
     tabIndex={0}
+    data-testid="rhButton"
     className={classNames(
       styles.button,
       {

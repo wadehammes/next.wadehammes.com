@@ -59,7 +59,7 @@ Full architecture, config fields, geometry, GSAP behavior, and extension guide: 
 | [SpiralsSVG.component.tsx](../../src/components/Spirals/SpiralsSVG.component.tsx) | Root `<svg class="fractal">`; batches config rendering. |
 | [Spirals.component.tsx](../../src/components/Spirals/Spirals.component.tsx) | One set per config: rotation, scale, inner `Spiral` arms. |
 | [SpiralsControls.component.tsx](../../src/components/Spirals/SpiralsControls.component.tsx) | Slide-out playground with sliders and color picker. |
-| [SpiralsActions.component.tsx](../../src/components/Spirals/SpiralsActions.component.tsx) | Footer icon buttons (playground, randomize, download). |
+| [SpiralsActions.component.tsx](../../src/components/Spirals/SpiralsActions.component.tsx) | Footer icon buttons (playground, randomize, download, theme). Custom span tooltips (not `Button` `hasTooltip`). |
 | [Spirals.utils.ts](../../src/components/Spirals/Spirals.utils.ts) | `SpiralsConfig`, random generation, OKLCH helpers, shape math. |
 
 State is centralized in [SpiralsContext.tsx](../../src/contexts/SpiralsContext.tsx)—prefer dispatching actions over prop drilling through deep trees.
@@ -68,11 +68,13 @@ State is centralized in [SpiralsContext.tsx](../../src/contexts/SpiralsContext.t
 
 | Component | Role |
 |-----------|------|
-| [Header.component.tsx](../../src/components/Header/Header.component.tsx) | Site header. |
-| [PageContainer/Page.component.tsx](../../src/components/PageContainer/Page.component.tsx) | Page wrapper with ref forwarding for intersection observer. |
-| [PreviewModeOverlay.component.tsx](../../src/components/PreviewModeOverlay/PreviewModeOverlay.component.tsx) | Banner when Prismic preview is active. |
+| [Bio.component.tsx](../../src/components/Bio/Bio.component.tsx) | Prismic rich text in the footer (`rhBio`). |
+| [Header.component.tsx](../../src/components/Header/Header.component.tsx) | Site header (logo link). |
+| [HomePage.component.tsx](../../src/components/HomePage/HomePage.component.tsx) | Client home shell: Bio, Spirals actions/controls, lazy SVG (`rhHomePage` on `PageContainer`). |
+| [PageContainer/Page.component.tsx](../../src/components/PageContainer/Page.component.tsx) | Page wrapper with ref forwarding for intersection observer; optional `testId` prop. |
+| [PreviewModeOverlay.component.tsx](../../src/components/PreviewModeOverlay/PreviewModeOverlay.component.tsx) | Banner when Prismic preview is active (`rhPreviewModeOverlay`). |
 | [SVG.component.tsx](../../src/components/SVG/SVG.component.tsx) | Inline SVG icon helper. |
-| [Button.component.tsx](../../src/components/Button/Button.component.tsx) | Shared button with variants and tooltips. |
+| [Button.component.tsx](../../src/components/Button/Button.component.tsx) | Shared button with variants; optional pseudo-element tooltips via `hasTooltip`. |
 
 ## Links
 

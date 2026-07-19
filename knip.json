@@ -5,6 +5,8 @@
     "jest.config.ts",
     "test-utils.tsx",
     ".jest/**/*.ts",
+    "__mocks__/**/*.ts",
+    "__mocks__/**/*.tsx",
     "src/tests/**/*.ts",
     "src/tests/**/*.tsx",
     "src/**/*.spec.ts",
@@ -28,7 +30,8 @@
     "src/prismic/constants.ts": ["exports"],
     "src/prismic/getPage.ts": ["exports"],
     "src/components/Button/Button.interfaces.ts": ["types"],
-    "src/tests/**": ["files"]
+    "src/tests/**": ["files"],
+    "src/tests/mocks/**": ["exports"]
   },
   "rules": {
     "duplicates": "off"

@@ -38,7 +38,11 @@ export const PreviewModeOverlay = ({
   }, [exit]);
 
   return (
-    <section className="prismic-preview" aria-label="Prismic preview mode">
+    <section
+      className="prismic-preview"
+      aria-label="Prismic preview mode"
+      data-testid="rhPreviewModeOverlay"
+    >
       <div className="prismic-preview__pill">
         <span className="prismic-preview__label">Preview mode</span>
         <button

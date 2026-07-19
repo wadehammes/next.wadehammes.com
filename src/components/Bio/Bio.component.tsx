@@ -14,7 +14,7 @@ export const Bio = ({ copy }: BioProps) => {
   }
 
   return (
-    <div className={styles.bioRichText}>
+    <div className={styles.bioRichText} data-testid="rhBio">
       <PrismicRichText field={copy} />
     </div>
   );

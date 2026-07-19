@@ -1,5 +1,4 @@
-"use client";
-
+import classNames from "classnames";
 import type { ReactNode } from "react";
 import { Button } from "src/components/Button/Button.component";
 import { ButtonVariants } from "src/components/Button/Button.interfaces";
@@ -7,6 +6,7 @@ import { ButtonGroup } from "src/components/Button/ButtonGroup.component";
 import type { SpiralsConfig } from "src/components/Spirals/Spirals.utils";
 import { generateSpiralFileName } from "src/components/Spirals/Spirals.utils";
 import styles from "src/components/Spirals/SpiralsActions.module.css";
+import { useMediaQuery } from "src/hooks/useMediaQuery";
 import { Themes, usePreferredTheme } from "src/hooks/usePreferredTheme";
 import DownloadIcon from "src/styles/icons/download.svg";
 import Gamepad from "src/styles/icons/gamepad.svg";
@@ -14,6 +14,8 @@ import Moon from "src/styles/icons/moon.svg";
 import RefreshIcon from "src/styles/icons/refresh.svg";
 import Sun from "src/styles/icons/sun.svg";
 import { saveSvg } from "src/utils/helpers";
+
+const CONTROLS_LAYOUT_QUERY = "(min-width: 72rem)";
 
 interface SpiralsActionsProps {
   onTogglePlayground?: () => void;
@@ -26,12 +28,14 @@ interface SpiralsActionButtonProps {
   ariaLabel: string;
   handleClick?: () => void;
   children: ReactNode;
+  verticalLayout: boolean;
 }
 
 const SpiralsActionButton = ({
   ariaLabel,
   handleClick,
   children,
+  verticalLayout,
 }: SpiralsActionButtonProps) => (
   <div className={styles.actionItem}>
     <Button
@@ -41,7 +45,14 @@ const SpiralsActionButton = ({
     >
       {children}
     </Button>
-    <span className={styles.tooltip}>{ariaLabel}</span>
+    <span
+      className={classNames(
+        styles.tooltip,
+        verticalLayout ? styles.tooltipLeft : styles.tooltipAbove,
+      )}
+    >
+      {ariaLabel}
+    </span>
   </div>
 );
 
@@ -52,6 +63,7 @@ export const SpiralsActions = ({
   onRandomizeAllAction,
 }: SpiralsActionsProps) => {
   const { currentTheme, updateTheme } = usePreferredTheme();
+  const verticalLayout = useMediaQuery(CONTROLS_LAYOUT_QUERY);
 
   if (isPlaygroundOpen) {
     return null;
@@ -65,12 +77,14 @@ export const SpiralsActions = ({
         <SpiralsActionButton
           ariaLabel="Controls"
           handleClick={onTogglePlayground}
+          verticalLayout={verticalLayout}
         >
           <Gamepad />
         </SpiralsActionButton>
         <SpiralsActionButton
           ariaLabel="New Spirals"
           handleClick={onRandomizeAllAction}
+          verticalLayout={verticalLayout}
         >
           <RefreshIcon />
         </SpiralsActionButton>
@@ -79,6 +93,7 @@ export const SpiralsActions = ({
           handleClick={() =>
             saveSvg(".fractal", generateSpiralFileName(spiralConfigs))
           }
+          verticalLayout={verticalLayout}
         >
           <DownloadIcon />
         </SpiralsActionButton>
@@ -89,6 +104,7 @@ export const SpiralsActions = ({
               currentTheme === Themes.Light ? Themes.Dark : Themes.Light,
             )
           }
+          verticalLayout={verticalLayout}
         >
           {currentTheme === Themes.Light ? <Moon /> : <Sun />}
         </SpiralsActionButton>

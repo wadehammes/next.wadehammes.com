@@ -33,40 +33,34 @@
   opacity: 1;
 }
 
-/* Horizontal layout: label above the button */
-@media screen and (width < 72rem) {
-  .tooltip {
-    bottom: calc(100% + 15px);
-    left: 50%;
-    transform: translateX(-50%);
+.tooltipAbove {
+  bottom: calc(100% + 15px);
+  left: 50%;
+  transform: translateX(-50%);
 
-    &::after {
-      border: 5px solid transparent;
-      border-top-color: var(--color-text);
-      content: "";
-      left: 50%;
-      position: absolute;
-      top: 100%;
-      transform: translateX(-50%);
-    }
+  &::after {
+    border: 5px solid transparent;
+    border-top-color: var(--color-text);
+    content: "";
+    left: 50%;
+    position: absolute;
+    top: 100%;
+    transform: translateX(-50%);
   }
 }
 
-/* Vertical layout: label to the left of the button */
-@media screen and (width >= 72rem) {
-  .tooltip {
-    top: 50%;
-    right: calc(100% + 15px);
-    transform: translateY(-50%);
+.tooltipLeft {
+  top: 50%;
+  right: calc(100% + 15px);
+  transform: translateY(-50%);
 
-    &::after {
-      border: 5px solid transparent;
-      border-left-color: var(--color-text);
-      content: "";
-      left: 100%;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+  &::after {
+    border: 5px solid transparent;
+    border-left-color: var(--color-text);
+    content: "";
+    left: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }

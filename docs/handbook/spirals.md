@@ -8,7 +8,7 @@ Read this chapter before changing geometry, animation, state, controls, or perfo
 
 - A full-viewport fixed SVG behind the page content (`z-index: 0`).
 - On first visit, a random set of 2–4 spiral **configs** is generated (see [Initialization](#initialization)).
-- Footer actions (gamepad, refresh, download) open the playground, randomize all sets, or export the SVG.
+- Footer actions (gamepad, refresh, download, theme) open the playground, randomize all sets, export the SVG, or toggle light/dark mode.
 - The **Spiral Controls** slide-out panel exposes per-set sliders and color pickers.
 - Each day the SVG remounts (`key={new Date().toDateString()}` in `HomePage`) so the background subtly changes over time.
 
@@ -38,7 +38,7 @@ flowchart TB
 |------|------|
 | [SpiralsContext.tsx](../../src/contexts/SpiralsContext.tsx) | Reducer state: `configs[]`, playground open, client ready. |
 | [HomePage.component.tsx](../../src/components/HomePage/HomePage.component.tsx) | Wires context → actions, controls, lazy SVG. |
-| [SpiralsActions.component.tsx](../../src/components/Spirals/SpiralsActions.component.tsx) | Footer icon buttons (playground, randomize, download). Hidden when panel is open. |
+| [SpiralsActions.component.tsx](../../src/components/Spirals/SpiralsActions.component.tsx) | Footer icon buttons (playground, randomize, download, theme). Hidden when panel is open. Labels use `<span>` tooltips positioned via [`useMediaQuery`](../../src/hooks/useMediaQuery.ts) at **`72rem`** (left on desktop, above on mobile)—same breakpoint as `.footer` row layout in [global.css](../../src/styles/global.css). |
 | [SpiralsControls.component.tsx](../../src/components/Spirals/SpiralsControls.component.tsx) | Slide-out playground UI with sliders and color picker. |
 | [SpiralsSVG.component.tsx](../../src/components/Spirals/SpiralsSVG.component.tsx) | Root `<svg class="fractal">`; batches config rendering. |
 | [Spirals.component.tsx](../../src/components/Spirals/Spirals.component.tsx) | One `<g>` per config: rotation + scale via GSAP, N inner spirals. |
@@ -203,7 +203,7 @@ Colors are stored and rendered in **OKLCH** for perceptually smooth gradients an
 - **`adjustLightnessForTheme(lightness)`** — In light mode, scales lightness down (`× 0.6`, clamped 0.2–0.6). Checks `document.body.dataset.theme`, `theme-light`/`theme-dark` classes, and `prefers-color-scheme`.
 - **`adjustConfigsForTheme(configs)`** — Maps all configs with adjusted lightness and **new UUIDs** (forces React remount of affected sets).
 
-Theme preference UI lives in [usePreferredTheme.ts](../../src/hooks/usePreferredTheme.ts) (`data-theme` on `body`). Spirals does not subscribe to the hook directly—it reacts via `ADJUST_FOR_THEME` when config count changes and via live reads in `adjustLightnessForTheme` during random generation.
+Theme preference UI lives in [usePreferredTheme.ts](../../src/hooks/usePreferredTheme.ts) (`data-theme` on `body`). The toggle button is in **SpiralsActions** (moon/sun icon)—not the header. Spirals does not subscribe to the hook directly—it reacts via `ADJUST_FOR_THEME` when config count changes and via live reads in `adjustLightnessForTheme` during random generation.
 
 ## Playground UI
 

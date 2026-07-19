@@ -29,7 +29,7 @@ Quick lookup—one line per file:
 |------|----------------|
 | [architecture.md](architecture.md) | Tech stack, directory map, `src/app`, data flow, key config. Start here. |
 | [conventions.md](conventions.md) | TypeScript, Biome, CSS Modules, Jest/page objects, test IDs (`rh*`), accessibility. |
-| [prismic.md](prismic.md) | Generated types, client, getters, parsers, preview, Slice Simulator. |
+| [prismic.md](prismic.md) | Generated types, client, getters, parsers, preview, Slice Simulator, **testing**. |
 | [components.md](components.md) | Component folder layout, exports, dynamic imports. |
 | [spirals.md](spirals.md) | Generative SVG background: config model, geometry, GSAP, playground, export. |
 | [patterns.md](patterns.md) | Server components, theme, metadata, lazy loading. |
