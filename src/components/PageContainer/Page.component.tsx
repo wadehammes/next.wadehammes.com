@@ -5,8 +5,11 @@ import type { PropsWithChildrenOnly } from "src/@types/react";
 import { Header } from "src/components/Header/Header.component";
 
 const PageContainer = forwardRef(
-  ({ children }: PropsWithChildrenOnly, ref: Ref<HTMLDivElement>) => (
-    <div className="grid" ref={ref}>
+  (
+    { children, testId }: PropsWithChildrenOnly & { testId?: string },
+    ref: Ref<HTMLDivElement>,
+  ) => (
+    <div className="grid" data-testid={testId} ref={ref}>
       <Header />
       <div className="content">{children}</div>
     </div>

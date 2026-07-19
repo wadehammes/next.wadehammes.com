@@ -65,6 +65,7 @@ export const SpiralsControls = ({
   return (
     <div
       className={styles.controlsContainer}
+      data-testid="rhSpiralsControls"
       onClick={handleContainerClick}
       onKeyDown={handleKeyDown}
       role="dialog"

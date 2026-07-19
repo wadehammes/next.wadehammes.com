@@ -76,7 +76,7 @@ export const HomePage = ({ homePage }: HomePageProps) => {
 
   return (
     <>
-      <PageContainer ref={ref}>
+      <PageContainer ref={ref} testId="rhHomePage">
         <footer className="footer">
           <Bio copy={homePage?.copy ?? null} />
           <div className="footerActions">

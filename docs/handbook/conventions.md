@@ -28,7 +28,7 @@ If you are unsure, copy a nearby file that already does the right thing and run 
 
 ### Large components and state
 
-- **Extract state into a custom hook or context when a component grows.** Spirals state lives in [SpiralsContext.tsx](../../src/contexts/SpiralsContext.tsx); theme preference in [usePreferredTheme.ts](../../src/hooks/usePreferredTheme.ts). Follow the same pattern for new interactive features.
+- **Extract state into a custom hook or context when a component grows.** Spirals state lives in [SpiralsContext.tsx](../../src/contexts/SpiralsContext.tsx); theme preference in [usePreferredTheme.ts](../../src/hooks/usePreferredTheme.ts); responsive layout queries in [useMediaQuery.ts](../../src/hooks/useMediaQuery.ts). Follow the same pattern for new interactive features.
 
 ## Formatting and linting
 
@@ -85,18 +85,22 @@ Jest with **jsdom** ([`jest.config.ts`](../../jest.config.ts), [`.jest/setupTest
 | [`test-utils.tsx`](../../test-utils.tsx) (repo root) | Custom `render` / `renderHook` with app providers; re-exports Testing Library and `userEvent`. |
 | [`src/tests/basePageObject.po.ts`](../../src/tests/basePageObject.po.ts) | Base class for page objects (`debug`, `raiseOnFind`). |
 | [`src/tests/factories/BaseFactory.ts`](../../src/tests/factories/BaseFactory.ts) | Abstract Faker factory; subclass per type under `src/tests/factories/`. |
-| [`src/tests/mocks/`](../../src/tests/mocks/) | Shared Jest doubles (`IntersectionObserver`, `matchMedia`, `next/navigation`, SVG imports, API responses). |
+| [`src/tests/mocks/`](../../src/tests/mocks/) | Shared Jest doubles (`IntersectionObserver`, `matchMedia`, `next/navigation`, SVG imports, `@prismicio/react`, API responses). |
 
 Global setup: [.jest/setupTests.ts](../../.jest/setupTests.ts) loads `@testing-library/jest-dom/jest-globals` (required when specs import `expect` from `@jest/globals`), mocks Next.js router/navigation, and installs browser API mocks. TypeScript matcher types come from [`src/@types/jest-dom.d.ts`](../../src/@types/jest-dom.d.ts).
 
 ### Test data and factories
 
-- Factories use **@faker-js/faker** and extend [`BaseFactory`](../../src/tests/factories/BaseFactory.ts). Each factory exposes `.build(attributes?)` / `.buildList(n, attributes?)`—pass partial `attributes` to pin specific fields in a test while every other field gets a fresh fake value. Example: [`SpiralsConfig.factory.ts`](../../src/tests/factories/SpiralsConfig.factory.ts).
+- Factories use **@faker-js/faker** and extend [`BaseFactory`](../../src/tests/factories/BaseFactory.ts). Each factory exposes `.build(attributes?)` / `.buildList(n, attributes?)`—pass partial `attributes` to pin specific fields in a test while every other field gets a fresh fake value.
+- **Examples**: [`SpiralsConfig.factory.ts`](../../src/tests/factories/SpiralsConfig.factory.ts) (Spirals), [`RichText.factory.ts`](../../src/tests/factories/RichText.factory.ts) and [`HomeDocument.factory.ts`](../../src/tests/factories/HomeDocument.factory.ts) (Prismic). `HomeDocumentFactory.buildParsedPage()` returns a `ParsedPage` via [`parseHomeDocument`](../../src/prismic/parsePage.ts)—use it for component specs that take parsed CMS data.
 - **Adding a factory**: build the `instance` with `satisfies <TargetType>`. Use `faker.helpers.arrayElement(...)` for symbol-union fields—pin via `attributes` in specs that depend on a specific value rather than relying on the random pick.
 
 ### Mocking modules
 
-When a component imports a utility that must be stubbed in tests, wire the mock in the **page object** (not the spec) and export typed helpers for the spec to assert against. For shared stubs used across multiple POs, add a manual mock under **`src/<module>/__mocks__/`** and call **`jest.mock("src/<module>")`** without a factory—see [`src/utils/__mocks__/helpers.ts`](../../src/utils/__mocks__/helpers.ts) for `saveSvg`.
+When a component imports a utility that must be stubbed in tests, wire the mock in the **page object** (not the spec) and export typed helpers for the spec to assert against.
+
+- **App utilities**: manual mock under **`src/<module>/__mocks__/`** and **`jest.mock("src/<module>")`** without a factory—see [`src/utils/__mocks__/helpers.ts`](../../src/utils/__mocks__/helpers.ts) for `saveSvg`.
+- **External npm packages**: manual mock under **[`__mocks__/`](../../__mocks__/)** (for node modules) or shared helpers under **`src/tests/mocks/`**, then opt-in with **`jest.mock("package-name")`** in the PO—see [`__mocks__/@prismicio/react.tsx`](../../__mocks__/@prismicio/react.tsx) and [`prismicReactMock.tsx`](../../src/tests/mocks/prismicReactMock.tsx). Do **not** use `jest.requireActual("@prismicio/react")` in mock factories (ESM; Jest cannot load it). Avoid unit-testing [`getPage.ts`](../../src/prismic/getPage.ts) directly—it pulls `@prismicio/next` and Next server modules; cover getters indirectly via parser specs + `HomePage` integration specs.
 
 ### Jest and SVG imports
 
@@ -106,9 +110,23 @@ SVG icons under [`src/styles/icons/`](../../src/styles/icons/) are imported as R
 
 If a spec asserts on DOM produced by **`next/script`** (e.g. JSON-LD), **mock** `next/script` so output is synchronous under JSDOM. Add a shared mock under **`src/tests/mocks/`** and wire **`jest.mock("next/script", …)`** in the spec.
 
+### Jest and `@prismicio/react`
+
+Specs that render **`PrismicRichText`** should opt in from the page object:
+
+```tsx
+jest.mock("@prismicio/react");
+```
+
+Assert on user-visible copy in the spec; the manual mock renders `field` text nodes synchronously.
+
+### Responsive layout in tests
+
+[`mockMatchMediaQueries()`](../../src/tests/mocks/mockMatchMedia.ts) overrides the global `matchMedia` stub for a single spec (e.g. desktop footer layout at `(min-width: 72rem)`). Reset in `beforeEach` when tests depend on a specific breakpoint.
+
 ## Test IDs
 
-- Root element for tested components: **`data-testid="rh<ComponentName>"`** (e.g. `rhSpiralsActions`). **PascalCase** matches the component name—see [components.md](components.md).
+- Root element for tested components: **`data-testid="rh<ComponentName>"`** (e.g. `rhSpiralsActions`, `rhBio`, `rhHomePage`). **PascalCase** matches the component name—see [components.md](components.md).
 - Page object **`testId`** must match the component root.
 - Avoid generic roots like `data-testid="wrapper"` for primary surfaces.
 

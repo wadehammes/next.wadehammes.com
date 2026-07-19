@@ -30,6 +30,7 @@ There is no barrel `index.ts`. Import the module you need directly. Browser guar
 | File | Purpose |
 |------|---------|
 | [usePreferredTheme.ts](../../src/hooks/usePreferredTheme.ts) | Light/dark theme persistence and system preference sync. |
+| [useMediaQuery.ts](../../src/hooks/useMediaQuery.ts) | Subscribes to `window.matchMedia`; used for responsive footer control layout. |
 
 Add new hooks here when logic is shared across components; colocate under a component folder when used by one feature only.
 
@@ -62,6 +63,7 @@ Ambient type declarations:
 | [svg.d.ts](../../src/@types/svg.d.ts) | SVGR module declarations. |
 | [react.d.ts](../../src/@types/react.d.ts) | React augmentations. |
 | [culori.d.ts](../../src/@types/culori.d.ts) | culori typings. |
+| [jest-dom.d.ts](../../src/@types/jest-dom.d.ts) | `@testing-library/jest-dom` matchers for `@jest/globals`. |
 
 ## `src/components/`
 
@@ -80,7 +82,13 @@ Shared test infrastructure (see [conventions.md](conventions.md#testing)):
 | [test-utils.tsx](../../test-utils.tsx) (repo root) | Custom `render` / `renderHook` with app providers; re-exports `userEvent`. |
 | [src/tests/basePageObject.po.ts](../../src/tests/basePageObject.po.ts) | Base class for page objects. |
 | [src/tests/factories/BaseFactory.ts](../../src/tests/factories/BaseFactory.ts) | Abstract Faker factory base class. |
-| [src/tests/mocks/](../../src/tests/mocks/) | Jest doubles for router, navigation, observers, SVG, API. |
+| [src/tests/factories/SpiralsConfig.factory.ts](../../src/tests/factories/SpiralsConfig.factory.ts) | Spirals config test data. |
+| [src/tests/factories/HomeDocument.factory.ts](../../src/tests/factories/HomeDocument.factory.ts) | Prismic `HomeDocument` + `buildParsedPage()`. |
+| [src/tests/factories/RichText.factory.ts](../../src/tests/factories/RichText.factory.ts) | Prismic rich text blocks for Bio/parser specs. |
+| [src/tests/mocks/prismicReactMock.tsx](../../src/tests/mocks/prismicReactMock.tsx) | `PrismicRichText` stand-in implementation for JSDOM. |
+| [__mocks__/@prismicio/react.tsx](../../__mocks__/@prismicio/react.tsx) | Jest manual mock wired via `jest.mock("@prismicio/react")`. |
+| [src/tests/mocks/mockMatchMedia.ts](../../src/tests/mocks/mockMatchMedia.ts) | Global `matchMedia` stub; `mockMatchMediaQueries()` and `mockMatchMediaWithChangeListener()` for hook specs. |
+| [src/tests/mocks/](../../src/tests/mocks/) | Other Jest doubles (router, navigation, observers, SVG, API). |
 | [.jest/setupTests.ts](../../.jest/setupTests.ts) | Jest setup (`@testing-library/jest-dom`, global mocks). |
 | [.jest/setEnvVars.ts](../../.jest/setEnvVars.ts) | Test env defaults. |
 

@@ -118,3 +118,13 @@ When adding slices, wire them in the simulator client components and ensure mode
 [src/app/page.tsx](../../src/app/page.tsx) `generateMetadata` reads `metaTitle` and `metaDescription` from `ParsedPage`, falling back to hard-coded site defaults when Prismic is unset or fields are empty.
 
 When you add SEO fields or new document types, extend parsers and metadata generation together.
+
+## Testing
+
+| Layer | Specs | Notes |
+|-------|-------|-------|
+| Parsers | [`parsePage.spec.ts`](../../src/prismic/parsePage.spec.ts), [`parseSeoMeta.spec.ts`](../../src/prismic/parseSeoMeta.spec.ts), [`parseImage.spec.ts`](../../src/prismic/parseImage.spec.ts) | Unit-test normalization logic with factories—no Prismic client. |
+| Components | [`Bio.spec.tsx`](../../src/components/Bio/Bio.spec.tsx), [`HomePage.spec.tsx`](../../src/components/HomePage/HomePage.spec.tsx) | POs call `jest.mock("@prismicio/react")`; `HomePage` uses [`HomeDocument.factory`](../../src/tests/factories/HomeDocument.factory.ts) `buildParsedPage()`. |
+| Getters | *(no direct spec)* | [`getPage.ts`](../../src/prismic/getPage.ts) is thin glue; importing it in Jest pulls `@prismicio/next` server code. Rely on parser + `HomePage` specs instead. |
+
+When adding a new slice field or document type: regenerate types, extend the parser, add/adjust a factory, and add parser or component specs before shipping.

@@ -10,7 +10,7 @@ Use this page to choose **which markdown file to read first**. It mirrors the fu
 |------------------|------------|
 | Stack, folders, App Router layout, Prismic → page render flow | [architecture.md](architecture.md) |
 | TypeScript / React style, Biome, CSS Modules, tests, a11y | [conventions.md](conventions.md) |
-| Prismic types/codegen, client, getters, parsers, Rich Text, preview | [prismic.md](prismic.md) |
+| Prismic types/codegen, client, getters, parsers, Rich Text, preview, **Prismic tests** | [prismic.md](prismic.md) |
 | Component folder layout, exports, dynamic imports | [components.md](components.md) |
 | Server components, ISR/revalidate, metadata, theme | [patterns.md](patterns.md) |
 | Spirals background, config model, GSAP animation, playground, export, performance | [spirals.md](spirals.md) |
@@ -18,7 +18,7 @@ Use this page to choose **which markdown file to read first**. It mirrors the fu
 | CI, `pnpm` scripts, `next.config` (env, headers, CSP), preview APIs | [platform.md](platform.md) |
 | Google Analytics | [integrations.md](integrations.md) |
 | Sitemaps, `public/` XML output, robots | [distribution.md](distribution.md) |
-| Component or API tests, page objects, factories, mocks | [conventions.md](conventions.md#testing) and [source-layout.md](source-layout.md) |
+| Component or API tests, page objects, factories, mocks (`prismicReactMock`, `mockMatchMediaQueries`) | [conventions.md](conventions.md#testing) and [source-layout.md](source-layout.md) |
 | `src/interfaces`, `src/helpers`, `src/utils`, `src/hooks`, `src/styles` | [source-layout.md](source-layout.md) |
 | Slice Simulator, Prismic Slice Machine embed | [prismic.md](prismic.md#slice-simulator) |
 

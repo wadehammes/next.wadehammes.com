@@ -51,6 +51,7 @@ See [prismic.md](prismic.md).
 ### `src/hooks/`
 
 - **[usePreferredTheme.ts](../../src/hooks/usePreferredTheme.ts)** — Light/dark theme via `document.body.dataset.theme` and localStorage.
+- **[useMediaQuery.ts](../../src/hooks/useMediaQuery.ts)** — `matchMedia` subscription for responsive UI (footer control tooltips at `72rem`).
 
 ### `src/helpers/` and `src/utils/`
 

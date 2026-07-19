@@ -33,8 +33,13 @@ At a glance: `SpiralsProvider` in layout → `HomePage` lazy-loads `SpiralsSVG` 
 - Persists choice in `localStorage` under `preferred-theme`.
 - Sets `document.body.dataset.theme` to `dark`, `light`, or clears for system default.
 - Listens to `prefers-color-scheme` when no stored preference.
+- **UI**: toggle in [SpiralsActions.component.tsx](../../src/components/Spirals/SpiralsActions.component.tsx) (fourth footer button).
 
 Global CSS should use `[data-theme="dark"]` / `[data-theme="light"]` selectors or CSS variables that respond to theme.
+
+## Responsive footer layout
+
+The home footer (`.footer` in [global.css](../../src/styles/global.css)) and Spirals action button group share a **`72rem`** breakpoint: column + bottom-aligned on wide viewports, row/stacked on narrow. Spirals action **tooltip placement** follows the same breakpoint via [`useMediaQuery`](../../src/hooks/useMediaQuery.ts)—do not drift these values independently.
 
 ## Client-only guards
 

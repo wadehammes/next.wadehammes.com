@@ -4,6 +4,7 @@ import {
   mockedSaveSvg,
   SpiralsActionsPageObject,
 } from "src/components/Spirals/SpiralsActions.po";
+import { mockMatchMediaQueries } from "src/tests/mocks/mockMatchMedia";
 import { screen, userEvent } from "test-utils";
 
 let po: SpiralsActionsPageObject;
@@ -11,6 +12,7 @@ let po: SpiralsActionsPageObject;
 describe("SpiralsActions", () => {
   beforeEach(() => {
     po = new SpiralsActionsPageObject();
+    mockMatchMediaQueries({});
   });
 
   it("renders the footer spiral actions", () => {
@@ -65,5 +67,24 @@ describe("SpiralsActions", () => {
       ".fractal",
       generateSpiralFileName(spiralConfigs),
     );
+  });
+
+  it("toggles the preferred theme", async () => {
+    po.renderSpiralsActions();
+
+    await userEvent.click(screen.getByRole("button", { name: "Light mode" }));
+
+    expect(window.localStorage.getItem("preferred-theme")).toBe("light");
+    expect(document.body.dataset.theme).toBe("light");
+    expect(
+      screen.getByRole("button", { name: "Dark mode" }),
+    ).toBeInTheDocument();
+  });
+
+  it("uses left-positioned tooltips when the desktop layout is active", () => {
+    mockMatchMediaQueries({ "(min-width: 72rem)": true });
+    po.renderSpiralsActions();
+
+    expect(screen.getByText("Controls").className).toContain("tooltipLeft");
   });
 });
