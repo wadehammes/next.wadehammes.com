@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
 
   // Performance optimizations (`optimizeCss` omitted — Critters drops CSS for preview-only selectors.)
   experimental: {
-    optimizePackageImports: ["culori", "gsap", "polished"],
+    optimizePackageImports: ["culori", "gsap"],
     optimizeServerReact: true,
   },
 

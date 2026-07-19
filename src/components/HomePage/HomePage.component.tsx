@@ -5,7 +5,7 @@ import { useInView } from "react-intersection-observer";
 import { Bio } from "src/components/Bio/Bio.component";
 import PageContainer from "src/components/PageContainer/Page.component";
 import type { SpiralsConfig } from "src/components/Spirals/Spirals.utils";
-import SpiralsActions from "src/components/Spirals/SpiralsActions";
+import { SpiralsActions } from "src/components/Spirals/SpiralsActions.component";
 import { SpiralsControls } from "src/components/Spirals/SpiralsControls.component";
 import { useSpirals } from "src/contexts/SpiralsContext";
 import { isBrowser } from "src/helpers/helpers";
@@ -102,7 +102,7 @@ export const HomePage = ({ homePage }: HomePageProps) => {
       />
 
       {/* Render the SVG only when ready and in view with lazy loading */}
-      {clientReady && (
+      {clientReady ? (
         <Suspense fallback={<SpiralsSVGFallback />}>
           <SpiralsSVG
             key={new Date().toDateString()}
@@ -110,7 +110,9 @@ export const HomePage = ({ homePage }: HomePageProps) => {
             configs={configs}
           />
         </Suspense>
-      )}
+      ) : null}
     </>
   );
 };
+
+export default HomePage;

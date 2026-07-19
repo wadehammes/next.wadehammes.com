@@ -1,0 +1,14 @@
+---
+description: Read and keep the next.wadehammes.com handbook in sync when doing substantive work
+alwaysApply: true
+---
+
+# next.wadehammes.com handbook
+
+Before **substantive** work—features, refactors, Prismic/CMS, Spirals, App Router or API routes, CI/env, analytics—read **`docs/handbook/README.md`** and the chapter that matches the task. Use **`docs/handbook/llms.md`** for a compact task→chapter map.
+
+Follow documented patterns in the handbook.
+
+**Keep docs accurate:** When a change would make the handbook wrong or incomplete (new flows, moved files, scaffold/convention changes, Prismic/parser patterns, Spirals behavior), update the relevant **`docs/handbook/*.md`** in the same PR when practical, or in a small follow-up right away.
+
+You may skip a full handbook pass for **narrow** edits (typos, single obvious lines, mechanical fixes) that do not change behavior or documented expectations.

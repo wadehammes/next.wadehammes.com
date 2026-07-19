@@ -23,7 +23,10 @@ interface ${COMPONENT_NAME}Props {
 
 export const ${COMPONENT_NAME} = ({ className }: ${COMPONENT_NAME}Props) => {
   return (
-    <div className={classNames(styles.${COMPONENT_NAME,}, className)}>
+    <div
+      className={classNames(styles.${COMPONENT_NAME,}, className)}
+      data-testid="rh${COMPONENT_NAME}"
+    >
       ${COMPONENT_NAME}
     </div>
   );
@@ -39,14 +42,10 @@ cat > "$COMPONENT_DIR/$COMPONENT_NAME.module.css" << EOF
 }
 EOF
 
-# Create index file
-cat > "$COMPONENT_DIR/index.ts" << EOF
-export { ${COMPONENT_NAME} } from "./$COMPONENT_NAME.component";
-export { default } from "./$COMPONENT_NAME.component";
-EOF
-
 echo "Component $COMPONENT_NAME created successfully!"
 echo "Files created:"
 echo "  - $COMPONENT_DIR/$COMPONENT_NAME.component.tsx"
 echo "  - $COMPONENT_DIR/$COMPONENT_NAME.module.css"
-echo "  - $COMPONENT_DIR/index.ts"
+echo ""
+echo "Import from the component file directly (no index.ts barrel)."
+echo "Add <Name>.po.tsx and <Name>.spec.tsx when you add tests — see docs/handbook/conventions.md."

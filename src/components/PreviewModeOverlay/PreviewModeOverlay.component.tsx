@@ -54,3 +54,5 @@ export const PreviewModeOverlay = ({
     </section>
   );
 };
+
+export default PreviewModeOverlay;
