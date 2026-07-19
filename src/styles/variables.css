@@ -1,0 +1,43 @@
+:root {
+  --colors-gray: #7e888c;
+  --colors-black: #393d3f;
+  --colors-white: #fdfdff;
+  --colors-silver: #c6c5b9;
+  --colors-teal: #62929e;
+  --colors-blue: #546a7b;
+  --colors-green: hsl(145deg 55% 58% / 100%);
+  --colors-red: hsl(350deg 95% 58% / 83%);
+  --colors-purple: hsl(229deg 94% 76% / 91.5%);
+  --colors-trueBlack: #171717;
+  --colors-alphaBlack: rgb(0 0 0 / 25%);
+  --sizing-mobilePadding: 2em;
+  --sizing-desktopPadding: 5em;
+  --color-text: var(--colors-white);
+  --color-bg: var(--colors-trueBlack);
+
+  @media (prefers-color-scheme: light) {
+    --color-text: var(--colors-trueBlack);
+    --color-bg: var(--colors-white);
+  }
+
+  /* SpiralsControls specific variables */
+  --spirals-border-color: rgb(126 136 140 / 30%);
+  --spirals-border-color-hover: rgb(126 136 140 / 50%);
+  --spirals-bg-subtle: rgb(126 136 140 / 10%);
+  --spirals-bg-hover: rgb(126 136 140 / 20%);
+  --spirals-text-muted: rgb(126 136 140 / 80%);
+  --spirals-add-green: #34c759;
+  --spirals-add-green-bg: rgb(52 199 89 / 20%);
+  --spirals-add-green-border: rgb(52 199 89 / 30%);
+  --spirals-add-green-hover: rgb(52 199 89 / 30%);
+  --spirals-add-green-border-hover: rgb(52 199 89 / 50%);
+  --spirals-remove-red: #ff3b30;
+  --spirals-remove-red-bg: rgb(255 59 48 / 20%);
+  --spirals-remove-red-border: rgb(255 59 48 / 30%);
+  --spirals-remove-red-hover: rgb(255 59 48 / 30%);
+  --spirals-remove-red-border-hover: rgb(255 59 48 / 50%);
+  --spirals-shadow: 0 4px 12px rgb(0 0 0 / 20%);
+  --spirals-shadow-hover: 0 6px 16px rgb(0 0 0 / 30%);
+  --spirals-border-radius: 8px;
+  --spirals-border-radius-desktop: 6px;
+}

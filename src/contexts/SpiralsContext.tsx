@@ -37,7 +37,9 @@ const initialState: SpiralsState = {
   clientReady: false,
 };
 
-const spiralsReducer = (
+export const spiralsInitialState = initialState;
+
+export const spiralsReducer = (
   state: SpiralsState,
   action: SpiralsAction,
 ): SpiralsState => {

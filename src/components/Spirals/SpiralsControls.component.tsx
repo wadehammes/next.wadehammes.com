@@ -344,7 +344,7 @@ export const SpiralsControls = ({
                   </div>
 
                   {/* Polygon Sides Control (only when polygon is selected) */}
-                  {config.shape === "polygon" && (
+                  {config.shape === "polygon" ? (
                     <div className={styles.controlGroup}>
                       <label htmlFor={`sides-${index}`}>Polygon Sides</label>
                       <input
@@ -369,10 +369,9 @@ export const SpiralsControls = ({
                         {config.polygonSides} sides
                       </span>
                     </div>
-                  )}
+                  ) : null}
 
-                  {/* Stroke Width Control (only when outline) */}
-                  {!config.fill && (
+                  {!config.fill ? (
                     <div className={styles.controlGroup}>
                       <label htmlFor={`stroke-${index}`}>Stroke Width</label>
                       <input
@@ -395,7 +394,7 @@ export const SpiralsControls = ({
                       />
                       <span className={styles.value}>{config.strokeWidth}</span>
                     </div>
-                  )}
+                  ) : null}
 
                   {/* Color Controls */}
                   <div className={styles.colorControls}>

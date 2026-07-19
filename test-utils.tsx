@@ -1,36 +1,14 @@
-import { type RenderOptions, render } from "@testing-library/react";
+import { type RenderOptions, render, renderHook } from "@testing-library/react";
 import { RouterContext } from "next/dist/shared/lib/router-context.shared-runtime";
-import type { NextRouter } from "next/router";
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 import type { PropsWithChildrenOnly } from "src/@types/react";
-
-const mockRouter: NextRouter = {
-  basePath: "/",
-  pathname: "/",
-  route: "/",
-  query: {},
-  asPath: "/",
-  locale: "",
-  push: jest.fn(() => Promise.resolve(true)),
-  replace: jest.fn(() => Promise.resolve(true)),
-  reload: jest.fn(() => Promise.resolve(true)),
-  prefetch: jest.fn(() => Promise.resolve()),
-  back: jest.fn(() => Promise.resolve(true)),
-  beforePopState: jest.fn(() => Promise.resolve(true)),
-  isFallback: false,
-  isLocaleDomain: false,
-  isPreview: false,
-  isReady: false,
-  events: {
-    on: jest.fn(),
-    off: jest.fn(),
-    emit: jest.fn(),
-  },
-  forward: jest.fn(() => Promise.resolve(true)),
-};
+import { SpiralsProvider } from "src/contexts/SpiralsContext";
+import { mockedUseRouterReturnValue } from "src/tests/mocks/mockNextRouter";
 
 const Providers = ({ children }: PropsWithChildrenOnly) => (
-  <RouterContext.Provider value={mockRouter}>{children}</RouterContext.Provider>
+  <RouterContext.Provider value={mockedUseRouterReturnValue}>
+    <SpiralsProvider>{children}</SpiralsProvider>
+  </RouterContext.Provider>
 );
 
 const customRender = (
@@ -38,6 +16,21 @@ const customRender = (
   options?: Omit<RenderOptions, "queries">,
 ) => render(ui, { wrapper: Providers, ...options });
 
-export * from "@testing-library/react";
+interface CustomRenderHookOptions<Props> {
+  initialProps?: Props;
+  wrapper?: ({ children }: { children: ReactNode }) => ReactElement;
+}
 
-export { customRender as render };
+const customRenderHook = <Result, Props>(
+  hook: (props: Props) => Result,
+  options?: CustomRenderHookOptions<Props>,
+) =>
+  renderHook(hook, {
+    initialProps: options?.initialProps,
+    wrapper: options?.wrapper ?? Providers,
+  });
+
+export * from "@testing-library/react";
+export { default as userEvent } from "@testing-library/user-event";
+
+export { customRender as render, customRenderHook as renderHook };

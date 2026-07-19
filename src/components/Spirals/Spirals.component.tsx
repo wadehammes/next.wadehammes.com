@@ -117,7 +117,7 @@ interface SpiralProps {
   pulseOffset?: number;
 }
 
-export const Spiral = memo(
+const Spiral = memo(
   ({
     centerX = constant.VIEWBOX / 2,
     centerY = constant.VIEWBOX / 2,

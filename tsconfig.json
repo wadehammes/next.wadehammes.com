@@ -20,6 +20,9 @@
     "paths": {
       "src/*": [
         "./src/*"
+      ],
+      "test-utils": [
+        "./test-utils.tsx"
       ]
     },
     "resolveJsonModule": true,
@@ -29,6 +32,9 @@
     "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
+    ],
+    "types": [
+      "jest"
     ],
     "incremental": true,
     "plugins": [
@@ -40,6 +46,7 @@
   "include": [
     "cssprops.d.ts",
     "next-env.d.ts",
+    "src/@types/**/*.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".jest/setupTests.ts",

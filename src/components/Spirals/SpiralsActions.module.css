@@ -1,0 +1,72 @@
+.actionsGroup {
+  overflow: visible;
+
+  @media screen and (width >= 72rem) {
+    flex-direction: column;
+  }
+}
+
+.actionItem {
+  position: relative;
+  display: flex;
+}
+
+.tooltip {
+  background-color: var(--color-text);
+  border-radius: 5px;
+  color: var(--color-bg);
+  font-size: 0.75rem;
+  max-width: 200px;
+  min-width: 125px;
+  opacity: 0;
+  padding: 0.75rem 1rem;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  transition: opacity 0.75s ease;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.actionItem:hover .tooltip,
+.actionItem:focus-within .tooltip {
+  opacity: 1;
+}
+
+/* Horizontal layout: label above the button */
+@media screen and (width < 72rem) {
+  .tooltip {
+    bottom: calc(100% + 15px);
+    left: 50%;
+    transform: translateX(-50%);
+
+    &::after {
+      border: 5px solid transparent;
+      border-top-color: var(--color-text);
+      content: "";
+      left: 50%;
+      position: absolute;
+      top: 100%;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* Vertical layout: label to the left of the button */
+@media screen and (width >= 72rem) {
+  .tooltip {
+    top: 50%;
+    right: calc(100% + 15px);
+    transform: translateY(-50%);
+
+    &::after {
+      border: 5px solid transparent;
+      border-left-color: var(--color-text);
+      content: "";
+      left: 100%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}

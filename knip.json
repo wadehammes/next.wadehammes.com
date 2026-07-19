@@ -1,0 +1,40 @@
+{
+  "$schema": "./node_modules/knip/schema.json",
+  "tags": ["-lintignore"],
+  "entry": [
+    "jest.config.ts",
+    "test-utils.tsx",
+    ".jest/**/*.ts",
+    "src/tests/**/*.ts",
+    "src/tests/**/*.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "src/**/*.po.tsx",
+    "stylelint.config.ts",
+    "scripts/prismic-codegen.cjs"
+  ],
+  "ignoreFiles": [
+    "prismicCodegen.config.ts",
+    "scripts/make_sitemap.js"
+  ],
+  "ignoreDependencies": [
+    "@svgr/webpack",
+    "dotenv"
+  ],
+  "ignoreExportsUsedInFile": true,
+  "ignoreIssues": {
+    "src/prismic/types/**": ["exports", "types"],
+    "src/components/**": ["exports"],
+    "src/prismic/constants.ts": ["exports"],
+    "src/prismic/getPage.ts": ["exports"],
+    "src/components/Button/Button.interfaces.ts": ["types"],
+    "src/tests/**": ["files"]
+  },
+  "rules": {
+    "duplicates": "off"
+  },
+  "ignoreBinaries": ["make"],
+  "workspaces": {
+    ".": {}
+  }
+}

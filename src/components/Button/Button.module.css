@@ -12,7 +12,7 @@
   transition: transform 0.1s ease-in;
   font-size: 0.8em;
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     font-size: inherit;
   }
 
@@ -154,8 +154,9 @@
   padding: 2px;
   color: var(--color-bg);
   position: relative;
+  overflow: visible;
 
-  @media screen and (min-width: 60rem) {
+  @media screen and (width >= 60rem) {
     font-size: 1rem;
   }
 }

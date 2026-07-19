@@ -6,7 +6,7 @@ export const SPIRALS_CONSTANTS = {
   OPACITY_SUBTRACTION: 0.075,
 };
 
-export const adjustLightnessForTheme = (lightness: number): number => {
+const adjustLightnessForTheme = (lightness: number): number => {
   if (typeof document !== "undefined") {
     const isLightMode =
       document.body.dataset.theme === "light" ||
@@ -88,10 +88,6 @@ export function getTrianglePoints(
   return result;
 }
 
-export const clearShapeCache = () => {
-  shapeCache.clear();
-};
-
 const colorConversionCache = new Map<string, string>();
 
 export interface OklchColor {
@@ -153,10 +149,6 @@ export const oklchToHex = (l: number, c: number, h: number): string => {
   return hex;
 };
 
-export const clearColorCache = () => {
-  colorConversionCache.clear();
-};
-
 const generateUUID = (): string => {
   return crypto.randomUUID();
 };
@@ -203,7 +195,7 @@ export const DEFAULT_CONFIG: SpiralsConfig = {
   opacitySubtraction: 0.08,
   shape: "circle",
   polygonSides: 6,
-  lightness: adjustLightnessForTheme(0.5),
+  lightness: 0.5,
   chroma: 0.2,
   hue: 220,
   name: "Cool Filled",

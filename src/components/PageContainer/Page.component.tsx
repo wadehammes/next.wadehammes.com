@@ -4,7 +4,7 @@ import { forwardRef, type Ref } from "react";
 import type { PropsWithChildrenOnly } from "src/@types/react";
 import { Header } from "src/components/Header/Header.component";
 
-export const PageContainer = forwardRef(
+const PageContainer = forwardRef(
   ({ children }: PropsWithChildrenOnly, ref: Ref<HTMLDivElement>) => (
     <div className="grid" ref={ref}>
       <Header />
@@ -13,4 +13,7 @@ export const PageContainer = forwardRef(
   ),
 );
 
+PageContainer.displayName = "PageContainer";
+
+export { PageContainer };
 export default PageContainer;
