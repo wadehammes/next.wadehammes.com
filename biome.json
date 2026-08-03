@@ -31,7 +31,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "a11y": {
         "noSvgWithoutTitle": "off"
       },
@@ -88,5 +88,17 @@
     "parser": {
       "cssModules": true
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/__mocks__/**"],
+      "linter": {
+        "rules": {
+          "performance": {
+            "noImgElement": "off"
+          }
+        }
+      }
+    }
+  ]
 }

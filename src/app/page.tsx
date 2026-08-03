@@ -1,28 +1,56 @@
 import type { Metadata } from "next";
 import { HomePage } from "src/components/HomePage/HomePage.component";
+import {
+  SITE_CREATOR,
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  SITE_URL,
+} from "src/constants/site";
 import { getCachedHomePage } from "src/prismic/getPage";
 
-/** ISR (seconds); keep in sync with `PRISMIC_DEFAULT_REVALIDATE_SECONDS` in `src/prismic/constants.ts`. */
-export const revalidate = 604800; // 7 days
-
-const SITE_TITLE = "Wade Hammes";
-const SITE_DESCRIPTION =
-  "Wade Hammes is a senior software engineer for Rhythm Energy, helping build the best customer experience in retail renewable energy, and a co-founder of Provisioner, a full-service creative agency helping grow brands. He is also a pretty fun guy.";
-
-const SITE_URL = new URL("https://wadehammes.com/");
+export const revalidate = 604800;
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const homePage = await getCachedHomePage();
 
   const title = homePage?.metaTitle ?? SITE_TITLE;
   const description = homePage?.metaDescription ?? SITE_DESCRIPTION;
+  const metaImage = homePage?.metaImage;
 
   return {
     title,
     description,
     metadataBase: SITE_URL,
-    creator: "Wade Hammes",
-    publisher: "Wade Hammes",
+    creator: SITE_CREATOR,
+    publisher: SITE_CREATOR,
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: {
+      title,
+      description,
+      url: SITE_URL,
+      siteName: SITE_TITLE,
+      type: "website",
+      locale: "en_US",
+      ...(metaImage
+        ? {
+            images: [
+              {
+                url: metaImage.url,
+                width: metaImage.width,
+                height: metaImage.height,
+                alt: title,
+              },
+            ],
+          }
+        : {}),
+    },
+    twitter: {
+      card: metaImage ? "summary_large_image" : "summary",
+      title,
+      description,
+    },
   };
 };
 

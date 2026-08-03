@@ -63,7 +63,7 @@ Global tokens, theme breakpoints ([theme.ts](../../src/styles/theme.ts)), icon S
 
 ### `public/` and `scripts/`
 
-Static assets and build helpers (e.g. [scripts/make_sitemap.js](../../scripts/make_sitemap.js) invoked from `make sitemap` / `pnpm build`).
+Static assets under `public/`. Sitemap is generated at runtime by [src/app/sitemap.ts](../../src/app/sitemap.ts) (see [distribution.md](distribution.md)).
 
 ## Data flow
 

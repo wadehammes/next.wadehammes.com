@@ -1,0 +1,27 @@
+.avatar,
+.placeholder {
+  display: block;
+  flex-shrink: 0;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.placeholder {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--colors-teal) 34%, var(--spirals-bg-subtle)) 0%,
+    color-mix(in srgb, var(--colors-purple) 28%, var(--spirals-bg-subtle)) 55%,
+    color-mix(in srgb, var(--colors-blue) 24%, var(--spirals-bg-subtle)) 100%
+  );
+  border: 1px solid
+    color-mix(in srgb, var(--colors-teal) 42%, var(--spirals-border-color));
+  box-shadow: var(--spirals-shadow);
+}
+
+.avatar {
+  border: 1px solid
+    color-mix(in srgb, var(--colors-teal) 35%, var(--spirals-border-color));
+  box-shadow: var(--spirals-shadow);
+}

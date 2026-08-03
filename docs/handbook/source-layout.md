@@ -13,6 +13,10 @@ Small browser-oriented helpers:
 | File | Purpose |
 |------|---------|
 | [helpers.ts](../../src/helpers/helpers.ts) | `isBrowser()` guard used by client components. |
+| [favicon.ts](../../src/helpers/favicon.ts) | Google favicon service URLs for external link labels. |
+| [gravatar.ts](../../src/helpers/gravatar.ts) | Gravatar URL builder (server-only; uses Node `crypto`). |
+| [youtube.ts](../../src/helpers/youtube.ts) | YouTube URL parsing, embed, and thumbnail helpers. |
+| [soundcloud.ts](../../src/helpers/soundcloud.ts) | SoundCloud URL detection, embed URLs, oEmbed fetch. |
 
 ## `src/utils/`
 
@@ -84,6 +88,7 @@ Shared test infrastructure (see [conventions.md](conventions.md#testing)):
 | [src/tests/factories/BaseFactory.ts](../../src/tests/factories/BaseFactory.ts) | Abstract Faker factory base class. |
 | [src/tests/factories/SpiralsConfig.factory.ts](../../src/tests/factories/SpiralsConfig.factory.ts) | Spirals config test data. |
 | [src/tests/factories/HomeDocument.factory.ts](../../src/tests/factories/HomeDocument.factory.ts) | Prismic `HomeDocument` + `buildParsedPage()`. |
+| [src/tests/factories/LinksDocument.factory.ts](../../src/tests/factories/LinksDocument.factory.ts) | Prismic `LinksDocument` + `buildParsedPage()`; supports partial `data` overrides. |
 | [src/tests/factories/RichText.factory.ts](../../src/tests/factories/RichText.factory.ts) | Prismic rich text blocks for Bio/parser specs. |
 | [src/tests/mocks/prismicReactMock.tsx](../../src/tests/mocks/prismicReactMock.tsx) | `PrismicRichText` stand-in implementation for JSDOM. |
 | [__mocks__/@prismicio/react.tsx](../../__mocks__/@prismicio/react.tsx) | Jest manual mock wired via `jest.mock("@prismicio/react")`. |
@@ -96,7 +101,6 @@ Shared test infrastructure (see [conventions.md](conventions.md#testing)):
 
 | Path | Purpose |
 |------|---------|
-| [scripts/make_sitemap.js](../../scripts/make_sitemap.js) | Post-build sitemap from prerender manifest. |
 | [scripts/prismic-codegen.cjs](../../scripts/prismic-codegen.cjs) | Prismic type generation wrapper. |
 | [scripts/scaffold_component.sh](../../scripts/scaffold_component.sh) | New component boilerplate. |
 

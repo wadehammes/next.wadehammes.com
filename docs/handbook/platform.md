@@ -24,7 +24,7 @@ Stylelint config: [stylelint.config.ts](../../stylelint.config.ts) with tokens f
 | Script | Purpose |
 |--------|---------|
 | `pnpm dev` | Next dev server on port **4431** (with Node inspector). |
-| `pnpm build` / `pnpm start` | Production build and serve on 4431 (`build` runs `make sitemap`). |
+| `pnpm build` / `pnpm start` | Production build and serve on 4431. |
 | `pnpm build:analyze` | Bundle analysis when `ANALYZE=true`. |
 | `pnpm lint` / `pnpm lint:fix` | Biome (same family as `lint:ci`). |
 | `pnpm test:ci` | Jest. |
@@ -79,6 +79,7 @@ The Prismic client uses **`enableAutoPreviews`** so fetches automatically use th
 - **`output: "standalone"`** — optimized for container/Vercel deployment.
 - **SVG via `@svgr/webpack`** — webpack and Turbopack rules.
 - **`experimental.optimizePackageImports`** — tree-shakes `culori`, `gsap`.
+- **`images.remotePatterns`** — allows `next/image` for `/links` assets (Gravatar, YouTube thumbnails, SoundCloud artwork, Google favicons, Prismic CDN). Add a host here when a new external thumbnail domain is introduced.
 - **Security headers** — CSP (including slice-simulator frame ancestors), HSTS, Permissions-Policy.
 - **Cache-Control** — tiered caching for HTML, static assets, images, and preview APIs.
 

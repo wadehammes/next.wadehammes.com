@@ -12,6 +12,11 @@
   }
 }
 
+.headerContainerCompact {
+  justify-content: center;
+  padding: 2em;
+}
+
 .logo {
   width: 4rem;
 

@@ -1,11 +1,16 @@
 import type { MetadataRoute } from "next";
+import { SITE_DESCRIPTION, SITE_TITLE } from "src/constants/site";
+import { getCachedHomePage } from "src/prismic/getPage";
 
-export default function manifest(): MetadataRoute.Manifest {
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const homePage = await getCachedHomePage();
+  const name = homePage?.metaTitle ?? SITE_TITLE;
+  const description = homePage?.metaDescription ?? SITE_DESCRIPTION;
+
   return {
-    name: "Wade Hammes",
-    short_name: "Wade Hammes",
-    description:
-      "Wade is a software engineer for Rhythm Energy, helping build the best customer experience in retail renewable energy, and a co-founder of Provisioner, a full-service creative agency helping to grow brands.",
+    name,
+    short_name: SITE_TITLE,
+    description,
     start_url: "/",
     display: "standalone",
     background_color: "#171717",

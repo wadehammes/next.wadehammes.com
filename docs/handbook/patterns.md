@@ -12,11 +12,13 @@ This chapter collects **cross-cutting patterns**: how App Router pages load data
 
 ## Metadata
 
-- **`generateMetadata`** in [src/app/page.tsx](../../src/app/page.tsx) pulls title and description from parsed Prismic SEO fields with static fallbacks.
-- **`metadataBase`** is set to `https://wadehammes.com/`.
-- **Open Graph**: [opengraph-image.png](../../src/app/opengraph-image.png) and [opengraph-image.alt.txt](../../src/app/opengraph-image.alt.txt) under `src/app/`.
-- **Robots**: [robots.ts](../../src/app/robots.ts) — verify sitemap URL matches deployed output (see [distribution.md](distribution.md)).
-- **Web app manifest**: [manifest.ts](../../src/app/manifest.ts).
+- **Shared defaults**: [src/constants/site.ts](../../src/constants/site.ts) — `SITE_TITLE`, `SITE_DESCRIPTION`, `SITE_URL`, and related strings used by metadata fallbacks and [manifest.ts](../../src/app/manifest.ts).
+- **`generateMetadata`** in [src/app/page.tsx](../../src/app/page.tsx) pulls title, description, and optional `meta_image` from parsed Prismic SEO fields with static fallbacks; sets `openGraph`, `twitter`, and canonical URL.
+- **`metadataBase`** is `https://www.wadehammes.com/` (`SITE_URL`).
+- **Open Graph image**: [opengraph-image.png](../../src/app/opengraph-image.png) and [opengraph-image.alt.txt](../../src/app/opengraph-image.alt.txt) under `src/app/` when Prismic `meta_image` is unset; Prismic image overrides when filled.
+- **Robots / sitemap**: [robots.ts](../../src/app/robots.ts) and [sitemap.ts](../../src/app/sitemap.ts) — see [distribution.md](distribution.md).
+- **Web app manifest**: [manifest.ts](../../src/app/manifest.ts) uses Prismic SEO fields with the same fallbacks as the page.
+- **Copy drafts**: [docs/drafts/homepage-copy-and-seo.md](../../docs/drafts/homepage-copy-and-seo.md) for CMS bio and SEO field proposals.
 
 When adding routes, add `generateMetadata` (or static `metadata` export) alongside the page.
 

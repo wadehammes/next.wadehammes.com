@@ -1,0 +1,74 @@
+{
+  "id": "links",
+  "label": "Links",
+  "repeatable": false,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Main": {
+      "profile_image": {
+        "type": "Image",
+        "config": {
+          "label": "Profile Image",
+          "constraint": {
+            "width": 800,
+            "height": 800
+          },
+          "thumbnails": []
+        }
+      },
+      "profile_name": {
+        "type": "Text",
+        "config": {
+          "label": "Profile Name",
+          "placeholder": "Wade Hammes"
+        }
+      },
+      "tagline": {
+        "type": "Text",
+        "config": {
+          "label": "Tagline",
+          "placeholder": "Someone told me this would make me relevant."
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "link_section": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "A brief summary of the page"
+        }
+      },
+      "meta_image": {
+        "type": "Image",
+        "config": {
+          "label": "Meta Image",
+          "constraint": {
+            "width": 2400,
+            "height": 1260
+          },
+          "thumbnails": []
+        }
+      }
+    }
+  }
+}

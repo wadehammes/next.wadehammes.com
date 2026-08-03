@@ -1,0 +1,16 @@
+.gridTop {
+  grid-template-rows: auto 1fr;
+}
+
+.contentTop:global(.content) {
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 0.75rem var(--sizing-mobilePadding)
+    calc(var(--sizing-mobilePadding) + env(safe-area-inset-bottom));
+
+  @media (width >= 768px) {
+    padding: 1rem var(--sizing-desktopPadding)
+      calc(var(--sizing-desktopPadding) + env(safe-area-inset-bottom));
+  }
+}
