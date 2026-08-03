@@ -13,15 +13,14 @@
     "src/**/*.spec.tsx",
     "src/**/*.po.tsx",
     "stylelint.config.ts",
-    "scripts/prismic-codegen.cjs"
+    "scripts/prismic-codegen.cjs",
+    "scripts/update-home-seo.cjs"
   ],
   "ignoreFiles": [
-    "prismicCodegen.config.ts",
-    "scripts/make_sitemap.js"
+    "prismicCodegen.config.ts"
   ],
   "ignoreDependencies": [
-    "@svgr/webpack",
-    "dotenv"
+    "@svgr/webpack"
   ],
   "ignoreExportsUsedInFile": true,
   "ignoreIssues": {
@@ -36,7 +35,6 @@
   "rules": {
     "duplicates": "off"
   },
-  "ignoreBinaries": ["make"],
   "workspaces": {
     ".": {}
   }

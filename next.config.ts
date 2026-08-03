@@ -30,6 +30,38 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "www.gravatar.com",
+        pathname: "/avatar/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "**.sndcdn.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.google.com",
+        pathname: "/s2/favicons/**",
+      },
+      {
+        protocol: "https",
+        hostname: "images.prismic.io",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.cdn.prismic.io",
+        pathname: "/**",
+      },
+    ],
   },
 
   // Compiler optimizations
@@ -227,7 +259,7 @@ const scriptSrc = [
 
 /** Embedded iframes (Prismic preview / toolbar, YouTube, etc.). */
 const frameSrc =
-  "*.youtube.com *.google.com *.twitter.com vercel.live *.prismic.io";
+  "*.youtube.com *.soundcloud.com w.soundcloud.com *.google.com *.twitter.com vercel.live *.prismic.io";
 
 function buildContentSecurityPolicy(frameAncestors: string) {
   return `

@@ -3,10 +3,16 @@ import Link from "next/link";
 import styles from "src/components/Header/Header.module.css";
 import Crown from "src/styles/icons/crown.svg";
 
-export const Header = () => {
+export interface HeaderProps {
+  compact?: boolean;
+}
+
+export const Header = ({ compact = false }: HeaderProps) => {
   return (
     <header
-      className={classNames("container", styles.headerContainer)}
+      className={classNames("container", styles.headerContainer, {
+        [styles.headerContainerCompact]: compact,
+      })}
       data-testid="rhHeader"
     >
       <div className={styles.logo}>

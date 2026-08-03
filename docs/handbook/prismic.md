@@ -39,6 +39,7 @@ When both `PRISMIC_CUSTOM_TYPES_API_TOKEN` and `PRISMIC_REPOSITORY_NAME` are set
 |--------|---------|
 | `PRISMIC_DEFAULT_REVALIDATE_SECONDS` | ISR default (7 days). **`src/app/page.tsx` must duplicate this literal** in `export const revalidate`—Next.js 16 only accepts statically inlined segment config there. |
 | `getPrismicHomeDocumentType()` | Custom type API ID for `getSingle` (default `"home"`, overridable via env). |
+| `getPrismicLinksDocumentType()` | Links singleton type (default `"links"`). |
 | `isPrismicConfigured()` | Whether repository env is present; getters return `null` when false. |
 | `getPrismicRepositoryName()` | Repository slug for `PrismicPreview` toolbar in layout. |
 
@@ -49,6 +50,11 @@ When both `PRISMIC_CUSTOM_TYPES_API_TOKEN` and `PRISMIC_REPOSITORY_NAME` are set
 - **`getHomePage(options?)`** — Fetches the home singleton via `client.getSingle(type)`. Catches `NotFoundError` and returns `null`.
 - **`getCachedHomePage()`** — React `cache()` wrapper for deduplication within a request.
 
+[src/prismic/getLinksPage.ts](../../src/prismic/getLinksPage.ts):
+
+- **`getLinksPage(options?)`** — Fetches the links singleton for `/links`, parses it, then runs [enrichLinksPage.ts](../../src/prismic/enrichLinksPage.ts) (SoundCloud oEmbed artwork).
+- **`getCachedLinksPage()`** — Cached wrapper for metadata and the links route.
+
 Add new getters here (or sibling files) when you introduce additional document types or routes.
 
 ## Parsers
@@ -58,6 +64,8 @@ Parsers translate Prismic documents into app-level types used by components.
 | File | Output | Notes |
 |------|--------|-------|
 | [parsePage.ts](../../src/prismic/parsePage.ts) | `ParsedPage` | Hero slice Rich Text, SEO fields, uid/id/lang. |
+| [parseLinks.ts](../../src/prismic/parseLinks.ts) | `ParsedLinksPage` | Profile, tagline, `link_section` slices, SEO fields; classifies YouTube/SoundCloud URLs. |
+| [enrichLinksPage.ts](../../src/prismic/enrichLinksPage.ts) | `ParsedLinksPage` | Server-side SoundCloud oEmbed fetch for `embedThumbnailUrl`. |
 | [parseSeoMeta.ts](../../src/prismic/parseSeoMeta.ts) | `ParsedSeoMeta` | Trims and nulls empty `meta_title` / `meta_description`. |
 | [parseImage.ts](../../src/prismic/parseImage.ts) | `ParsedImage` | Imgix URL and dimensions from image fields. |
 
@@ -66,6 +74,10 @@ Parsers translate Prismic documents into app-level types used by components.
 ### Hero slice
 
 `parseHomeDocument` reads the first filled `hero_section` slice's `primary.copy` field. If you add slices or change the home document shape, update the parser and regenerate types.
+
+### Link section slice
+
+The **`links`** singleton uses one or more **`link_section`** slices (`section_title` + repeatable link items). Models live under [prismicio/](../../prismicio/) and sync to the repo via the Custom Types API. Edit content in Prismic → **Links**; publish from **Migration Releases** when drafts are created via the Migration API.
 
 ## Rich Text in components
 
@@ -123,8 +135,8 @@ When you add SEO fields or new document types, extend parsers and metadata gener
 
 | Layer | Specs | Notes |
 |-------|-------|-------|
-| Parsers | [`parsePage.spec.ts`](../../src/prismic/parsePage.spec.ts), [`parseSeoMeta.spec.ts`](../../src/prismic/parseSeoMeta.spec.ts), [`parseImage.spec.ts`](../../src/prismic/parseImage.spec.ts) | Unit-test normalization logic with factories—no Prismic client. |
-| Components | [`Bio.spec.tsx`](../../src/components/Bio/Bio.spec.tsx), [`HomePage.spec.tsx`](../../src/components/HomePage/HomePage.spec.tsx) | POs call `jest.mock("@prismicio/react")`; `HomePage` uses [`HomeDocument.factory`](../../src/tests/factories/HomeDocument.factory.ts) `buildParsedPage()`. |
+| Parsers | [`parsePage.spec.ts`](../../src/prismic/parsePage.spec.ts), [`parseLinks.spec.ts`](../../src/prismic/parseLinks.spec.ts), [`parseSeoMeta.spec.ts`](../../src/prismic/parseSeoMeta.spec.ts), [`parseImage.spec.ts`](../../src/prismic/parseImage.spec.ts) | Unit-test normalization logic with factories—no Prismic client. |
+| Components | [`Bio.spec.tsx`](../../src/components/Bio/Bio.spec.tsx), [`HomePage.spec.tsx`](../../src/components/HomePage/HomePage.spec.tsx), [`LinksPage.spec.tsx`](../../src/components/Links/LinksPage.spec.tsx), [`ProfileAvatar.spec.tsx`](../../src/components/Links/ProfileAvatar.spec.tsx) | POs call `jest.mock("@prismicio/react")` where needed and `jest.mock("next/image")` for Links image components; home/links specs use [`HomeDocument.factory`](../../src/tests/factories/HomeDocument.factory.ts) / [`LinksDocument.factory`](../../src/tests/factories/LinksDocument.factory.ts) `buildParsedPage()`. |
 | Getters | *(no direct spec)* | [`getPage.ts`](../../src/prismic/getPage.ts) is thin glue; importing it in Jest pulls `@prismicio/next` server code. Rely on parser + `HomePage` specs instead. |
 
 When adding a new slice field or document type: regenerate types, extend the parser, add/adjust a factory, and add parser or component specs before shipping.

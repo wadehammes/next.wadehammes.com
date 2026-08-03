@@ -158,7 +158,7 @@ p {
   }
 }
 
-a {
+a:not([data-link-card]) {
   color: var(--color-text);
   font-family: inherit;
   text-decoration: underline;

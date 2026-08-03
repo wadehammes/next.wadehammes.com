@@ -78,4 +78,17 @@ State is centralized in [SpiralsContext.tsx](../../src/contexts/SpiralsContext.t
 
 ## Links
 
-This site is mostly a single-page experience today. If you add routes, use **`next/link`**'s **`Link`** for internal navigation and set **`target`** / **`rel="noopener noreferrer"`** for external links that open in a new tab.
+| Component | Role |
+|-----------|------|
+| [LinksPage.component.tsx](../../src/components/Links/LinksPage.component.tsx) | Client `/links` layout: profile, sections, link list (`rhLinksPage`). Gravatar URL is built on the server route and passed in as `fallbackAvatarUrl`. |
+| [LinkCard.component.tsx](../../src/components/Links/LinkCard.component.tsx) | Routes items to external, YouTube, or SoundCloud cards. |
+| [YouTubeLinkCard.component.tsx](../../src/components/Links/YouTubeLinkCard.component.tsx) | Square thumbnail + inline YouTube embed (`next/image`). |
+| [SoundCloudLinkCard.component.tsx](../../src/components/Links/SoundCloudLinkCard.component.tsx) | Square artwork (oEmbed) + inline SoundCloud player (`next/image`). |
+| [LinkFavicon.component.tsx](../../src/components/Links/LinkFavicon.component.tsx) | Favicon beside external link labels (`next/image`; [favicon.ts](../../src/helpers/favicon.ts)). |
+| [ProfileAvatar.component.tsx](../../src/components/Links/ProfileAvatar.component.tsx) | Profile photo on `/links` (`next/image`). Prismic `profile_image` wins; otherwise `fallbackAvatarUrl` from the server route ([buildGravatarUrl](../../src/helpers/gravatar.ts) + [SITE_EMAIL](../../src/constants/site.ts)). Falls back to the gradient placeholder if the image errors. |
+
+Contrast-safe secondary text on `/links` uses scoped `--links-*` tokens on [LinksPage.module.css](../../src/components/Links/LinksPage.module.css) (inherited by link cards), with separate values for light and dark theme.
+
+Remote thumbnails and avatars require matching hosts in **`images.remotePatterns`** in [next.config.ts](../../next.config.ts)—see [platform.md](platform.md#nextconfigts-highlights). Use **`next/image`** with **`unoptimized`** for these external URLs so SSR and the client share the same `src` (avoids hydration mismatches on the optimizer proxy).
+
+Use **`next/link`**'s **`Link`** for internal navigation and set **`target`** / **`rel="noopener noreferrer"`** for external links that open in a new tab.

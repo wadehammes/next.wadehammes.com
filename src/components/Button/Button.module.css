@@ -33,25 +33,22 @@
     transform: scale(0.95);
   }
 
-  & svg,
-  & > * {
+  & svg {
     height: 1.25em;
     width: 1.25em;
   }
 
-  /* Target SVGR components specifically */
-  & > * svg {
-    height: 1.25em;
-    width: 1.25em;
-  }
-
-  /* Ensure SVGR components have proper sizing */
   & > * {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 1.25em;
     width: 1.25em;
+
+    svg {
+      height: 1.25em;
+      width: 1.25em;
+    }
   }
 
   /* Direct targeting of SVGR components */

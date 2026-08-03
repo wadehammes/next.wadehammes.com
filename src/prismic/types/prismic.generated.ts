@@ -108,7 +108,100 @@ interface HomeDocumentData {
  */
 export type HomeDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<HomeDocumentData>, "home", Lang>;
 
-export type AllDocumentTypes = HomeDocument;
+type LinksDocumentDataSlicesSlice = LinkSectionSlice
+
+/**
+ * Content for Links documents
+ */
+interface LinksDocumentData {
+	/**
+	 * Profile Image field in *Links*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: links.profile_image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	profile_image: prismic.ImageField<never>;
+	
+	/**
+	 * Profile Name field in *Links*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Wade Hammes
+	 * - **API ID Path**: links.profile_name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	profile_name: prismic.KeyTextField;
+	
+	/**
+	 * Tagline field in *Links*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Someone told me this would make me relevant.
+	 * - **API ID Path**: links.tagline
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	tagline: prismic.KeyTextField;
+	
+	/**
+	 * Slice Zone field in *Links*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: links.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	slices: prismic.SliceZone<LinksDocumentDataSlicesSlice>;/**
+	 * Meta Title field in *Links*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: links.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+	
+	/**
+	 * Meta Description field in *Links*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: links.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;
+	
+	/**
+	 * Meta Image field in *Links*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: links.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Links document from Prismic
+ *
+ * - **API ID**: `links`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type LinksDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<LinksDocumentData>, "links", Lang>;
+
+export type AllDocumentTypes = HomeDocument | LinksDocument;
 
 /**
  * Primary content in *HeroSection → Default → Primary*
@@ -148,6 +241,79 @@ type HeroSectionSliceVariation = HeroSectionSliceDefault
  */
 export type HeroSectionSlice = prismic.SharedSlice<"hero_section", HeroSectionSliceVariation>;
 
+/**
+ * Primary content in *LinkSection → Default → Primary*
+ */
+export interface LinkSectionSliceDefaultPrimary {
+	/**
+	 * Section Title field in *LinkSection → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Past DJ sets
+	 * - **API ID Path**: link_section.default.primary.section_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	section_title: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *LinkSection → Items*
+ */
+export interface LinkSectionSliceDefaultItem {
+	/**
+	 * Label field in *LinkSection → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: FilterMyDiscogs
+	 * - **API ID Path**: link_section.items[].label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	label: prismic.KeyTextField;
+	
+	/**
+	 * Description field in *LinkSection → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Optional short description
+	 * - **API ID Path**: link_section.items[].description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	description: prismic.KeyTextField;
+	
+	/**
+	 * Link field in *LinkSection → Items*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: link_section.items[].link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Default variation for LinkSection Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type LinkSectionSliceDefault = prismic.SharedSliceVariation<"default", Simplify<LinkSectionSliceDefaultPrimary>, Simplify<LinkSectionSliceDefaultItem>>;
+
+/**
+ * Slice variation for *LinkSection*
+ */
+type LinkSectionSliceVariation = LinkSectionSliceDefault
+
+/**
+ * LinkSection Shared Slice
+ *
+ * - **API ID**: `link_section`
+ * - **Description**: A titled group of outbound links
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type LinkSectionSlice = prismic.SharedSlice<"link_section", LinkSectionSliceVariation>;
+
 declare module "@prismicio/client" {
 	interface CreateClient {
 		(repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
@@ -165,12 +331,20 @@ declare module "@prismicio/client" {
 		export type {
 			AllDocumentTypes,
 			HeroSectionSlice,
-			HeroSectionSliceDefault, 
+			HeroSectionSliceDefault,
 			HeroSectionSliceDefaultPrimary,
 			HeroSectionSliceVariation,
 			HomeDocument,
 			HomeDocumentData,
-			HomeDocumentDataSlicesSlice
+			HomeDocumentDataSlicesSlice,
+			LinkSectionSlice,
+			LinkSectionSliceDefault, 
+			LinkSectionSliceDefaultItem,
+			LinkSectionSliceDefaultPrimary,
+			LinkSectionSliceVariation,
+			LinksDocument,
+			LinksDocumentData,
+			LinksDocumentDataSlicesSlice
 		}
 	}
 }

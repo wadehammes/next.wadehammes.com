@@ -1,6 +1,11 @@
 {
   "custom-properties": {
     "--font-mono": "initial",
+    "--links-badge-active-text": "initial",
+    "--links-badge-muted": "initial",
+    "--links-badge-play-text": "initial",
+    "--links-section-title": "initial",
+    "--links-text-muted": "initial",
     "--spiral-color": "initial"
   }
 }

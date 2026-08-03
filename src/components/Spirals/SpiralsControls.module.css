@@ -98,23 +98,6 @@
   }
 }
 
-/* Add button desktop variant */
-.headerButtons .addButtonDesktop {
-  display: none;
-
-  @media (width >= 768px) {
-    display: flex;
-    background: var(--spirals-add-green-bg);
-    border-color: var(--spirals-add-green-border);
-    color: var(--spirals-add-green);
-
-    &:hover {
-      background: var(--spirals-add-green-hover);
-      border-color: var(--spirals-add-green-border-hover);
-    }
-  }
-}
-
 .closeButton {
   align-items: center;
   background: var(--spirals-bg-subtle);
@@ -537,6 +520,23 @@
 
   @media (width >= 768px) {
     display: none;
+  }
+}
+
+/* Add button desktop variant */
+.headerButtons .addButtonDesktop {
+  display: none;
+
+  @media (width >= 768px) {
+    display: flex;
+    background: var(--spirals-add-green-bg);
+    border-color: var(--spirals-add-green-border);
+    color: var(--spirals-add-green);
+
+    &:hover {
+      background: var(--spirals-add-green-hover);
+      border-color: var(--spirals-add-green-border-hover);
+    }
   }
 }
 

@@ -5,7 +5,7 @@
   "packageManager": "pnpm@11.18.0",
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' next dev -p 4431 --webpack",
-    "build": "next build --webpack && make sitemap ",
+    "build": "next build --webpack",
     "build:analyze": "ANALYZE=true next build",
     "start": "next start -p 4431",
     "export": "next export",
@@ -20,6 +20,7 @@
     "test:ci": "jest --passWithNoTests",
     "types:prismic": "node scripts/prismic-codegen.cjs",
     "types:prismic:cli": "prismic-ts-codegen",
+    "prismic:update-home-seo": "node scripts/update-home-seo.cjs",
     "knip": "knip",
     "knip:ci": "knip --no-progress"
   },
