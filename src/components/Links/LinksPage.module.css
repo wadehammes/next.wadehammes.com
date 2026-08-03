@@ -9,9 +9,10 @@
   flex-direction: column;
   align-items: center;
   width: min(100%, 42rem);
-  max-width: 42rem;
+  max-width: 36rem;
   margin: 0 auto;
   padding-block: 0 2rem;
+  gap: 2rem;
 
   @media (prefers-color-scheme: light) {
     --links-badge-active-text: var(--colors-trueBlack);
@@ -66,10 +67,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1.5rem;
   width: 100%;
-  padding-bottom: 1.25rem;
   text-align: center;
+}
+
+.hgroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .name {
@@ -77,6 +84,7 @@
   font-size: clamp(1.5rem, 4vw, 1.875rem);
   font-weight: 700;
   line-height: 1.15;
+  padding-bottom: 0;
 }
 
 .tagline {
