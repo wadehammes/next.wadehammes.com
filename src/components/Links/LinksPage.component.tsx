@@ -25,10 +25,12 @@ export const LinksPage = ({ fallbackAvatarUrl, linksPage }: LinksPageProps) => {
             image={linksPage?.profileImage}
             name={profileName}
           />
-          <h1 className={styles.name}>{profileName}</h1>
-          {linksPage?.tagline ? (
-            <p className={styles.tagline}>{linksPage.tagline}</p>
-          ) : null}
+          <hgroup className={styles.hgroup}>
+            <h1 className={styles.name}>{profileName}</h1>
+            {linksPage?.tagline ? (
+              <p className={styles.tagline}>{linksPage.tagline}</p>
+            ) : null}
+          </hgroup>
         </div>
 
         {sections.length > 0 ? (
