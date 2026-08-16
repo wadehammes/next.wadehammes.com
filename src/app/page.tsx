@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { HomePage } from "src/components/HomePage/HomePage.component";
 import {
   SITE_CREATOR,
@@ -6,12 +7,11 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "src/constants/site";
-import { getCachedHomePage } from "src/prismic/getPage";
+import { getCachedHomePage, getPublishedHomePage } from "src/prismic/getPage";
 
-export const revalidate = 604800;
-
-export const generateMetadata = async (): Promise<Metadata> => {
-  const homePage = await getCachedHomePage();
+export async function generateMetadata(): Promise<Metadata> {
+  "use cache";
+  const homePage = await getPublishedHomePage();
 
   const title = homePage?.metaTitle ?? SITE_TITLE;
   const description = homePage?.metaDescription ?? SITE_DESCRIPTION;
@@ -20,7 +20,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
   return {
     title,
     description,
-    metadataBase: SITE_URL,
+    metadataBase: SITE_URL.href,
     creator: SITE_CREATOR,
     publisher: SITE_CREATOR,
     alternates: {
@@ -29,7 +29,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     openGraph: {
       title,
       description,
-      url: SITE_URL,
+      url: SITE_URL.href,
       siteName: SITE_TITLE,
       type: "website",
       locale: "en_US",
@@ -52,12 +52,20 @@ export const generateMetadata = async (): Promise<Metadata> => {
       description,
     },
   };
-};
+}
 
-const Home = async () => {
+async function HomePageContent() {
   const homePage = await getCachedHomePage();
 
   return <HomePage homePage={homePage} />;
+}
+
+const Home = () => {
+  return (
+    <Suspense fallback={null}>
+      <HomePageContent />
+    </Suspense>
+  );
 };
 
 export default Home;

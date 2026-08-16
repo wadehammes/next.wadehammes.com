@@ -36,9 +36,7 @@ export const fetchSoundCloudOEmbed = async (
     oembedUrl.searchParams.set("url", trackUrl);
     oembedUrl.searchParams.set("format", "json");
 
-    const response = await fetch(oembedUrl, {
-      next: { revalidate: 604800 },
-    });
+    const response = await fetch(oembedUrl);
 
     if (!response.ok) {
       return { thumbnailUrl: null };

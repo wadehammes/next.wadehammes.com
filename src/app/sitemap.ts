@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "src/constants/site";
-import { getCachedLinksPage } from "src/prismic/getLinksPage";
-import { getCachedHomePage } from "src/prismic/getPage";
+import { getPublishedLinksPage } from "src/prismic/getLinksPage";
+import { getPublishedHomePage } from "src/prismic/getPage";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [homePage, linksPage] = await Promise.all([
-    getCachedHomePage(),
-    getCachedLinksPage(),
+    getPublishedHomePage(),
+    getPublishedLinksPage(),
   ]);
 
   const homeLastModified = homePage?.lastPublicationDate

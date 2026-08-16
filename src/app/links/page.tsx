@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { LinksPage } from "src/components/Links/LinksPage.component";
 import {
   SITE_CREATOR,
@@ -7,16 +8,18 @@ import {
   SITE_URL,
 } from "src/constants/site";
 import { buildGravatarUrl } from "src/helpers/gravatar";
-import { getCachedLinksPage } from "src/prismic/getLinksPage";
-
-export const revalidate = 604800;
+import {
+  getCachedLinksPage,
+  getPublishedLinksPage,
+} from "src/prismic/getLinksPage";
 
 const LINKS_TITLE = `Links · ${SITE_TITLE}`;
 const LINKS_DESCRIPTION =
   "Links to projects, mixes, and profiles for Wade Hammes.";
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  const linksPage = await getCachedLinksPage();
+export async function generateMetadata(): Promise<Metadata> {
+  "use cache";
+  const linksPage = await getPublishedLinksPage();
 
   const title = linksPage?.metaTitle ?? LINKS_TITLE;
   const description = linksPage?.metaDescription ?? LINKS_DESCRIPTION;
@@ -25,7 +28,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
   return {
     title,
     description,
-    metadataBase: SITE_URL,
+    metadataBase: SITE_URL.href,
     creator: SITE_CREATOR,
     publisher: SITE_CREATOR,
     alternates: {
@@ -34,7 +37,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     openGraph: {
       title,
       description,
-      url: new URL("/links", SITE_URL),
+      url: new URL("/links", SITE_URL).href,
       siteName: SITE_TITLE,
       type: "website",
       locale: "en_US",
@@ -57,9 +60,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
       description,
     },
   };
-};
+}
 
-const Links = async () => {
+async function LinksPageContent() {
   const linksPage = await getCachedLinksPage();
 
   return (
@@ -67,6 +70,14 @@ const Links = async () => {
       fallbackAvatarUrl={buildGravatarUrl(SITE_EMAIL)}
       linksPage={linksPage}
     />
+  );
+}
+
+const Links = () => {
+  return (
+    <Suspense fallback={null}>
+      <LinksPageContent />
+    </Suspense>
   );
 };
 
