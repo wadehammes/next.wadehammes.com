@@ -1,5 +1,7 @@
 import { NotFoundError } from "@prismicio/client";
+import { draftMode } from "next/headers";
 import { cache } from "react";
+import { applyPrismicHomeCacheLife } from "src/prismic/cacheLife";
 import { getPrismicClient } from "src/prismic/client";
 import {
   getPrismicHomeDocumentType,
@@ -15,8 +17,7 @@ export interface GetPageOptions {
 const requestParams = (options: GetPageOptions) =>
   options.lang !== undefined ? { lang: options.lang } : undefined;
 
-/** Singleton home document from Prismic (`getSingle` on your home custom type). */
-export const getHomePage = async (
+const fetchHomePageFromPrismic = async (
   options: GetPageOptions = {},
 ): Promise<ParsedPage | null> => {
   if (!isPrismicConfigured()) {
@@ -38,4 +39,22 @@ export const getHomePage = async (
   }
 };
 
-export const getCachedHomePage = cache(async () => getHomePage());
+export async function getPublishedHomePage(
+  options: GetPageOptions = {},
+): Promise<ParsedPage | null> {
+  "use cache";
+  applyPrismicHomeCacheLife();
+  return fetchHomePageFromPrismic(options);
+}
+
+export const getHomePage = async (
+  options: GetPageOptions = {},
+): Promise<ParsedPage | null> => {
+  if ((await draftMode()).isEnabled) {
+    return fetchHomePageFromPrismic(options);
+  }
+
+  return getPublishedHomePage(options);
+};
+
+export const getCachedHomePage = cache(getHomePage);

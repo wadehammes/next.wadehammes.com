@@ -1,5 +1,7 @@
 import { NotFoundError } from "@prismicio/client";
+import { draftMode } from "next/headers";
 import { cache } from "react";
+import { applyPrismicLinksCacheLife } from "src/prismic/cacheLife";
 import { getPrismicClient } from "src/prismic/client";
 import {
   getPrismicLinksDocumentType,
@@ -19,7 +21,7 @@ export interface GetLinksPageOptions {
 const requestParams = (options: GetLinksPageOptions) =>
   options.lang !== undefined ? { lang: options.lang } : undefined;
 
-export const getLinksPage = async (
+const fetchLinksPageFromPrismic = async (
   options: GetLinksPageOptions = {},
 ): Promise<ParsedLinksPage | null> => {
   if (!isPrismicConfigured()) {
@@ -41,4 +43,22 @@ export const getLinksPage = async (
   }
 };
 
-export const getCachedLinksPage = cache(async () => getLinksPage());
+export async function getPublishedLinksPage(
+  options: GetLinksPageOptions = {},
+): Promise<ParsedLinksPage | null> {
+  "use cache";
+  applyPrismicLinksCacheLife();
+  return fetchLinksPageFromPrismic(options);
+}
+
+export const getLinksPage = async (
+  options: GetLinksPageOptions = {},
+): Promise<ParsedLinksPage | null> => {
+  if ((await draftMode()).isEnabled) {
+    return fetchLinksPageFromPrismic(options);
+  }
+
+  return getPublishedLinksPage(options);
+};
+
+export const getCachedLinksPage = cache(getLinksPage);

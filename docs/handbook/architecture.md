@@ -92,7 +92,7 @@ flowchart LR
 
 ## Config and deployment
 
-- **[next.config.ts](../../next.config.ts)** — `env` exposure, images, Turbopack/SVG rules, security headers and CSP, cache headers, standalone output.
+- **[next.config.ts](../../next.config.ts)** — `env` exposure, images, Turbopack/SVG rules, security headers and CSP, cache headers, conditional standalone output.
 - **[biome.json](../../biome.json)** — lint and format; includes CSS. Run `pnpm lint`, `pnpm lint:fix`.
 - **Branching**: Default branch is `staging`. Releases use `make release tag=vX.X.X`.
 

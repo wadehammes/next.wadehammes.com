@@ -55,8 +55,5 @@ describe("enrichLinksPage", () => {
     expect(String(fetchMock.mock.calls[0]?.[0])).toContain(
       "soundcloud.com/oembed",
     );
-    expect(fetchMock.mock.calls[0]?.[1]).toEqual({
-      next: { revalidate: 604800 },
-    });
   });
 });

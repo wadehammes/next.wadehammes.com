@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
 import { SITE_DESCRIPTION, SITE_TITLE } from "src/constants/site";
-import { getCachedHomePage } from "src/prismic/getPage";
+import { getPublishedHomePage } from "src/prismic/getPage";
 
 export default async function manifest(): Promise<MetadataRoute.Manifest> {
-  const homePage = await getCachedHomePage();
+  const homePage = await getPublishedHomePage();
   const name = homePage?.metaTitle ?? SITE_TITLE;
   const description = homePage?.metaDescription ?? SITE_DESCRIPTION;
 

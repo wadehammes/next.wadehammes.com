@@ -8,7 +8,8 @@ This chapter collects **cross-cutting patterns**: how App Router pages load data
 
 - **Prismic**: Call getters from `src/prismic/` (e.g. `getCachedHomePage()`). They respect draft mode via `enableAutoPreviews` on the client.
 - **Graceful degradation**: When Prismic env is missing, getters return `null` and the UI still renders with fallbacks (see `HomePage` and `generateMetadata` defaults).
-- **Caching**: `getCachedHomePage` uses React `cache()`. Route-level ISR is set via `export const revalidate = 604800` in [page.tsx](../../src/app/page.tsx)—keep in sync with `PRISMIC_DEFAULT_REVALIDATE_SECONDS` in [constants.ts](../../src/prismic/constants.ts).
+- **Caching**: Prismic getters use the `'use cache'` directive with `cacheLife('weeks')` (aligned with `PRISMIC_DEFAULT_REVALIDATE_SECONDS` in [constants.ts](../../src/prismic/constants.ts)). Published content is cached; draft/preview mode bypasses the cache via `draftMode()` in [getPage.ts](../../src/prismic/getPage.ts) and [getLinksPage.ts](../../src/prismic/getLinksPage.ts). Shared helpers live in [cacheLife.ts](../../src/prismic/cacheLife.ts).
+- **Loading shells**: [loading.tsx](../../src/app/loading.tsx) and [links/loading.tsx](../../src/app/links/loading.tsx) provide instant navigation fallbacks. Page data loads inside `Suspense` boundaries.
 
 ## Metadata
 
@@ -49,7 +50,7 @@ Use **`isBrowser()`** from [src/helpers/helpers.ts](../../src/helpers/helpers.ts
 
 ## SVG as React components
 
-SVGs import as React components via **`@svgr/webpack`** (configured in [next.config.ts](../../next.config.ts) for both webpack and Turbopack). Type declarations live in [src/@types/svg.d.ts](../../src/@types/svg.d.ts).
+SVGs import as React components via **`@svgr/webpack`** (Turbopack `rules` in [next.config.ts](../../next.config.ts)). Type declarations live in [src/@types/svg.d.ts](../../src/@types/svg.d.ts).
 
 ## Security headers
 

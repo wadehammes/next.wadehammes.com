@@ -37,7 +37,7 @@ When both `PRISMIC_CUSTOM_TYPES_API_TOKEN` and `PRISMIC_REPOSITORY_NAME` are set
 
 | Export | Purpose |
 |--------|---------|
-| `PRISMIC_DEFAULT_REVALIDATE_SECONDS` | ISR default (7 days). **`src/app/page.tsx` must duplicate this literal** in `export const revalidate`—Next.js 16 only accepts statically inlined segment config there. |
+| `PRISMIC_DEFAULT_REVALIDATE_SECONDS` | Cache default (7 days). Published Prismic data uses `cacheLife('weeks')` via [cacheLife.ts](../../src/prismic/cacheLife.ts)—keep the constant aligned with that profile. |
 | `getPrismicHomeDocumentType()` | Custom type API ID for `getSingle` (default `"home"`, overridable via env). |
 | `getPrismicLinksDocumentType()` | Links singleton type (default `"links"`). |
 | `isPrismicConfigured()` | Whether repository env is present; getters return `null` when false. |
@@ -47,13 +47,15 @@ When both `PRISMIC_CUSTOM_TYPES_API_TOKEN` and `PRISMIC_REPOSITORY_NAME` are set
 
 [src/prismic/getPage.ts](../../src/prismic/getPage.ts):
 
-- **`getHomePage(options?)`** — Fetches the home singleton via `client.getSingle(type)`. Catches `NotFoundError` and returns `null`.
+- **`getHomePage(options?)`** — Fetches the home singleton via `client.getSingle(type)`. Catches `NotFoundError` and returns `null`. Bypasses `'use cache'` when draft mode is enabled.
+- **`getPublishedHomePage(options?)`** — Cached published home document (`'use cache'` + `cacheTag('prismic-home')`).
 - **`getCachedHomePage()`** — React `cache()` wrapper for deduplication within a request.
 
 [src/prismic/getLinksPage.ts](../../src/prismic/getLinksPage.ts):
 
-- **`getLinksPage(options?)`** — Fetches the links singleton for `/links`, parses it, then runs [enrichLinksPage.ts](../../src/prismic/enrichLinksPage.ts) (SoundCloud oEmbed artwork).
-- **`getCachedLinksPage()`** — Cached wrapper for metadata and the links route.
+- **`getLinksPage(options?)`** — Fetches the links singleton for `/links`, parses it, then runs [enrichLinksPage.ts](../../src/prismic/enrichLinksPage.ts) (SoundCloud oEmbed artwork). Bypasses cache in draft mode.
+- **`getPublishedLinksPage(options?)`** — Cached published links document (`'use cache'` + `cacheTag('prismic-links')`).
+- **`getCachedLinksPage()`** — React `cache()` wrapper for the links route and metadata.
 
 Add new getters here (or sibling files) when you introduce additional document types or routes.
 

@@ -1,30 +1,46 @@
 import type { NextConfig } from "next";
-import type { Configuration, RuleSetRule } from "webpack";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
-
-  // Performance optimizations (`optimizeCss` omitted — Critters drops CSS for preview-only selectors.)
+  cacheComponents: true,
+  partialPrefetching: true,
   experimental: {
     optimizePackageImports: ["culori", "gsap"],
     optimizeServerReact: true,
+    ...(process.env.ANALYZE === "true" ? { bundleAnalyzer: true } : {}),
   },
-
-  // Turbopack configuration (stable)
   turbopack: {
     rules: {
       "*.svg": {
-        loaders: ["@svgr/webpack"],
+        loaders: [
+          {
+            loader: "@svgr/webpack",
+            options: {
+              svgoConfig: {
+                plugins: [
+                  {
+                    name: "removeViewBox",
+                    active: false,
+                  },
+                  {
+                    name: "removeEmptyAttrs",
+                    active: true,
+                  },
+                  {
+                    name: "removeEmptyText",
+                    active: true,
+                  },
+                ],
+              },
+            },
+          },
+        ],
         as: "*.js",
       },
     },
   },
-
-  // Output optimization
-  output: "standalone",
-
-  // Image optimization
+  output: process.env.VERCEL ? undefined : "standalone",
   images: {
     formats: ["image/webp", "image/avif"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -63,93 +79,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-
-  // Compiler optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },
-
   env: {
     ENVIRONMENT: process.env.ENVIRONMENT,
     GOOGLE_ANALYTICS_KEY: process.env.GOOGLE_ANALYTICS_KEY,
-  },
-  webpack(
-    config: Configuration,
-    { dev, isServer }: { dev: boolean; isServer: boolean },
-  ) {
-    const isRuleSetRule = (rule: unknown): rule is RuleSetRule =>
-      typeof rule === "object" &&
-      rule !== null &&
-      "test" in rule &&
-      typeof (rule as RuleSetRule).test === "object" &&
-      (rule as RuleSetRule).test instanceof RegExp;
-
-    const fileLoaderRule = config.module?.rules?.find(
-      (rule) => isRuleSetRule(rule) && (rule.test as RegExp).test(".svg"),
-    ) as RuleSetRule | undefined;
-
-    if (!fileLoaderRule) {
-      throw new Error("File loader rule not found");
-    }
-
-    config.module?.rules?.push({
-      test: /\.svg$/i,
-      issuer: fileLoaderRule.issuer,
-      use: {
-        loader: "@svgr/webpack",
-        options: {
-          svgoConfig: {
-            plugins: [
-              {
-                name: "removeViewBox",
-                active: false,
-              },
-              {
-                name: "removeEmptyAttrs",
-                active: true,
-              },
-              {
-                name: "removeEmptyText",
-                active: true,
-              },
-            ],
-          },
-        },
-      },
-    });
-
-    // Modify the file loader rule to ignore *.svg, since we have it handled now.
-    fileLoaderRule.exclude = /\.svg$/i;
-
-    // Production optimizations
-    if (!dev && !isServer) {
-      // Enable tree shaking
-      if (config.optimization) {
-        config.optimization.usedExports = true;
-        config.optimization.sideEffects = false;
-
-        // Split chunks optimization
-        config.optimization.splitChunks = {
-          chunks: "all",
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: "vendors",
-              chunks: "all",
-              priority: 10,
-            },
-            common: {
-              name: "common",
-              minChunks: 2,
-              chunks: "all",
-              priority: 5,
-            },
-          },
-        };
-      }
-    }
-
-    return config;
   },
   async headers() {
     return [
@@ -175,9 +110,6 @@ const nextConfig: NextConfig = {
           ...securityHeaders,
         ],
       },
-      // Slice Machine embeds this route in an iframe. `/:path*` also matches
-      // `/slice-simulator`; Next merges rules and the LAST duplicate header key wins,
-      // so these blocks must come AFTER `/:path*` or strict CSP overrides them.
       {
         source: "/slice-simulator",
         headers: [
@@ -200,7 +132,6 @@ const nextConfig: NextConfig = {
           ...sliceSimulatorSecurityHeaders,
         ],
       },
-      // After `/:path*`: override Cache-Control only (Prismic sets cookies + redirect; must not cache).
       {
         source: "/api/preview",
         headers: [
@@ -243,7 +174,6 @@ const nextConfig: NextConfig = {
   },
 };
 
-// https://securityheaders.com
 const scriptSrc = [
   "'self'",
   "'unsafe-eval'",
@@ -257,7 +187,6 @@ const scriptSrc = [
   "https:",
 ];
 
-/** Embedded iframes (Prismic preview / toolbar, YouTube, etc.). */
 const frameSrc =
   "*.youtube.com *.soundcloud.com w.soundcloud.com *.google.com *.twitter.com vercel.live *.prismic.io";
 
@@ -280,7 +209,6 @@ function buildContentSecurityPolicy(frameAncestors: string) {
 `;
 }
 
-/** Origins allowed to iframe `/slice-simulator` (Slice Machine + Prismic). */
 const sliceSimulatorFrameAncestors = [
   "'self'",
   "http://localhost:4431",
@@ -301,9 +229,6 @@ function createSecurityHeaders(frameAncestors: string) {
       value: "strict-origin-when-cross-origin",
     },
   ];
-  // Framing policy is `frame-ancestors` in CSP only. We intentionally omit
-  // `X-Frame-Options`: Next merges header rules by key, and a later rule cannot
-  // "unset" it for `/slice-simulator`, which blocked Slice Machine if DENY stuck.
   headers.push(
     {
       key: "X-Content-Type-Options",
@@ -331,12 +256,4 @@ const sliceSimulatorSecurityHeaders = createSecurityHeaders(
   sliceSimulatorFrameAncestors,
 );
 
-// Bundle analyzer (only in development)
-if (process.env.ANALYZE === "true") {
-  const withBundleAnalyzer = require("@next/bundle-analyzer")({
-    enabled: true,
-  });
-  module.exports = withBundleAnalyzer(nextConfig);
-} else {
-  module.exports = nextConfig;
-}
+export default nextConfig;

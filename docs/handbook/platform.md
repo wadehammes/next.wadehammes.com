@@ -17,15 +17,15 @@ PRs that target **`staging`** run [`.github/workflows/ci.yml`](../../.github/wor
 
 Run **`pnpm tsc:ci`**, **`pnpm lint:ci`**, **`pnpm lint:css`**, **`pnpm test:ci`**, and **`pnpm knip:ci`** locally before pushing when you touch types, lint, CSS, or tests.
 
-Stylelint config: [stylelint.config.ts](../../stylelint.config.ts) with tokens from [variables.css](../../src/styles/variables.css) and runtime vars in [runtime-variables.json](../../src/styles/runtime-variables.json).
+Stylelint config: [stylelint.config.mjs](../../stylelint.config.mjs) with tokens from [variables.css](../../src/styles/variables.css) and runtime vars in [runtime-variables.json](../../src/styles/runtime-variables.json).
 
 ## Package scripts (local workflow)
 
 | Script | Purpose |
 |--------|---------|
-| `pnpm dev` | Next dev server on port **4431** (with Node inspector). |
-| `pnpm build` / `pnpm start` | Production build and serve on 4431. |
-| `pnpm build:analyze` | Bundle analysis when `ANALYZE=true`. |
+| `pnpm dev` | Next dev server on port **4431** with Turbopack (Node inspector enabled). |
+| `pnpm build` / `pnpm start` | Turbopack production build and serve on 4431. |
+| `pnpm build:analyze` | Turbopack bundle analysis when `ANALYZE=true`. |
 | `pnpm lint` / `pnpm lint:fix` | Biome (same family as `lint:ci`). |
 | `pnpm test:ci` | Jest. |
 | `pnpm types:prismic` | Regenerate `src/prismic/types/prismic.generated.ts`. |
@@ -76,12 +76,16 @@ The Prismic client uses **`enableAutoPreviews`** so fetches automatically use th
 
 ## `next.config.ts` highlights
 
-- **`output: "standalone"`** — optimized for container/Vercel deployment.
-- **SVG via `@svgr/webpack`** — webpack and Turbopack rules.
+- **`cacheComponents: true`** and **`partialPrefetching: true`** — Instant Navigations (16.3): reusable loading shells, partial link prefetching, and `'use cache'` for Prismic data.
+- **`output: "standalone"`** — enabled for Docker and self-hosted Node builds; omitted on Vercel (`VERCEL=1`) because Vercel uses its own adapter and standalone triggers a Next.js 16.3 trace-file bug.
+- **SVG via `@svgr/webpack`** — Turbopack `rules` (SVGO options preserved from the former webpack config).
 - **`experimental.optimizePackageImports`** — tree-shakes `culori`, `gsap`.
+- **`experimental.bundleAnalyzer`** — enabled when `ANALYZE=true` (replaces `@next/bundle-analyzer` wrapper).
 - **`images.remotePatterns`** — allows `next/image` for `/links` assets (Gravatar, YouTube thumbnails, SoundCloud artwork, Google favicons, Prismic CDN). Add a host here when a new external thumbnail domain is introduced.
 - **Security headers** — CSP (including slice-simulator frame ancestors), HSTS, Permissions-Policy.
 - **Cache-Control** — tiered caching for HTML, static assets, images, and preview APIs.
+
+Turbopack is the default bundler in Next.js 16. Dev and production builds use it; disk caching and memory eviction are on by default in 16.3. To fall back to webpack temporarily: `next dev --webpack` / `next build --webpack`.
 
 When adding env vars needed in client bundles, add them to the `env` block in `next.config.ts`.
 

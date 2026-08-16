@@ -12,7 +12,7 @@
     "src/**/*.spec.ts",
     "src/**/*.spec.tsx",
     "src/**/*.po.tsx",
-    "stylelint.config.ts",
+    "stylelint.config.mjs",
     "scripts/prismic-codegen.cjs",
     "scripts/update-home-seo.cjs"
   ],
