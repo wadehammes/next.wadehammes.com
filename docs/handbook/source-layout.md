@@ -101,7 +101,6 @@ Shared test infrastructure (see [conventions.md](conventions.md#testing)):
 
 | Path | Purpose |
 |------|---------|
-| [scripts/prismic-codegen.cjs](../../scripts/prismic-codegen.cjs) | Prismic type generation wrapper. |
 | [scripts/scaffold_component.sh](../../scripts/scaffold_component.sh) | New component boilerplate. |
 
 ## Config at repo root

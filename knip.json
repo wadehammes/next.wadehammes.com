@@ -13,7 +13,6 @@
     "src/**/*.spec.tsx",
     "src/**/*.po.tsx",
     "stylelint.config.mjs",
-    "scripts/prismic-codegen.cjs",
     "scripts/update-home-seo.cjs"
   ],
   "ignoreFiles": [
