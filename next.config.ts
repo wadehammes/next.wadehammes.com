@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["culori", "gsap"],
     optimizeServerReact: true,
-    ...(process.env.ANALYZE === "true" ? { bundleAnalyzer: true } : {}),
   },
   turbopack: {
     rules: {

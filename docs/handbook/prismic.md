@@ -17,7 +17,7 @@ Requires env vars (see [platform.md](platform.md)). Configuration lives in:
 - [prismicCodegen.config.ts](../../prismicCodegen.config.ts) — output path, remote vs local models.
 - [prismic.config.json](../../prismic.config.json) — Slice Machine repo metadata.
 
-**Node 24+**: The published `prismic-ts-codegen` CLI can crash on newer Node; this repo runs a local wrapper at [scripts/prismic-codegen.cjs](../../scripts/prismic-codegen.cjs) that mirrors the CLI steps. Prefer `pnpm types:prismic` over `pnpm types:prismic:cli` until upstream is fixed.
+**Node 24+**: Use `pnpm types:prismic` (runs `prismic-ts-codegen` directly). Generated types use `@prismicio/client` via `typesProvider` in [prismicCodegen.config.ts](../../prismicCodegen.config.ts)—do not add the deprecated `@prismicio/types` package.
 
 When both `PRISMIC_CUSTOM_TYPES_API_TOKEN` and `PRISMIC_REPOSITORY_NAME` are set, models are fetched from the Custom Types API. Optional local overrides can live under `prismicio/customtypes/**` or `prismicio/slices/**`.
 

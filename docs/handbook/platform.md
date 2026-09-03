@@ -25,11 +25,9 @@ Stylelint config: [stylelint.config.mjs](../../stylelint.config.mjs) with tokens
 |--------|---------|
 | `pnpm dev` | Next dev server on port **4431** with Turbopack (Node inspector enabled). |
 | `pnpm build` / `pnpm start` | Turbopack production build and serve on 4431. |
-| `pnpm build:analyze` | Turbopack bundle analysis when `ANALYZE=true`. |
 | `pnpm lint` / `pnpm lint:fix` | Biome (same family as `lint:ci`). |
 | `pnpm test:ci` | Jest. |
-| `pnpm types:prismic` | Regenerate `src/prismic/types/prismic.generated.ts`. |
-| `pnpm types:prismic:cli` | Upstream CLI (may fail on Node 24+—prefer `types:prismic`). |
+| `pnpm types:prismic` | Regenerate `src/prismic/types/prismic.generated.ts` (`prismic-ts-codegen`). |
 
 The full list lives in **[`package.json`](../../package.json)**.
 
@@ -80,7 +78,6 @@ The Prismic client uses **`enableAutoPreviews`** so fetches automatically use th
 - **`output: "standalone"`** — enabled for Docker and self-hosted Node builds; omitted on Vercel (`VERCEL=1`) because Vercel uses its own adapter and standalone triggers a Next.js 16.3 trace-file bug.
 - **SVG via `@svgr/webpack`** — Turbopack `rules` (SVGO options preserved from the former webpack config).
 - **`experimental.optimizePackageImports`** — tree-shakes `culori`, `gsap`.
-- **`experimental.bundleAnalyzer`** — enabled when `ANALYZE=true` (replaces `@next/bundle-analyzer` wrapper).
 - **`images.remotePatterns`** — allows `next/image` for `/links` assets (Gravatar, YouTube thumbnails, SoundCloud artwork, Google favicons, Prismic CDN). Add a host here when a new external thumbnail domain is introduced.
 - **Security headers** — CSP (including slice-simulator frame ancestors), HSTS, Permissions-Policy.
 - **Cache-Control** — tiered caching for HTML, static assets, images, and preview APIs.
