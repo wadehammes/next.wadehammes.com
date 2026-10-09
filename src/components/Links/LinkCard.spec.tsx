@@ -66,7 +66,7 @@ describe("LinkCard", () => {
     expect(
       screen.getByTitle("Saturday morning disco hour+"),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Hide/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Stop/i })).toBeInTheDocument();
   });
 
   it("expands a SoundCloud embed when play is clicked", async () => {
@@ -86,6 +86,6 @@ describe("LinkCard", () => {
     expect(
       screen.getByTitle("Saturday morning disco hour+"),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Hide/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Stop/i })).toBeInTheDocument();
   });
 });

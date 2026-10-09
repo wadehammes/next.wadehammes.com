@@ -17,6 +17,7 @@ Small browser-oriented helpers:
 | [gravatar.ts](../../src/helpers/gravatar.ts) | Gravatar URL builder (server-only; uses Node `crypto`). |
 | [youtube.ts](../../src/helpers/youtube.ts) | YouTube URL parsing, embed, and thumbnail helpers. |
 | [soundcloud.ts](../../src/helpers/soundcloud.ts) | SoundCloud URL detection, embed URLs, oEmbed fetch. |
+| [lruMap.ts](../../src/helpers/lruMap.ts) | LRU helpers for Spirals shape and OKLCH conversion caches (`getLruMapEntry`, `setLruMapEntry`). |
 
 ## `src/utils/`
 

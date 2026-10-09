@@ -1,4 +1,5 @@
 import type { ComponentProps } from "react";
+import { Bio } from "src/components/Bio/Bio.component";
 import { HomePage } from "src/components/HomePage/HomePage.component";
 import { BasePageObject } from "src/tests/basePageObject.po";
 import { homeDocumentFactory } from "src/tests/factories/HomeDocument.factory";
@@ -16,7 +17,7 @@ jest.mock("@prismicio/react");
 
 jest.mock("src/components/Spirals/SpiralsSVG.component", () => ({
   __esModule: true,
-  default: () => <div data-testid="rhSpiralsSVG" />,
+  SpiralsSVG: () => <div data-testid="rhSpiralsSVG" />,
 }));
 
 export class HomePagePageObject extends BasePageObject {
@@ -24,6 +25,19 @@ export class HomePagePageObject extends BasePageObject {
 
   renderHomePage(props: ComponentProps<typeof HomePage> = {}) {
     return render(<HomePage {...props} />);
+  }
+
+  renderHomePageWithPrismicCopy(
+    options: {
+      homePage?: ReturnType<HomePagePageObject["buildHomePage"]>;
+    } = {},
+  ) {
+    const homePage = options.homePage ?? this.buildHomePage();
+    const copy = homePage?.copy ?? null;
+
+    return this.renderHomePage({
+      bio: copy ? <Bio copy={copy} /> : null,
+    });
   }
 
   buildHomePage() {

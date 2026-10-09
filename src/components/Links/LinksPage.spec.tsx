@@ -9,6 +9,11 @@ describe("LinksPage", () => {
   it("renders profile copy and link cards from Prismic", () => {
     linksPagePageObject.renderLinksPage();
 
+    expect(screen.queryByTestId("rhHeader")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Back to home" })).toHaveAttribute(
+      "href",
+      "/",
+    );
     expect(screen.getByRole("img", { name: "Wade Hammes" })).toHaveAttribute(
       "src",
       buildGravatarUrl(SITE_EMAIL),
@@ -17,10 +22,12 @@ describe("LinksPage", () => {
       screen.getByRole("heading", { level: 1, name: "Wade Hammes" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Someone told me this would make me relevant."),
+      screen.getByText(
+        "Listen to my latest sets or find me elsewhere on the socials.",
+      ),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { level: 2, name: "All the links" }),
+      screen.getByRole("heading", { level: 2, name: "Building" }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /FilterMyDiscogs/i }),
@@ -46,7 +53,9 @@ describe("LinksPage", () => {
       screen.getByRole("heading", { level: 1, name: "Wade Hammes" }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByText("Someone told me this would make me relevant."),
+      screen.queryByText(
+        "Listen to my latest sets or find me elsewhere on the socials.",
+      ),
     ).not.toBeInTheDocument();
   });
 });

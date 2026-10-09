@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { Bio } from "src/components/Bio/Bio.component";
 import { HomePage } from "src/components/HomePage/HomePage.component";
 import {
   SITE_CREATOR,
@@ -57,7 +58,7 @@ export async function generateMetadata(): Promise<Metadata> {
 async function HomePageContent() {
   const homePage = await getCachedHomePage();
 
-  return <HomePage homePage={homePage} />;
+  return <HomePage bio={<Bio copy={homePage?.copy ?? null} />} />;
 }
 
 const Home = () => {

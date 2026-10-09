@@ -9,12 +9,15 @@ describe("parseLinksDocument", () => {
     const parsed = parseLinksDocument(doc);
 
     expect(parsed.profileName).toBe("Wade Hammes");
-    expect(parsed.tagline).toBe("Someone told me this would make me relevant.");
+    expect(parsed.tagline).toBe(
+      "Listen to my latest sets or find me elsewhere on the socials.",
+    );
     expect(parsed.sections).toHaveLength(1);
-    expect(parsed.sections[0]?.title).toBe("All the links");
+    expect(parsed.sections[0]?.title).toBe("Building");
     expect(parsed.sections[0]?.items[0]).toEqual({
       label: "FilterMyDiscogs",
-      description: "Browse and filter your Discogs collection.",
+      description:
+        "Filter and browse your Discogs collection in the browser—sort, search, and build a crate as you go.",
       embedThumbnailUrl: null,
       href: "https://filtermydisco.gs/",
       kind: "external",

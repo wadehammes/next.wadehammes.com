@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { ReactNode } from "react";
+import { type ReactNode, ViewTransition } from "react";
 import { Button } from "src/components/Button/Button.component";
 import { ButtonVariants } from "src/components/Button/Button.interfaces";
 import { ButtonGroup } from "src/components/Button/ButtonGroup.component";
@@ -65,51 +65,53 @@ export const SpiralsActions = ({
   const { currentTheme, updateTheme } = usePreferredTheme();
   const verticalLayout = useMediaQuery(CONTROLS_LAYOUT_QUERY);
 
+  const themeLabel = currentTheme === Themes.Light ? "Dark mode" : "Light mode";
+
   if (isPlaygroundOpen) {
     return null;
   }
 
-  const themeLabel = currentTheme === Themes.Light ? "Dark mode" : "Light mode";
-
   return (
-    <div data-testid="rhSpiralsActions">
-      <ButtonGroup className={styles.actionsGroup}>
-        <SpiralsActionButton
-          ariaLabel="Controls"
-          handleClick={onTogglePlayground}
-          verticalLayout={verticalLayout}
-        >
-          <Gamepad />
-        </SpiralsActionButton>
-        <SpiralsActionButton
-          ariaLabel="New Spirals"
-          handleClick={onRandomizeAllAction}
-          verticalLayout={verticalLayout}
-        >
-          <RefreshIcon />
-        </SpiralsActionButton>
-        <SpiralsActionButton
-          ariaLabel="Download SVG"
-          handleClick={() =>
-            saveSvg(".fractal", generateSpiralFileName(spiralConfigs))
-          }
-          verticalLayout={verticalLayout}
-        >
-          <DownloadIcon />
-        </SpiralsActionButton>
-        <SpiralsActionButton
-          ariaLabel={themeLabel}
-          handleClick={() =>
-            updateTheme(
-              currentTheme === Themes.Light ? Themes.Dark : Themes.Light,
-            )
-          }
-          verticalLayout={verticalLayout}
-        >
-          {currentTheme === Themes.Light ? <Moon /> : <Sun />}
-        </SpiralsActionButton>
-      </ButtonGroup>
-    </div>
+    <ViewTransition name="spirals-footer-actions">
+      <div data-testid="rhSpiralsActions">
+        <ButtonGroup className={styles.actionsGroup}>
+          <SpiralsActionButton
+            ariaLabel="Controls"
+            handleClick={onTogglePlayground}
+            verticalLayout={verticalLayout}
+          >
+            <Gamepad />
+          </SpiralsActionButton>
+          <SpiralsActionButton
+            ariaLabel="New Spirals"
+            handleClick={onRandomizeAllAction}
+            verticalLayout={verticalLayout}
+          >
+            <RefreshIcon />
+          </SpiralsActionButton>
+          <SpiralsActionButton
+            ariaLabel="Download SVG"
+            handleClick={() =>
+              saveSvg(".fractal", generateSpiralFileName(spiralConfigs))
+            }
+            verticalLayout={verticalLayout}
+          >
+            <DownloadIcon />
+          </SpiralsActionButton>
+          <SpiralsActionButton
+            ariaLabel={themeLabel}
+            handleClick={() =>
+              updateTheme(
+                currentTheme === Themes.Light ? Themes.Dark : Themes.Light,
+              )
+            }
+            verticalLayout={verticalLayout}
+          >
+            {currentTheme === Themes.Light ? <Moon /> : <Sun />}
+          </SpiralsActionButton>
+        </ButtonGroup>
+      </div>
+    </ViewTransition>
   );
 };
 

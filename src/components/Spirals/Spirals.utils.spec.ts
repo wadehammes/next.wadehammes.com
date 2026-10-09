@@ -7,15 +7,22 @@ import {
   jest,
 } from "@jest/globals";
 import {
-  adjustConfigsForTheme,
+  createRandomConfigSet,
   DEFAULT_CONFIG,
+  estimateSpiralReach,
   generateRandomConfig,
   generateSpiralFileName,
   getPolygonPoints,
   getTrianglePoints,
+  HARMONIC_SPIRAL_COUNTS,
+  harmonicConfigSetPassesQualityGate,
   hexToOklch,
+  MIN_HERO_SPIRAL_REACH,
   oklchToHex,
+  resolveLightnessForTheme,
   SPIRALS_CONSTANTS,
+  scoreHarmonicConfigSet,
+  sortConfigsForPaintOrder,
 } from "src/components/Spirals/Spirals.utils";
 
 describe("SPIRALS_CONSTANTS", () => {
@@ -79,22 +86,112 @@ describe("generateRandomConfig", () => {
     jest.restoreAllMocks();
   });
 
-  it("returns a complete SpiralsConfig within expected bounds", () => {
+  it("returns a harmonic SpiralsConfig within expected bounds", () => {
     const config = generateRandomConfig();
 
     expect(config.id).toBe("test-spiral-id");
-    expect(config.spiralCount).toBeGreaterThanOrEqual(3);
-    expect(config.spiralCount).toBeLessThanOrEqual(6);
-    expect(config.circleCount).toBeGreaterThanOrEqual(5);
+    expect(HARMONIC_SPIRAL_COUNTS).toContain(config.spiralCount);
+    expect([5, 8, 13, 21]).toContain(config.circleCount);
     expect(config.animationSpeed).toBeGreaterThanOrEqual(15000);
+    expect(config.spiralSpacing).toBeGreaterThanOrEqual(0.75);
+    expect(config.spiralSpacing).toBeLessThanOrEqual(1);
+    expect(config.circleOffset * config.spiralSpacing).toBeGreaterThanOrEqual(
+      config.elementSize * 1.12,
+    );
+    expect(estimateSpiralReach(config)).toBeGreaterThanOrEqual(
+      MIN_HERO_SPIRAL_REACH,
+    );
     expect(config.name).toBeTruthy();
     expect(["circle", "square", "triangle", "polygon"]).toContain(config.shape);
   });
+
+  it("aligns an added layer with an existing set", () => {
+    const base = generateRandomConfig();
+    const added = generateRandomConfig([base]);
+
+    expect(added.spiralCount).toBe(base.spiralCount);
+    expect(Math.abs(added.hue - base.hue)).toBeLessThanOrEqual(180);
+    expect(added.animationScale).toBeLessThan(base.animationScale);
+    expect(added.elementSize).toBeLessThanOrEqual(base.elementSize);
+  });
 });
 
-describe("adjustConfigsForTheme", () => {
+describe("createRandomConfigSet", () => {
   beforeEach(() => {
-    jest.spyOn(crypto, "randomUUID").mockReturnValue("theme-adjusted-id");
+    jest.spyOn(Math, "random").mockReturnValue(0.5);
+    jest.spyOn(crypto, "randomUUID").mockReturnValue("harmonic-set-id");
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it("returns 3–4 layers that pass the harmonic quality gate", () => {
+    const configs = createRandomConfigSet();
+
+    expect(configs.length).toBeGreaterThanOrEqual(3);
+    expect(configs.length).toBeLessThanOrEqual(4);
+
+    expect(harmonicConfigSetPassesQualityGate(configs)).toBe(true);
+
+    const spiralCounts = new Set(configs.map((config) => config.spiralCount));
+    expect(spiralCounts.size).toBe(1);
+
+    const pulseLayers = configs.filter((config) => config.pulseEnabled);
+    expect(pulseLayers.length).toBeLessThanOrEqual(1);
+
+    const maxReach = Math.max(...configs.map(estimateSpiralReach));
+    expect(maxReach).toBeGreaterThanOrEqual(MIN_HERO_SPIRAL_REACH);
+
+    for (let i = 0; i < configs.length - 1; i++) {
+      expect(configs[i]?.animationScale).toBeGreaterThan(
+        configs[i + 1]?.animationScale ?? 0,
+      );
+    }
+  });
+});
+
+describe("sortConfigsForPaintOrder", () => {
+  it("draws larger animationScale configs before smaller ones (back to front)", () => {
+    const large = {
+      ...DEFAULT_CONFIG,
+      id: "large",
+      animationScale: 1.7,
+      elementSize: 50,
+    };
+    const small = {
+      ...DEFAULT_CONFIG,
+      id: "small",
+      animationScale: 1.1,
+      elementSize: 20,
+    };
+
+    const ordered = sortConfigsForPaintOrder([small, large]);
+
+    expect(ordered.map((config) => config.id)).toEqual(["large", "small"]);
+  });
+});
+
+describe("scoreHarmonicConfigSet", () => {
+  it("penalizes clashing multi-pulse sets", () => {
+    const base = { ...DEFAULT_CONFIG };
+    const clashing = [
+      { ...base, id: "a", pulseEnabled: true, spiralCount: 6, circleCount: 21 },
+      { ...base, id: "b", pulseEnabled: true, spiralCount: 6, circleCount: 21 },
+    ];
+    const calm = [
+      { ...base, id: "c", pulseEnabled: true, spiralCount: 6, circleCount: 8 },
+      { ...base, id: "d", pulseEnabled: false, spiralCount: 6, circleCount: 8 },
+    ];
+
+    expect(scoreHarmonicConfigSet(clashing)).toBeLessThan(
+      scoreHarmonicConfigSet(calm),
+    );
+  });
+});
+
+describe("resolveLightnessForTheme", () => {
+  beforeEach(() => {
     document.body.dataset.theme = "dark";
   });
 
@@ -103,22 +200,18 @@ describe("adjustConfigsForTheme", () => {
     delete document.body.dataset.theme;
   });
 
-  it("assigns new ids while preserving other config fields", () => {
-    const config = { ...DEFAULT_CONFIG, id: "original-id", elementSize: 42 };
-    const [adjusted] = adjustConfigsForTheme([config]);
-
-    expect(adjusted.id).toBe("theme-adjusted-id");
-    expect(adjusted.elementSize).toBe(42);
+  it("leaves base lightness unchanged in dark mode", () => {
+    expect(resolveLightnessForTheme(0.8)).toBe(0.8);
   });
 
-  it("reduces lightness in light mode", () => {
+  it("reduces lightness in light mode without mutating stored base", () => {
     document.body.dataset.theme = "light";
-    const [adjusted] = adjustConfigsForTheme([
-      { ...DEFAULT_CONFIG, lightness: 0.8 },
-    ]);
+    const base = 0.8;
+    const display = resolveLightnessForTheme(base);
 
-    expect(adjusted.lightness).toBeLessThan(0.8);
-    expect(adjusted.lightness).toBeGreaterThanOrEqual(0.2);
+    expect(display).toBeLessThan(base);
+    expect(display).toBeGreaterThanOrEqual(0.2);
+    expect(base).toBe(0.8);
   });
 });
 

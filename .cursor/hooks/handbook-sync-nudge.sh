@@ -1,40 +1,49 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# postToolUse (Write|StrReplace): remind to update the matching handbook chapter.
-
 source "$(dirname "$0")/_lib.sh"
 hook_input
 
 file="$(tool_file_path)"
+[ -n "$file" ] || exit 0
 
-chapter=""
+root="$(project_dir)"
 case "$file" in
-  *.spec.ts | *.spec.tsx | *.test.ts | *.test.tsx)
-    chapter="conventions.md#testing" ;;
-  *.module.css | */src/styles/* | src/styles/*)
-    chapter="conventions.md (CSS Modules: nested @media, no margin-top)" ;;
-  */src/app/api/* | src/app/api/*)
-    chapter="platform.md or prismic.md (preview API routes)" ;;
-  */src/app/* | src/app/*)
-    chapter="patterns.md (App Router pages, metadata, layouts)" ;;
-  */src/components/Spirals/* | src/components/Spirals/* | */src/contexts/SpiralsContext.tsx | src/contexts/SpiralsContext.tsx)
-    chapter="spirals.md (config model, GSAP, playground, performance)" ;;
-  */src/components/* | src/components/*)
-    chapter="components.md (folder layout, exports, dynamic imports)" ;;
-  */src/prismic/* | src/prismic/*)
-    chapter="prismic.md (types, parsers, getters, preview)" ;;
-  */src/hooks/* | src/hooks/*)
-    chapter="patterns.md (theme, client hooks)" ;;
-  */src/helpers/* | src/helpers/* | */src/utils/* | src/utils/* | */src/interfaces/* | src/interfaces/*)
-    chapter="source-layout.md" ;;
-  */next.config.ts | next.config.ts)
-    chapter="platform.md (env vars, CSP, cache headers)" ;;
-  *)
-    exit 0 ;;
+  "$root"/*) file="${file#"$root"/}" ;;
 esac
 
-ctx="Handbook-sync check: you just edited $file. If this change shifts documented behavior or conventions, update docs/handbook/$chapter in the same change so the handbook stays accurate."
+chapter_set=""
+for chapter in $(handbook_chapters_for_path "$file"); do
+  chapter_set="${chapter_set}${chapter} "
+done
+chapter_set="$(printf '%s' "$chapter_set" | xargs 2>/dev/null || true)"
+
+readme=""
+case "$file" in
+  package.json | pnpm-lock.yaml | .tool-versions | vercel.json)
+    readme="root README.md (setup, scripts, tech stack) and docs/handbook/platform.md"
+    ;;
+  docs/handbook/platform.md)
+    readme="root README.md if install/env/scripts changed for humans"
+    ;;
+  docs/handbook/*)
+    chapter_set=""
+    ;;
+esac
+
+if [ -z "$chapter_set" ] && [ -z "$readme" ]; then
+  exit 0
+fi
+
+parts=()
+if [ -n "$chapter_set" ]; then
+  parts+=("If behavior or conventions shifted, update docs/handbook/ ($(printf '%s' "$chapter_set" | tr ' ' ', ')) in the same change.")
+fi
+if [ -n "$readme" ]; then
+  parts+=("If user-facing setup or scripts changed, sync ${readme}.")
+fi
+
+ctx="Handbook sync: edited ${file}. ${parts[*]} High-churn map: docs/handbook/README.md."
 
 advise_context "$ctx"
 exit 0

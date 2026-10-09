@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import styles from "src/components/Links/ProfileAvatar.module.css";
 import type { ParsedImage } from "src/prismic/parseImage";
 
-const DEFAULT_AVATAR_SIZE = 104;
+const DEFAULT_AVATAR_SIZE = 120;
 
 export interface ProfileAvatarProps {
   fallbackAvatarUrl?: string | null;

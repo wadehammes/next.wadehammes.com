@@ -16,7 +16,7 @@ export const Header = ({ compact = false }: HeaderProps) => {
       data-testid="rhHeader"
     >
       <div className={styles.logo}>
-        <Link href="/">
+        <Link data-nav-link="" href="/">
           <span className="crownWrapper">
             <Crown />
           </span>

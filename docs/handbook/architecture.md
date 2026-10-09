@@ -7,7 +7,7 @@ If you are new here, this page is your map. It explains how the site is structur
 - **Framework**: Next.js 16 with the **App Router**. Routes live under `src/app/` (`page.tsx`, `layout.tsx`, Route Handlers under `src/app/api/`).
 - **UI**: React 19, TypeScript.
 - **CMS**: Prismic. Content types are generated into `src/prismic/types/prismic.generated.ts`; getters and parsers live in `src/prismic/`.
-- **Data fetching**: Server Components and Prismic getters at request/build time with ISR (`revalidate`). No React Query in this repo.
+- **Data fetching**: Server Components and Prismic getters with **`'use cache'`**, **`cacheLife`**, and **`cacheTag`** (see [patterns.md](patterns.md)). Prismic publish webhooks call **`revalidateTag`** via [`/api/revalidate`](../../src/app/api/revalidate/route.ts). No React Query in this repo.
 - **Styling**: Global CSS ([src/styles/global.css](../../src/styles/global.css), [src/styles/critical.css](../../src/styles/critical.css)) plus **CSS Modules** (`.module.css`) for component-scoped rules.
 - **Animation / graphics**: GSAP, custom SVG Spirals background (client-side), culori for color math.
 - **Tooling**: pnpm, Biome for lint and format, Jest for unit tests.
@@ -18,9 +18,12 @@ If you are new here, this page is your map. It explains how the site is structur
 
 Next.js App Router entrypoints.
 
-- **`layout.tsx`** — Root layout: Space Mono font, global CSS, `SpiralsProvider`, Prismic preview toolbar, Google Analytics when configured, preview-mode overlay.
-- **`page.tsx`** — Home route; fetches the Prismic home singleton and passes parsed data to `HomePage`.
+- **`layout.tsx`** — Root layout: Space Mono font, global CSS, Prismic preview toolbar, Google Analytics when configured, preview-mode overlay.
+- **`(home)/layout.tsx`** — Wraps `/` in **`SpiralsProvider`** so `/links` and other routes do not load Spirals client state.
+- **`(home)/page.tsx`** — Home route; server-fetches Prismic, renders **`Bio`** as a Server Component child of client **`HomePage`**.
+- **`links/page.tsx`** — Links route; server **`LinksPage`** with client islands for embeds and avatars.
 - **`api/preview/route.ts`** / **`api/exit-preview/route.ts`** — Prismic draft/preview mode.
+- **`api/revalidate/route.ts`** — Prismic webhook → **`revalidateTag('prismic-home' \| 'prismic-links')`**.
 - **`slice-simulator/`** — Local Slice Machine preview (embedded iframe; relaxed CSP).
 - **`robots.ts`**, **`manifest.ts`**, **`opengraph-image.png`** — SEO and PWA metadata.
 
@@ -30,7 +33,7 @@ One folder per feature component under `src/components/<ComponentName>/`. Layout
 
 Key pieces:
 
-- **[HomePage.component.tsx](../../src/components/HomePage/HomePage.component.tsx)** — Client shell: Bio footer, Spirals controls, lazy-loaded SVG background.
+- **[HomePage.component.tsx](../../src/components/HomePage/HomePage.component.tsx)** — Client shell: Spirals footer actions, controls, lazy-loaded SVG; accepts server-rendered **`bio`** children from `(home)/page.tsx`.
 - **[Bio.component.tsx](../../src/components/Bio/Bio.component.tsx)** — Renders Prismic Rich Text via `@prismicio/react`.
 - **[Spirals/](../../src/components/Spirals/)** — Interactive generative background and playground UI.
 
@@ -59,7 +62,7 @@ Shared helpers split by topic. See [source-layout.md](source-layout.md).
 
 ### `src/styles/`
 
-Global tokens, theme breakpoints ([theme.ts](../../src/styles/theme.ts)), icon SVGs under `src/styles/icons/`.
+Global tokens and breakpoints in [variables.css](../../src/styles/variables.css) and [global.css](../../src/styles/global.css); icon SVGs under `src/styles/icons/`.
 
 ### `public/` and `scripts/`
 

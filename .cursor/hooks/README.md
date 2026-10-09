@@ -1,53 +1,59 @@
 # Cursor hooks
 
-Project hooks that keep agent work aligned with `docs/handbook/`. Ported from [delmarva-site `.cursor/`](https://github.com/gotrhythm/delmarva-site/tree/staging/.cursor) and [provisioner `.cursor/`](https://github.com/gotrhythm/provisioner/tree/staging/.cursor) for Cursor's hook format.
+Project hooks that keep agent work aligned with `docs/handbook/`. Patterns ported from **after-avenue** and earlier delmarva/provisioner setups, adapted for Prismic and Spirals.
 
-Config: [`.cursor/hooks.json`](../hooks.json). Scripts: [`.cursor/hooks/`](./).
+Config: [`.cursor/hooks.json`](../hooks.json). Scripts: [`.cursor/hooks/`](./). Path → handbook chapter map: [`_lib.sh`](./_lib.sh) (`handbook_chapters_for_path`).
 
-Shared team files under `.cursor/` are tracked in git (`hooks.json`, `hooks/`, `rules/`). Local/runtime Cursor state (`mcp.json`, `*.log`, `settings.local.json`, checkpoints, etc.) stays gitignored — see root [`.gitignore`](../../.gitignore).
+Shared team files under `.cursor/` are tracked in git (`hooks.json`, `hooks/`, `rules/`). Local/runtime Cursor state stays gitignored — see root [`.gitignore`](../../.gitignore).
 
-## Event mapping (Claude → Cursor)
+## Cursor hook events
 
-| Claude | Cursor |
-|--------|--------|
-| `UserPromptSubmit` | `sessionStart` (injects `llms.md` once per session) |
-| `PreToolUse` | `preToolUse` (matchers: `Write`, `StrReplace`) |
-| `PostToolUse` | `postToolUse` |
-| `Stop` | `stop` (`followup_message` instead of `decision: block`) |
+| Event | Role in this repo |
+|-------|-------------------|
+| `sessionStart` | Injects full `docs/handbook/llms.md` routing map |
+| `beforeShellExecution` | Git safety (Co-authored-by in commits, destructive git) |
+| `preToolUse` | Handbook reminder before edits + blocking guardrails |
+| `postToolUse` | CSS nesting advisory + handbook-sync nudge on mapped paths |
+| `stop` | `handbook-drift-check.mjs`, optional `pnpm lint:all` follow-up |
 
 ## Hooks
 
 | Script | Event | What it does |
 |--------|-------|--------------|
-| `session-handbook-routing.sh` | `sessionStart` | Injects the handbook routing map (`llms.md`) into session context. |
-| `block-added-comments.sh` | `preToolUse` | Denies edits that add explanatory code comments; allows functional directives (`biome-ignore`, `@ts-expect-error`, etc.). |
-| `block-generated-types.sh` | `preToolUse` | Denies hand-edits to `src/prismic/types/` (regenerate via `pnpm types:prismic`). |
+| `session-handbook-routing.sh` | `sessionStart` | Injects `llms.md` task→chapter map into session context. |
+| `handbook-pre-edit-reminder.sh` | `preToolUse` (`Write\|StrReplace`) | Short handbook routing blurb before every code edit. |
+| `block-co-authored-by-commit.sh` | `beforeShellExecution` (`git commit`) | Blocks `Co-authored-by` / `cursoragent@cursor.com` in commit commands. |
+| `block-destructive-git.sh` | `beforeShellExecution` | Blocks force push to **main** / **staging**, `git reset --hard`, `git clean -f…`. |
+| `block-added-comments.sh` | `preToolUse` | Denies explanatory code comments; allows biome/stylelint directives. |
+| `block-generated-types.sh` | `preToolUse` | Denies hand-edits to `src/prismic/types/` (`pnpm types:prismic`). |
 | `block-toplevel-media.sh` | `preToolUse` | Denies top-level `@media` in CSS — nest inside selectors. |
-| `block-custom-media.sh` | `preToolUse` | Denies `@custom-media` / `@media (--var)` — use range syntax. |
-| `block-margin-top.sh` | `preToolUse` | Denies `margin-top` in CSS (use flex `gap`); ignores `margin-top: 0` and `scroll-margin-top`. |
-| `block-placeholder-names.sh` | `preToolUse` | Denies generic placeholder names (`raw`, `tmp`, `val`, `foo`, etc.) in TS/TSX bindings and params. |
-| `enforce-component-template.sh` | `preToolUse` (`Write`) | Steers new components through copying an existing sibling folder. |
-| `block-barrel-files.sh` | `preToolUse` (`Write`) | Denies new `index.ts`/`index.tsx` barrels under `src/` (except generated Prismic types). |
-| `handbook-sync-nudge.sh` | `postToolUse` | Advisory reminder to update the matching handbook chapter (includes `spirals.md` routing). |
+| `block-custom-media.sh` | `preToolUse` | Denies `@custom-media` / `@media (--var)`. |
+| `block-margin-top.sh` | `preToolUse` | Denies `margin-top` in CSS (use flex `gap`). |
+| `block-placeholder-names.sh` | `preToolUse` | Denies generic binding names in TS/TSX. |
+| `enforce-component-template.sh` | `preToolUse` (`Write`) | Steers new components through copying a sibling folder. |
+| `block-barrel-files.sh` | `preToolUse` (`Write`) | Denies new `index.ts` barrels under `src/`. |
+| `enforce-factory-location.sh` | `preToolUse` (`Write`) | Denies `*.factory.ts` outside `src/tests/factories/`. |
+| `handbook-sync-nudge.sh` | `postToolUse` | Handbook/README pointer after edits to mapped paths. |
 | `check-css-nesting.sh` | `postToolUse` | Advisory when CSS nests selectors 4+ levels deep. |
-| `handbook-drift-check.sh` | `stop` | One follow-up if `src/` changed without a handbook update. |
+| `handbook-drift-check.mjs` | `stop` | Broken doc links, stale `pnpm` refs, code-without-docs, renames, high-churn paths. CI mirror: **`pnpm handbook:check`**. |
+| `lint-all-check.sh` | `stop` | Runs **`pnpm lint:all`** once when meaningful source changed. |
 
-### Not ported
+## Not ported (after-avenue only)
 
-- **`enforce-factory-location.sh`** — no `*.factory.ts` pattern in this repo.
-- **`enforce-scaffold.sh`** — replaced by `enforce-component-template.sh` (copy a sibling per `components.md`; optional `./scripts/scaffold_component.sh` exists but creates a barrel file to delete).
-- **Inline PreToolUse handbook reminder** — covered by `sessionStart` routing + workspace rules in `.cursor/rules/`.
+- **`enforce-scaffold.sh`** — use `enforce-component-template.sh` + optional `./scripts/scaffold_component.sh`.
+- **`block-query-hook-mocks.sh`** / **`handbook-test-drift-check.sh`** — no React Query / `handbookTestRules` in this repo.
 
 ## Requirements
 
-- `bash`, `jq`, `git` on `PATH`
-- Hook scripts must be executable (`chmod +x .cursor/hooks/*.sh`)
+- `bash`, `jq`, `git`, `node` on `PATH`
+- Hook scripts executable: `chmod +x .cursor/hooks/*.sh .cursor/hooks/*.mjs`
 
 ## Adding or changing a hook
 
-1. Add or edit a script under `.cursor/hooks/` (read JSON from **stdin**; use `_lib.sh` helpers).
-2. Wire it in `.cursor/hooks.json` with the right event and matcher.
-3. `chmod +x` the script and document it in the table above.
-4. Blocking hooks return `{ "permission": "deny", ... }` on `preToolUse`; advisory hooks return `{ "additional_context": "..." }` on `postToolUse`; `stop` uses `{ "followup_message": "..." }`.
+1. Add or edit a script under `.cursor/hooks/` (stdin JSON; use `_lib.sh` helpers).
+2. Wire it in `.cursor/hooks.json`.
+3. `chmod +x` and document in the table above.
+4. Update `handbook_chapters_for_path` in `_lib.sh` when new top-level areas need routing.
+5. Update `docs/handbook/platform.md` if CI or agent expectations change.
 
-Debug via Cursor **Settings → Hooks** or the **Hooks** output channel. Reload happens on `hooks.json` save; restart Cursor if hooks do not pick up.
+Debug via Cursor **Settings → Hooks** or the **Hooks** output channel.

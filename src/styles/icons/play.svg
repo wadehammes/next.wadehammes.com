@@ -1,0 +1,11 @@
+<svg
+  aria-hidden="true"
+  focusable="false"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+>
+  <path
+    fill="currentColor"
+    d="M8 5.14v13.72c0 .79.87 1.27 1.54.84l11.14-6.86c.6-.37.6-1.25 0-1.62L9.54 4.3C8.87 3.87 8 4.35 8 5.14z"
+  />
+</svg>

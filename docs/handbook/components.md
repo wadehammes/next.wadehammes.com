@@ -47,7 +47,7 @@ export default Bio;
 
 Use **`next/dynamic`** or **`React.lazy`** when a component is heavy or client-only.
 
-- **[HomePage.component.tsx](../../src/components/HomePage/HomePage.component.tsx)** lazy-loads `SpiralsSVG` inside `Suspense` so the main thread stays responsive on first paint.
+- **`SpiralsSVG`** is imported from **[`HomePageSpiralsLayer`](../../src/components/HomePage/HomePageSpiralsLayer.component.tsx)** (not `React.lazy`) so Turbopack + React Compiler share one client chunk graph; GSAP mounts only when **`initialized`**.
 - Pass `ssr: false` via `dynamic()` when a module depends on `window` and must not run on the server.
 
 ## Spirals components
@@ -56,7 +56,8 @@ Full architecture, config fields, geometry, GSAP behavior, and extension guide: 
 
 | Component | Role |
 |-----------|------|
-| [SpiralsSVG.component.tsx](../../src/components/Spirals/SpiralsSVG.component.tsx) | Root `<svg class="fractal">`; batches config rendering. |
+| [SpiralsBrowserGate.component.tsx](../../src/components/Spirals/SpiralsBrowserGate.component.tsx) | Client-only gate: `use(browser())` so SSR keeps the `Suspense` fallback until hydration. |
+| [SpiralsSVG.component.tsx](../../src/components/Spirals/SpiralsSVG.component.tsx) | Root `<svg class="fractal">`; paint-ordered sets stay mounted; [SVG.component.tsx](../../src/components/SVG/SVG.component.tsx) `visible` toggles opacity. |
 | [Spirals.component.tsx](../../src/components/Spirals/Spirals.component.tsx) | One set per config: rotation, scale, inner `Spiral` arms. |
 | [SpiralsControls.component.tsx](../../src/components/Spirals/SpiralsControls.component.tsx) | Slide-out playground with sliders and color picker. |
 | [SpiralsActions.component.tsx](../../src/components/Spirals/SpiralsActions.component.tsx) | Footer icon buttons (playground, randomize, download, theme). Custom span tooltips (not `Button` `hasTooltip`). |
@@ -69,9 +70,9 @@ State is centralized in [SpiralsContext.tsx](../../src/contexts/SpiralsContext.t
 | Component | Role |
 |-----------|------|
 | [Bio.component.tsx](../../src/components/Bio/Bio.component.tsx) | Prismic rich text in the footer (`rhBio`). |
-| [Header.component.tsx](../../src/components/Header/Header.component.tsx) | Site header (logo link). |
+| [Header.component.tsx](../../src/components/Header/Header.component.tsx) | Site header; crown home link uses `data-nav-link` (no global invert hover). |
 | [HomePage.component.tsx](../../src/components/HomePage/HomePage.component.tsx) | Client home shell: Bio, Spirals actions/controls, lazy SVG (`rhHomePage` on `PageContainer`). |
-| [PageContainer/Page.component.tsx](../../src/components/PageContainer/Page.component.tsx) | Page wrapper with ref forwarding for intersection observer; optional `testId` prop. |
+| [PageContainer/Page.component.tsx](../../src/components/PageContainer/Page.component.tsx) | Page wrapper; optional `ref` prop (React 19) for intersection observer on home; optional `testId` prop. |
 | [PreviewModeOverlay.component.tsx](../../src/components/PreviewModeOverlay/PreviewModeOverlay.component.tsx) | Banner when Prismic preview is active (`rhPreviewModeOverlay`). |
 | [SVG.component.tsx](../../src/components/SVG/SVG.component.tsx) | Inline SVG icon helper. |
 | [Button.component.tsx](../../src/components/Button/Button.component.tsx) | Shared button with variants; optional pseudo-element tooltips via `hasTooltip`. |
@@ -80,14 +81,16 @@ State is centralized in [SpiralsContext.tsx](../../src/contexts/SpiralsContext.t
 
 | Component | Role |
 |-----------|------|
-| [LinksPage.component.tsx](../../src/components/Links/LinksPage.component.tsx) | Client `/links` layout: profile, sections, link list (`rhLinksPage`). Gravatar URL is built on the server route and passed in as `fallbackAvatarUrl`. |
-| [LinkCard.component.tsx](../../src/components/Links/LinkCard.component.tsx) | Routes items to external, YouTube, or SoundCloud cards. |
-| [YouTubeLinkCard.component.tsx](../../src/components/Links/YouTubeLinkCard.component.tsx) | Square thumbnail + inline YouTube embed (`next/image`). |
-| [SoundCloudLinkCard.component.tsx](../../src/components/Links/SoundCloudLinkCard.component.tsx) | Square artwork (oEmbed) + inline SoundCloud player (`next/image`). |
+| [LinksPage.component.tsx](../../src/components/Links/LinksPage.component.tsx) | Server `/links` shell (`rhLinksPage`): no site header; **crown home link on the top-right of the avatar** (`data-nav-link`); Prismic tagline + **`Building`** link section for FilterMyDiscogs; wide column + [`LinksSections`](../../src/components/Links/LinksSections.component.tsx). Gravatar URL is built on the server route and passed in as `fallbackAvatarUrl`. |
+| [LinksSection.component.tsx](../../src/components/Links/LinksSection.component.tsx) | One Prismic section: uppercase header (when titled) + single-column list via [`LinkCard`](../../src/components/Links/LinkCard.component.tsx) (external, YouTube, or SoundCloud). |
+| [LinksSections.component.tsx](../../src/components/Links/LinksSections.component.tsx) | Maps parsed sections to `LinksSection`. |
+| [LinkCard.component.tsx](../../src/components/Links/LinkCard.component.tsx) | Client dispatcher: routes items to external, YouTube, or SoundCloud cards. |
+| [YouTubeLinkCard.component.tsx](../../src/components/Links/YouTubeLinkCard.component.tsx) | **Base UI `Collapsible`** per set: title row + right **play/stop icon segment** ([`MediaPlaySegment`](../../src/components/Links/MediaPlaySegment.component.tsx)), lazy-mounted YouTube embed (`next/image`). |
+| [SoundCloudLinkCard.component.tsx](../../src/components/Links/SoundCloudLinkCard.component.tsx) | Same collapsible + segment pattern for SoundCloud (`next/image` artwork). |
 | [LinkFavicon.component.tsx](../../src/components/Links/LinkFavicon.component.tsx) | Favicon beside external link labels (`next/image`; [favicon.ts](../../src/helpers/favicon.ts)). |
-| [ProfileAvatar.component.tsx](../../src/components/Links/ProfileAvatar.component.tsx) | Profile photo on `/links` (`next/image`). Prismic `profile_image` wins; otherwise `fallbackAvatarUrl` from the server route ([buildGravatarUrl](../../src/helpers/gravatar.ts) + [SITE_EMAIL](../../src/constants/site.ts)). Falls back to the gradient placeholder if the image errors. |
+| [ProfileAvatar.component.tsx](../../src/components/Links/ProfileAvatar.component.tsx) | Circular profile photo in the padded rail (`next/image`). Prismic `profile_image` wins; otherwise `fallbackAvatarUrl` from the server route ([buildGravatarUrl](../../src/helpers/gravatar.ts) + [SITE_EMAIL](../../src/constants/site.ts)). Falls back to the gradient placeholder if the image errors. |
 
-Contrast-safe secondary text on `/links` uses scoped `--links-*` tokens on [LinksPage.module.css](../../src/components/Links/LinksPage.module.css) (inherited by link cards), with separate values for light and dark theme.
+`/links` is intentionally plain: mono type, wide two-column layout on desktop, sticky profile rail, **one vertical rule** between rail and links, and **soft row dividers** only (no background grid). External rows use the same **invert-on-hover** treatment as global `a` styles in [global.css](../../src/styles/global.css). Media rows keep a play/stop control and lazy embed. Scoped `--links-*` tokens live on [LinksPage.module.css](../../src/components/Links/LinksPage.module.css) (inherited by link cards), with separate values for light and dark theme.
 
 Remote thumbnails and avatars require matching hosts in **`images.remotePatterns`** in [next.config.ts](../../next.config.ts)—see [platform.md](platform.md#nextconfigts-highlights). Use **`next/image`** with **`unoptimized`** for these external URLs so SSR and the client share the same `src` (avoids hydration mismatches on the optimizer proxy).
 

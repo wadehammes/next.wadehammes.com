@@ -44,3 +44,9 @@ jobs:
         run: pnpm test:ci
       - name: Run Knip
         run: pnpm knip:ci
+      - name: Run production build
+        run: pnpm build
+        env:
+          NEXT_PUBLIC_PRISMIC_REPOSITORY_NAME: wadehammes
+      - name: Handbook sync check
+        run: pnpm handbook:check

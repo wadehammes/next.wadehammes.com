@@ -1,18 +1,39 @@
+.pageShell {
+  --links-divider: color-mix(
+    in srgb,
+    var(--spirals-border-color) 65%,
+    transparent
+  );
+
+  width: 100%;
+  max-width: 76rem;
+  margin: 0 auto;
+}
+
 .page {
   --links-badge-active-text: var(--colors-white);
   --links-badge-muted: var(--colors-gray);
   --links-badge-play-text: var(--spirals-add-green);
-  --links-section-title: var(--colors-teal);
+  --links-section-title: var(--color-text);
   --links-text-muted: var(--colors-gray);
+  --links-space-sm: 0.75rem;
+  --links-space-md: 1rem;
+  --links-space-lg: 1.5rem;
+  --links-space-xl: 3rem;
+  --links-card-padding-block: 1.125rem;
+  --links-card-padding-inline: 0;
+  --links-media-play-icon-size: 1.125rem;
+  --links-media-play-segment-bg: transparent;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: min(100%, 42rem);
-  max-width: 36rem;
-  margin: 0 auto;
-  padding-block: 0 2rem;
-  gap: 2rem;
+  & p:last-child {
+    padding-bottom: 0;
+  }
+
+  display: grid;
+  align-items: start;
+  width: 100%;
+  min-height: calc(100dvh - 2rem);
+  gap: var(--links-space-xl);
 
   @media (prefers-color-scheme: light) {
     --links-badge-active-text: var(--colors-trueBlack);
@@ -26,12 +47,16 @@
       var(--colors-trueBlack) 70%,
       var(--spirals-add-green)
     );
-    --links-section-title: var(--colors-blue);
     --links-text-muted: color-mix(
       in srgb,
       var(--colors-gray) 50%,
       var(--colors-black)
     );
+  }
+
+  @media (width >= 56rem) {
+    grid-template-columns: minmax(14rem, 17rem) minmax(0, 1fr);
+    gap: 0;
   }
 }
 
@@ -47,7 +72,6 @@
     var(--colors-trueBlack) 70%,
     var(--spirals-add-green)
   );
-  --links-section-title: var(--colors-blue);
   --links-text-muted: color-mix(
     in srgb,
     var(--colors-gray) 50%,
@@ -59,72 +83,196 @@
   --links-badge-active-text: var(--colors-white);
   --links-badge-muted: var(--colors-gray);
   --links-badge-play-text: var(--spirals-add-green);
-  --links-section-title: var(--colors-teal);
   --links-text-muted: var(--colors-gray);
 }
 
-.profile {
+.aside {
+  width: 100%;
+  padding: var(--links-space-lg) var(--links-space-md);
+
+  @media (width >= 56rem) {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    max-height: 100dvh;
+    overflow-y: auto;
+    padding: var(--links-space-xl) var(--links-space-lg);
+    border-right: 1px solid var(--links-divider);
+  }
+}
+
+.profileCard {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+  align-items: flex-start;
+  gap: var(--links-space-md);
   width: 100%;
-  text-align: center;
+}
+
+.profileMark {
+  width: fit-content;
+}
+
+.avatarFrame {
+  position: relative;
+  width: fit-content;
+  padding: 0.2rem 1.35rem 0 0;
+
+  & img,
+  & [data-testid="rhProfileAvatarPlaceholder"] {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 4.5rem;
+    height: 4.5rem;
+
+    @media (width >= 56rem) {
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+}
+
+.homeLogo {
+  position: absolute;
+  top: 0.05rem;
+  right: 0.1rem;
+  left: auto;
+  z-index: 2;
+  display: block;
+  width: 2.65rem;
+  color: var(--color-text);
+  text-decoration: none;
+  background-color: transparent;
+  filter: drop-shadow(
+    0 2px 6px color-mix(in srgb, var(--color-bg) 55%, transparent)
+  );
+
+  & svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    transform: rotate(30deg);
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: 76% -88%;
+  }
+
+  & svg path {
+    transition:
+      fill 0.1s ease,
+      stroke 0.1s ease;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: transparent;
+    color: var(--color-text);
+  }
+
+  &:hover svg path,
+  &:focus-visible svg path {
+    fill: transparent;
+    stroke: currentcolor;
+    stroke-width: 1.35;
+    paint-order: stroke;
+    vector-effect: non-scaling-stroke;
+  }
+
+  &:hover svg,
+  &:focus-visible svg {
+    transform: rotate(30deg) scale(1.01);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (width >= 56rem) {
+    width: 2.85rem;
+  }
 }
 
 .hgroup {
   display: flex;
+  flex: 1;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 0.625rem;
+  min-width: 0;
+  text-align: left;
 }
 
 .name {
   margin: 0;
-  font-size: clamp(1.5rem, 4vw, 1.875rem);
-  font-weight: 700;
-  line-height: 1.15;
   padding-bottom: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
+
+  @media (width >= 56rem) {
+    font-size: 1.25rem;
+  }
 }
 
 .tagline {
   margin: 0;
-  max-width: 50ch;
-  font-size: 0.9375rem;
+  padding-bottom: 0;
+  font-size: 0.875rem;
   line-height: 1.5;
   color: var(--links-text-muted);
-  text-wrap: balance;
+  text-wrap: pretty;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  padding: 0 var(--links-space-md) var(--links-space-xl);
+
+  @media (width >= 56rem) {
+    padding: var(--links-space-xl) var(--links-space-xl) var(--links-space-xl)
+      2.5rem;
+  }
 }
 
 .sections {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--links-space-xl);
   width: 100%;
 }
 
 .section {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: var(--links-space-md);
+  width: 100%;
+}
+
+.sectionHeader {
+  display: flex;
   width: 100%;
 }
 
 .sectionTitle {
   margin: 0;
-  padding-inline: 0.25rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.0875em;
-  text-transform: uppercase;
-  text-align: left;
-  font-weight: 400;
+  padding-bottom: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.3;
   color: var(--links-section-title);
+  text-wrap: balance;
 }
 
 .linkList {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 0;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -132,6 +280,8 @@
 
 .empty {
   margin: 0;
-  text-align: center;
+  padding: var(--links-space-lg) 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
   color: var(--links-text-muted);
 }
