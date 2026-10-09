@@ -16,10 +16,8 @@
     "scripts/update-home-seo.cjs"
   ],
   "ignoreFiles": [
-    "prismicCodegen.config.ts"
-  ],
-  "ignoreDependencies": [
-    "@svgr/webpack"
+    "prismicCodegen.config.ts",
+    ".cursor/hooks/**"
   ],
   "ignoreExportsUsedInFile": true,
   "ignoreIssues": {

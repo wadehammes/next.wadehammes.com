@@ -15,7 +15,7 @@ Use this page to choose **which markdown file to read first**. It mirrors the fu
 | Server components, ISR/revalidate, metadata, theme | [patterns.md](patterns.md) |
 | Spirals background, config model, GSAP animation, playground, export, performance | [spirals.md](spirals.md) |
 | Spirals component files and folder layout | [spirals.md](spirals.md) and [components.md](components.md#spirals-components) |
-| CI, `pnpm` scripts, `next.config` (env, headers, CSP), preview APIs | [platform.md](platform.md) |
+| CI, `pnpm` scripts, `next.config` (env, headers, CSP), preview APIs, Cursor hooks, `pnpm handbook:check` | [platform.md](platform.md) |
 | Google Analytics | [integrations.md](integrations.md) |
 | Sitemaps, `public/` XML output, robots | [distribution.md](distribution.md) |
 | Component or API tests, page objects, factories, mocks (`prismicReactMock`, `mockMatchMediaQueries`) | [conventions.md](conventions.md#testing) and [source-layout.md](source-layout.md) |

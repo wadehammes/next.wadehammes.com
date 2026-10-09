@@ -51,16 +51,16 @@ class LinksDocumentFactory extends BaseFactory<
     attributes?: LinksDocumentBuildAttributes,
     options: LinksDocumentFactoryOptions = {},
   ): LinksDocument {
-    const items = [
+    const shippedItems = [
       buildLinkItem(
         "FilterMyDiscogs",
         "https://filtermydisco.gs/",
-        "Browse and filter your Discogs collection.",
+        "Filter and browse your Discogs collection in the browser—sort, search, and build a crate as you go.",
       ),
     ];
 
     if (options.includeInvalidItem) {
-      items.push({
+      shippedItems.push({
         label: null,
         description: null,
         link: { link_type: "Any" },
@@ -70,7 +70,7 @@ class LinksDocumentFactory extends BaseFactory<
     const slices = (
       options.includeEmptySection
         ? [buildLinkSection([], "Empty section")]
-        : [buildLinkSection(items)]
+        : [buildLinkSection(shippedItems, "Building")]
     ) satisfies LinksDocument["data"]["slices"];
 
     const instance: LinksDocument = {
@@ -92,7 +92,8 @@ class LinksDocumentFactory extends BaseFactory<
         meta_title: "Wade Hammes · Links",
         profile_image: {},
         profile_name: "Wade Hammes",
-        tagline: "Someone told me this would make me relevant.",
+        tagline:
+          "Listen to my latest sets or find me elsewhere on the socials.",
         slices,
       },
     };

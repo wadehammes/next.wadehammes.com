@@ -1,69 +1,38 @@
 "use client";
 
-import { lazy, Suspense, useEffect, useMemo } from "react";
+import { type ReactNode, startTransition, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
-import { Bio } from "src/components/Bio/Bio.component";
+import { HomePageSpiralsLayer } from "src/components/HomePage/HomePageSpiralsLayer.component";
 import PageContainer from "src/components/PageContainer/Page.component";
 import type { SpiralsConfig } from "src/components/Spirals/Spirals.utils";
 import { SpiralsActions } from "src/components/Spirals/SpiralsActions.component";
 import { SpiralsControls } from "src/components/Spirals/SpiralsControls.component";
-import { useSpirals } from "src/contexts/SpiralsContext";
-import { isBrowser } from "src/helpers/helpers";
-import type { ParsedPage } from "src/prismic/parsePage";
-
-// Lazy load the SpiralsSVG component for better performance
-const SpiralsSVG = lazy(
-  () => import("src/components/Spirals/SpiralsSVG.component"),
-);
-
-// Loading fallback component
-const SpiralsSVGFallback = () => (
-  <div
-    style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100vw",
-      height: "100vh",
-      backgroundColor: "var(--color-bg)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      zIndex: -1,
-    }}
-  >
-    <div style={{ color: "var(--color-text)" }}>Loading spirals...</div>
-  </div>
-);
+import {
+  useSpiralsConfigs,
+  useSpiralsDispatch,
+  useSpiralsState,
+} from "src/contexts/SpiralsContext";
 
 export interface HomePageProps {
-  /** Home `page` document from Prismic (optional when CMS is unset or missing). */
-  homePage?: ParsedPage | null;
+  bio?: ReactNode;
 }
 
-export const HomePage = ({ homePage }: HomePageProps) => {
-  const { state, dispatch } = useSpirals();
-  const { configs, isPlaygroundOpen, clientReady } = state;
+export const HomePage = ({ bio = null }: HomePageProps) => {
+  const dispatch = useSpiralsDispatch();
+  const configs = useSpiralsConfigs();
+  const { isPlaygroundOpen, initialized } = useSpiralsState();
 
   const { inView, ref } = useInView({
     triggerOnce: true,
     initialInView: true,
     fallbackInView: true,
-    // Add threshold to start loading earlier
     threshold: 0.1,
   });
 
-  // Set client ready when in view
-  useEffect(() => {
-    if (isBrowser() && inView) {
-      dispatch({ type: "SET_CLIENT_READY", payload: true });
-    }
-  }, [inView, dispatch]);
-
-  // Memoize the action handlers to prevent unnecessary re-renders
   const actionHandlers = useMemo(
     () => ({
-      togglePlayground: () => dispatch({ type: "TOGGLE_PLAYGROUND" }),
+      togglePlayground: () =>
+        startTransition(() => dispatch({ type: "TOGGLE_PLAYGROUND" })),
       randomizeAll: () => dispatch({ type: "RANDOMIZE_ALL" }),
       updateConfig: (config: SpiralsConfig, index: number) =>
         dispatch({ type: "UPDATE_CONFIG", payload: { config, index } }),
@@ -78,7 +47,7 @@ export const HomePage = ({ homePage }: HomePageProps) => {
     <>
       <PageContainer ref={ref} testId="rhHomePage">
         <footer className="footer">
-          <Bio copy={homePage?.copy ?? null} />
+          {bio}
           <div className="footerActions">
             <SpiralsActions
               onTogglePlayground={actionHandlers.togglePlayground}
@@ -90,7 +59,6 @@ export const HomePage = ({ homePage }: HomePageProps) => {
         </footer>
       </PageContainer>
 
-      {/* Always render the controls so the Playground button is always visible */}
       <SpiralsControls
         configs={configs}
         onConfigChangeAction={actionHandlers.updateConfig}
@@ -101,16 +69,11 @@ export const HomePage = ({ homePage }: HomePageProps) => {
         onToggleAction={actionHandlers.togglePlayground}
       />
 
-      {/* Render the SVG only when ready and in view with lazy loading */}
-      {clientReady ? (
-        <Suspense fallback={<SpiralsSVGFallback />}>
-          <SpiralsSVG
-            key={new Date().toDateString()}
-            visible={inView}
-            configs={configs}
-          />
-        </Suspense>
-      ) : null}
+      <HomePageSpiralsLayer
+        configs={configs}
+        inView={inView}
+        initialized={initialized}
+      />
     </>
   );
 };

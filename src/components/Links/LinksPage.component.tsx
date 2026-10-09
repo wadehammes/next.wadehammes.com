@@ -1,11 +1,11 @@
-"use client";
-
-import { LinkCard } from "src/components/Links/LinkCard.component";
+import Link from "next/link";
 import styles from "src/components/Links/LinksPage.module.css";
+import { LinksSections } from "src/components/Links/LinksSections.component";
 import { ProfileAvatar } from "src/components/Links/ProfileAvatar.component";
 import PageContainer from "src/components/PageContainer/Page.component";
 import { SITE_TITLE } from "src/constants/site";
 import type { ParsedLinksPage } from "src/prismic/parseLinks";
+import Crown from "src/styles/icons/crown.svg";
 
 export interface LinksPageProps {
   fallbackAvatarUrl?: string | null;
@@ -17,45 +17,49 @@ export const LinksPage = ({ fallbackAvatarUrl, linksPage }: LinksPageProps) => {
   const sections = linksPage?.sections ?? [];
 
   return (
-    <PageContainer contentAlign="top" testId="rhLinksPage">
-      <div className={styles.page}>
-        <div className={styles.profile}>
-          <ProfileAvatar
-            fallbackAvatarUrl={fallbackAvatarUrl}
-            image={linksPage?.profileImage}
-            name={profileName}
-          />
-          <hgroup className={styles.hgroup}>
-            <h1 className={styles.name}>{profileName}</h1>
-            {linksPage?.tagline ? (
-              <p className={styles.tagline}>{linksPage.tagline}</p>
-            ) : null}
-          </hgroup>
-        </div>
-
-        {sections.length > 0 ? (
-          <div className={styles.sections}>
-            {sections.map((section) => (
-              <section
-                className={styles.section}
-                key={section.title ?? section.items[0]?.label}
-              >
-                {section.title ? (
-                  <h2 className={styles.sectionTitle}>{section.title}</h2>
+    <PageContainer contentAlign="top" showHeader={false} testId="rhLinksPage">
+      <div className={styles.pageShell}>
+        <div className={styles.page}>
+          <aside aria-label="Profile" className={styles.aside}>
+            <div className={styles.profileCard}>
+              <div className={styles.profileMark}>
+                <div className={styles.avatarFrame}>
+                  <ProfileAvatar
+                    fallbackAvatarUrl={fallbackAvatarUrl}
+                    image={linksPage?.profileImage}
+                    name={profileName}
+                  />
+                  <Link
+                    className={styles.homeLogo}
+                    data-nav-link=""
+                    href="/"
+                    aria-label="Back to home"
+                  >
+                    <span className="crownWrapper">
+                      <Crown />
+                    </span>
+                  </Link>
+                </div>
+              </div>
+              <hgroup className={styles.hgroup}>
+                <h1 className={styles.name}>{profileName}</h1>
+                {linksPage?.tagline ? (
+                  <p className={styles.tagline}>{linksPage.tagline}</p>
                 ) : null}
-                <ul className={styles.linkList}>
-                  {section.items.map((item) => (
-                    <LinkCard item={item} key={`${item.href}-${item.label}`} />
-                  ))}
-                </ul>
-              </section>
-            ))}
+              </hgroup>
+            </div>
+          </aside>
+
+          <div className={styles.main}>
+            {sections.length > 0 ? (
+              <LinksSections sections={sections} />
+            ) : (
+              <p className={styles.empty}>
+                Links will appear here once published in Prismic.
+              </p>
+            )}
           </div>
-        ) : (
-          <p className={styles.empty}>
-            Links will appear here once published in Prismic.
-          </p>
-        )}
+        </div>
       </div>
     </PageContainer>
   );

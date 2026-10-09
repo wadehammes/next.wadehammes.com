@@ -6,6 +6,7 @@
     "--links-badge-play-text": "initial",
     "--links-section-title": "initial",
     "--links-text-muted": "initial",
+    "--links-divider": "initial",
     "--spiral-color": "initial"
   }
 }

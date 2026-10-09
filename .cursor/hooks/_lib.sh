@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Shared helpers for Cursor hooks (adapted from delmarva-site / provisioner).
 
 hook_input() {
   INPUT="$(cat)"
@@ -24,6 +23,7 @@ tool_added_text() {
     [
       .tool_input.new_string?,
       .tool_input.content?,
+      .tool_input.contents?,
       .tool_input.string?,
       (.tool_input.edits[]?.new_string)
     ]
@@ -54,4 +54,81 @@ deny_tool() {
 advise_context() {
   local ctx="$1"
   jq -n --arg c "$ctx" '{ additional_context: $c }'
+}
+
+run_pnpm() {
+  if [ -x "${HOME}/.local/bin/mise" ]; then
+    "${HOME}/.local/bin/mise" exec -- pnpm "$@"
+  elif command -v mise >/dev/null 2>&1; then
+    mise exec -- pnpm "$@"
+  elif command -v pnpm >/dev/null 2>&1; then
+    command pnpm "$@"
+  else
+    return 127
+  fi
+}
+
+handbook_chapters_for_path() {
+  local file="$1"
+  local chapters=()
+
+  case "$file" in
+    docs/handbook/*)
+      return 0
+      ;;
+    .cursor/hooks/* | .cursor/hooks.json | AGENTS.md)
+      chapters+=("platform.md" "README.md")
+      ;;
+    vercel.json)
+      chapters+=("platform.md")
+      ;;
+    .jest/*)
+      chapters+=("conventions.md" "platform.md")
+      ;;
+    jest.config.ts | jest.config.js | jest.config.mjs)
+      chapters+=("platform.md" "conventions.md")
+      ;;
+    next.config.ts | next.config.js | next.config.mjs)
+      chapters+=("platform.md")
+      ;;
+    src/tests/factories/*)
+      chapters+=("conventions.md")
+      ;;
+    *.spec.ts | *.spec.tsx | *.test.ts | *.test.tsx)
+      chapters+=("conventions.md")
+      ;;
+    *.module.css)
+      chapters+=("conventions.md")
+      ;;
+    src/prismic/*)
+      chapters+=("prismic.md")
+      ;;
+    src/app/api/*)
+      chapters+=("platform.md" "prismic.md")
+      ;;
+    src/app/*)
+      chapters+=("patterns.md" "architecture.md")
+      ;;
+    src/components/Spirals/* | src/contexts/SpiralsContext.tsx)
+      chapters+=("spirals.md" "components.md")
+      ;;
+    src/components/*)
+      chapters+=("components.md")
+      ;;
+    src/hooks/* | src/contexts/*)
+      chapters+=("patterns.md" "source-layout.md")
+      ;;
+    src/helpers/* | src/utils/* | src/interfaces/*)
+      chapters+=("source-layout.md" "conventions.md")
+      ;;
+    src/styles/*)
+      chapters+=("conventions.md")
+      ;;
+  esac
+
+  if [ "${#chapters[@]}" -eq 0 ]; then
+    chapters+=("conventions.md")
+  fi
+
+  printf '%s\n' "${chapters[@]}" | awk '!seen[$0]++' | tr '\n' ' '
 }

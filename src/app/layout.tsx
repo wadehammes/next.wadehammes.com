@@ -3,7 +3,6 @@ import { PrismicPreview } from "@prismicio/next";
 import { Space_Mono } from "next/font/google";
 import { Suspense } from "react";
 import { PreviewModeOverlayGate } from "src/components/PreviewModeOverlay/PreviewModeOverlayGate.component";
-import { SpiralsProvider } from "src/contexts/SpiralsContext";
 import { getPrismicRepositoryName } from "src/prismic/constants";
 
 import "src/components/PreviewModeOverlay/preview-overlay.css";
@@ -28,9 +27,7 @@ export default function RootLayout({
 
   const body = (
     <>
-      <SpiralsProvider>
-        <main>{children}</main>
-      </SpiralsProvider>
+      <main>{children}</main>
       {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
     </>
   );

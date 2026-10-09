@@ -1,9 +1,11 @@
 "use client";
 
+import { Collapsible } from "@base-ui/react/collapsible";
 import classNames from "classnames";
 import Image from "next/image";
-import { useState } from "react";
+import { Activity, useState } from "react";
 import styles from "src/components/Links/LinkCard.module.css";
+import { MediaPlaySegment } from "src/components/Links/MediaPlaySegment.component";
 import {
   buildYouTubeEmbedUrl,
   buildYouTubeThumbnailUrl,
@@ -15,63 +17,67 @@ export interface YouTubeLinkCardProps {
 }
 
 export const YouTubeLinkCard = ({ item }: YouTubeLinkCardProps) => {
-  const [isPlaying, setIsPlaying] = useState(false);
   const videoId = item.youtubeVideoId;
+  const [open, setOpen] = useState(false);
 
   if (!videoId) {
     return null;
   }
 
   return (
-    <li className={styles.item}>
-      <div
-        className={classNames(styles.card, styles.mediaCard, {
-          [styles.cardActive]: isPlaying,
-        })}
+    <li className={classNames(styles.item, styles.itemMedia)}>
+      <Collapsible.Root
+        className={classNames(
+          styles.card,
+          styles.mediaCard,
+          styles.mediaCollapsible,
+        )}
+        onOpenChange={setOpen}
+        open={open}
       >
-        <button
-          aria-expanded={isPlaying}
+        <Collapsible.Trigger
           className={styles.mediaCardToggle}
           data-link-card=""
-          onClick={() => {
-            setIsPlaying((open) => !open);
-          }}
-          type="button"
         >
-          <Image
-            alt=""
-            className={styles.thumbnail}
-            height={72}
-            src={buildYouTubeThumbnailUrl(videoId)}
-            unoptimized
-            width={72}
-          />
-          <span className={styles.videoBody}>
-            <span className={styles.labelRow}>
+          <span className={styles.mediaCardMain}>
+            <Image
+              alt=""
+              className={styles.thumbnail}
+              height={72}
+              src={buildYouTubeThumbnailUrl(videoId)}
+              unoptimized
+              width={72}
+            />
+            <span className={styles.videoBody}>
               <span className={styles.label}>{item.label}</span>
-              <span className={styles.badge}>
-                {isPlaying ? "Hide" : "Play"}
-              </span>
+              {item.description ? (
+                <span className={styles.description}>{item.description}</span>
+              ) : null}
             </span>
-            {item.description ? (
-              <span className={styles.description}>{item.description}</span>
-            ) : null}
           </span>
-        </button>
-        {isPlaying ? (
-          <div className={styles.mediaCardPreview}>
-            <div className={styles.embed}>
-              <iframe
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                className={styles.iframe}
-                src={buildYouTubeEmbedUrl(videoId, true)}
-                title={item.label}
-              />
-            </div>
-          </div>
-        ) : null}
-      </div>
+          <MediaPlaySegment />
+        </Collapsible.Trigger>
+        <Collapsible.Panel
+          className={styles.mediaCollapsiblePanel}
+          keepMounted={false}
+        >
+          {open ? (
+            <Activity mode="visible" name={`youtube-${videoId}`}>
+              <div className={styles.mediaCardPreview}>
+                <div className={styles.embed}>
+                  <iframe
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className={styles.iframe}
+                    src={buildYouTubeEmbedUrl(videoId, true)}
+                    title={item.label}
+                  />
+                </div>
+              </div>
+            </Activity>
+          ) : null}
+        </Collapsible.Panel>
+      </Collapsible.Root>
     </li>
   );
 };

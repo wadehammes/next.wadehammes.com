@@ -1,9 +1,13 @@
 import { describe, expect, it } from "@jest/globals";
-import { renderHook } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
+import type { PropsWithChildren } from "react";
 import {
+  SpiralsProvider,
   spiralsInitialState,
   spiralsReducer,
   useSpirals,
+  useSpiralsDispatch,
+  useSpiralsState,
 } from "src/contexts/SpiralsContext";
 import { spiralsConfigFactory } from "src/tests/factories/SpiralsConfig.factory";
 
@@ -42,16 +46,38 @@ describe("spiralsReducer", () => {
     expect(nextState.configs[1]?.id).toBe("existing-config");
   });
 
-  it("does not remove the last remaining spiral set", () => {
-    const onlyConfig = spiralsConfigFactory.build({ id: "only-config" });
-    const state = { ...spiralsInitialState, configs: [onlyConfig] };
+  it("does not remove spiral sets below the minimum count", () => {
+    const configs = [
+      spiralsConfigFactory.build({ id: "a" }),
+      spiralsConfigFactory.build({ id: "b" }),
+      spiralsConfigFactory.build({ id: "c" }),
+    ];
+    const state = { ...spiralsInitialState, configs };
 
     const nextState = spiralsReducer(state, {
       type: "REMOVE_SPIRAL_SET",
-      payload: { id: "only-config" },
+      payload: { id: "a" },
     });
 
     expect(nextState).toBe(state);
+  });
+
+  it("removes a spiral set when above the minimum count", () => {
+    const configs = [
+      spiralsConfigFactory.build({ id: "a" }),
+      spiralsConfigFactory.build({ id: "b" }),
+      spiralsConfigFactory.build({ id: "c" }),
+      spiralsConfigFactory.build({ id: "d" }),
+    ];
+    const state = { ...spiralsInitialState, configs };
+
+    const nextState = spiralsReducer(state, {
+      type: "REMOVE_SPIRAL_SET",
+      payload: { id: "d" },
+    });
+
+    expect(nextState.configs).toHaveLength(3);
+    expect(nextState.configs.some((config) => config.id === "d")).toBe(false);
   });
 
   it("toggles playground visibility", () => {
@@ -64,20 +90,42 @@ describe("spiralsReducer", () => {
     expect(opened.isPlaygroundOpen).toBe(false);
   });
 
-  it("marks the client as ready", () => {
+  it("marks initialized on INITIALIZE_RANDOM", () => {
     const nextState = spiralsReducer(spiralsInitialState, {
-      type: "SET_CLIENT_READY",
-      payload: true,
+      type: "INITIALIZE_RANDOM",
     });
 
-    expect(nextState.clientReady).toBe(true);
+    expect(nextState.initialized).toBe(true);
+    expect(nextState.configs.length).toBeGreaterThan(0);
   });
 });
 
-describe("useSpirals", () => {
+const wrapper = ({ children }: PropsWithChildren) => (
+  <SpiralsProvider>{children}</SpiralsProvider>
+);
+
+describe("Spirals context hooks", () => {
   it("throws when used outside SpiralsProvider", () => {
     expect(() => renderHook(() => useSpirals())).toThrow(
-      "useSpirals must be used within a SpiralsProvider",
+      "useSpiralsState must be used within a SpiralsProvider",
     );
+  });
+
+  it("returns a stable dispatch reference across state updates", () => {
+    const { result } = renderHook(
+      () => ({
+        dispatch: useSpiralsDispatch(),
+        state: useSpiralsState(),
+      }),
+      { wrapper },
+    );
+
+    const initialDispatch = result.current.dispatch;
+
+    act(() => {
+      result.current.dispatch({ type: "TOGGLE_PLAYGROUND" });
+    });
+
+    expect(result.current.dispatch).toBe(initialDispatch);
   });
 });

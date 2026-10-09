@@ -79,7 +79,7 @@ Parsers translate Prismic documents into app-level types used by components.
 
 ### Link section slice
 
-The **`links`** singleton uses one or more **`link_section`** slices (`section_title` + repeatable link items). Models live under [prismicio/](../../prismicio/) and sync to the repo via the Custom Types API. Edit content in Prismic → **Links**; publish from **Migration Releases** when drafts are created via the Migration API.
+The **`links`** singleton uses one or more **`link_section`** slices (`section_title` + repeatable link items). Models live under [prismicio/](../../prismicio/) and sync to the repo via the Custom Types API. Edit content in Prismic → **Links**; publish from **Migration Releases** when drafts are created via the Migration API. Repo scripts: **`pnpm prismic:update-links-content`** (Building section), **`pnpm prismic:update-home-bio`** (hero copy with project links), **`pnpm prismic:update-home-seo`** (meta fields)—see [platform.md](platform.md).
 
 ## Rich Text in components
 
@@ -104,19 +104,28 @@ See [Bio.component.tsx](../../src/components/Bio/Bio.component.tsx).
 
 | Route | Handler | Purpose |
 |-------|---------|---------|
-| `/api/preview` | [preview/route.ts](../../src/app/api/preview/route.ts) | `redirectToPreviewURL` with a `linkResolver` mapping `home` → `/`. |
+| `/api/preview` | [preview/route.ts](../../src/app/api/preview/route.ts) | `redirectToPreviewURL` with a `linkResolver` mapping `home` → `/`, `links` → `/links`. Returns 503 when Prismic env is missing (CI build). |
 | `/api/exit-preview` | [exit-preview/route.ts](../../src/app/api/exit-preview/route.ts) | `exitPreview()` from `@prismicio/next`. |
+| `/api/revalidate` | [revalidate/route.ts](../../src/app/api/revalidate/route.ts) | POST webhook: validates **`PRISMIC_REVALIDATE_SECRET`**, then **`revalidateTag`** for `prismic-home` / `prismic-links` (see [revalidateFromWebhook.ts](../../src/prismic/revalidateFromWebhook.ts)). |
 
 In Prismic → Settings → Previews, set the preview URL to `https://<your-domain>/api/preview`.
+
+### Cache invalidation (publish webhooks)
+
+1. Set **`PRISMIC_REVALIDATE_SECRET`** in Vercel (long random string).
+2. In Prismic → Settings → Webhooks, add a **Publish** webhook:
+   - URL: `https://<your-domain>/api/revalidate?secret=<same-secret>`
+   - Method: POST
+3. On publish, Next.js clears cached getters tagged in [cacheLife.ts](../../src/prismic/cacheLife.ts). If the webhook body lists document types, only matching tags revalidate; otherwise both tags refresh.
+
+Preview API routes use `Cache-Control: private, no-store` headers defined in [next.config.ts](../../next.config.ts).
 
 ### Layout integration
 
 [src/app/layout.tsx](../../src/app/layout.tsx):
 
-- Reads `draftMode().isEnabled` and renders `PreviewModeOverlay` when active.
+- Renders `PreviewModeOverlayGate` inside `Suspense` when draft mode is active.
 - Wraps the app in `PrismicPreview` when the repository name is configured.
-
-Preview API routes use `Cache-Control: private, no-store` headers defined in [next.config.ts](../../next.config.ts).
 
 ## Slice Simulator
 

@@ -10,7 +10,7 @@ describe("HomePage", () => {
   });
 
   it("renders Prismic bio copy in the footer", () => {
-    po.renderHomePage({
+    po.renderHomePageWithPrismicCopy({
       homePage: po.buildHomePageWithHeading("Hi, I'm Wade."),
     });
 
@@ -20,14 +20,16 @@ describe("HomePage", () => {
   });
 
   it("omits bio copy when Prismic copy is missing", () => {
-    po.renderHomePage({ homePage: po.buildHomePageWithoutCopy() });
+    po.renderHomePageWithPrismicCopy({
+      homePage: po.buildHomePageWithoutCopy(),
+    });
 
     expect(screen.getByTestId(po.testId)).toBeInTheDocument();
     expect(screen.queryByTestId("rhBio")).not.toBeInTheDocument();
   });
 
   it("opens spiral controls from the footer actions", async () => {
-    po.renderHomePage({ homePage: po.buildHomePage() });
+    po.renderHomePageWithPrismicCopy({ homePage: po.buildHomePage() });
 
     await userEvent.click(screen.getByRole("button", { name: "Controls" }));
 

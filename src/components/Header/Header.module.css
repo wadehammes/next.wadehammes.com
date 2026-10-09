@@ -20,17 +20,37 @@
 .logo {
   width: 4rem;
 
+  & a {
+    display: block;
+    color: var(--color-text);
+    text-decoration: none;
+    background-color: transparent;
+
+    &:hover,
+    &:focus-visible {
+      background-color: transparent;
+      color: var(--color-text);
+    }
+  }
+
   & svg {
     transform: rotate(0);
     transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transform-origin: center center;
+  }
 
-    &:hover {
-      fill: transparent;
-      stroke: var(--color-text);
-      paint-order: stroke;
-      transform: rotate(-10deg);
-    }
+  & a:hover svg path,
+  & a:focus-visible svg path {
+    fill: transparent;
+    stroke: currentcolor;
+    stroke-width: 1.35;
+    paint-order: stroke;
+    vector-effect: non-scaling-stroke;
+  }
+
+  & a:hover svg,
+  & a:focus-visible svg {
+    transform: rotate(-10deg);
   }
 
   @media (width >= 768px) {

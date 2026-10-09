@@ -5,9 +5,15 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false,
   cacheComponents: true,
   partialPrefetching: true,
+  reactCompiler: {
+    environment: {
+      enablePreserveExistingMemoizationGuarantees: true,
+    },
+  },
   experimental: {
-    optimizePackageImports: ["culori", "gsap"],
+    optimizePackageImports: ["@base-ui/react", "culori", "gsap"],
     optimizeServerReact: true,
+    turbopackRustReactCompiler: true,
   },
   turbopack: {
     rules: {
@@ -142,6 +148,15 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/api/exit-preview",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-store, max-age=0, must-revalidate",
+          },
+        ],
+      },
+      {
+        source: "/api/revalidate",
         headers: [
           {
             key: "Cache-Control",

@@ -158,7 +158,7 @@ p {
   }
 }
 
-a:not([data-link-card]) {
+a:not([data-link-card], [data-nav-link]) {
   color: var(--color-text);
   font-family: inherit;
   text-decoration: underline;
@@ -282,4 +282,11 @@ svg {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+}
+
+::view-transition-old(spirals-footer-actions),
+::view-transition-new(spirals-footer-actions) {
+  @media (prefers-reduced-motion: no-preference) {
+    animation-duration: 0.2s;
+  }
 }

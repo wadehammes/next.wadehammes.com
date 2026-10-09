@@ -48,6 +48,14 @@ class SpiralsConfigFactory extends BaseFactory<
         fractionDigits: 2,
       }),
       pulseSpeed: faker.number.float({ min: 0.5, max: 2, fractionDigits: 1 }),
+      shapeSpinAlternate: faker.datatype.boolean(),
+      shapeSpinDirection: faker.helpers.arrayElement([1, -1] as const),
+      shapeSpinEnabled: faker.datatype.boolean(),
+      shapeSpinSpeed: faker.number.float({
+        min: 4,
+        max: 24,
+        fractionDigits: 1,
+      }),
       shape: faker.helpers.arrayElement([...SHAPES]),
       spiralCount: faker.number.int({ min: 3, max: 10 }),
       spiralSpacing: faker.number.float({

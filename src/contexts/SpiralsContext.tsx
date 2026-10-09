@@ -6,19 +6,21 @@ import {
   useContext,
   useEffect,
   useReducer,
+  useRef,
 } from "react";
 import {
-  adjustConfigsForTheme,
+  createRandomConfigSet,
   DEFAULT_CONFIG,
   generateRandomConfig,
+  HARMONIC_MINIMUMS,
   type SpiralsConfig,
 } from "src/components/Spirals/Spirals.utils";
 import { isBrowser } from "src/helpers/helpers";
 
-interface SpiralsState {
+export interface SpiralsState {
   configs: SpiralsConfig[];
   isPlaygroundOpen: boolean;
-  clientReady: boolean;
+  initialized: boolean;
 }
 
 type SpiralsAction =
@@ -27,14 +29,12 @@ type SpiralsAction =
   | { type: "REMOVE_SPIRAL_SET"; payload: { id: string } }
   | { type: "RANDOMIZE_ALL" }
   | { type: "TOGGLE_PLAYGROUND" }
-  | { type: "SET_CLIENT_READY"; payload: boolean }
-  | { type: "INITIALIZE_RANDOM" }
-  | { type: "ADJUST_FOR_THEME" };
+  | { type: "INITIALIZE_RANDOM" };
 
 const initialState: SpiralsState = {
   configs: [DEFAULT_CONFIG],
   isPlaygroundOpen: false,
-  clientReady: false,
+  initialized: false,
 };
 
 export const spiralsInitialState = initialState;
@@ -53,7 +53,7 @@ export const spiralsReducer = (
     }
 
     case "ADD_SPIRAL_SET": {
-      const newConfig = generateRandomConfig();
+      const newConfig = generateRandomConfig(state.configs);
       return {
         ...state,
         configs: [newConfig, ...state.configs],
@@ -62,7 +62,7 @@ export const spiralsReducer = (
 
     case "REMOVE_SPIRAL_SET": {
       const { id } = action.payload;
-      if (state.configs.length > 1) {
+      if (state.configs.length > HARMONIC_MINIMUMS.minSpiralSetCount) {
         return {
           ...state,
           configs: state.configs.filter((config) => config.id !== id),
@@ -72,16 +72,9 @@ export const spiralsReducer = (
     }
 
     case "RANDOMIZE_ALL": {
-      const hasPulseEnabled = Math.random() > 0.2;
-      const maxSpiralCount = hasPulseEnabled ? 4 : 5;
-      const newSpiralCount =
-        Math.floor(Math.random() * (maxSpiralCount - 1)) + 2;
-      const newConfigs = Array.from({ length: newSpiralCount }, () =>
-        generateRandomConfig(),
-      );
       return {
         ...state,
-        configs: newConfigs,
+        configs: createRandomConfigSet(),
       };
     }
 
@@ -92,31 +85,11 @@ export const spiralsReducer = (
       };
     }
 
-    case "SET_CLIENT_READY": {
-      return {
-        ...state,
-        clientReady: action.payload,
-      };
-    }
-
     case "INITIALIZE_RANDOM": {
-      const hasPulseEnabled = Math.random() > 0.2;
-      const maxSpiralCount = hasPulseEnabled ? 4 : 5;
-      const initialSpiralCount =
-        Math.floor(Math.random() * (maxSpiralCount - 1)) + 2;
-      const initialConfigs = Array.from({ length: initialSpiralCount }, () =>
-        generateRandomConfig(),
-      );
       return {
         ...state,
-        configs: initialConfigs,
-      };
-    }
-
-    case "ADJUST_FOR_THEME": {
-      return {
-        ...state,
-        configs: adjustConfigsForTheme(state.configs),
+        configs: createRandomConfigSet(),
+        initialized: true,
       };
     }
 
@@ -125,12 +98,10 @@ export const spiralsReducer = (
   }
 };
 
-interface SpiralsContextType {
-  state: SpiralsState;
-  dispatch: React.Dispatch<SpiralsAction>;
-}
-
-const SpiralsContext = createContext<SpiralsContextType | undefined>(undefined);
+const SpiralsStateContext = createContext<SpiralsState | undefined>(undefined);
+const SpiralsDispatchContext = createContext<
+  React.Dispatch<SpiralsAction> | undefined
+>(undefined);
 
 interface SpiralsProviderProps {
   children: ReactNode;
@@ -138,30 +109,44 @@ interface SpiralsProviderProps {
 
 export const SpiralsProvider = ({ children }: SpiralsProviderProps) => {
   const [state, dispatch] = useReducer(spiralsReducer, initialState);
+  const hasInitializedRef = useRef(false);
 
   useEffect(() => {
-    if (isBrowser()) {
-      dispatch({ type: "INITIALIZE_RANDOM" });
+    if (!isBrowser() || hasInitializedRef.current) {
+      return;
     }
+
+    hasInitializedRef.current = true;
+    dispatch({ type: "INITIALIZE_RANDOM" });
   }, []);
 
-  useEffect(() => {
-    if (isBrowser() && state.configs.length > 0) {
-      dispatch({ type: "ADJUST_FOR_THEME" });
-    }
-  }, [state.configs.length]);
-
   return (
-    <SpiralsContext.Provider value={{ state, dispatch }}>
-      {children}
-    </SpiralsContext.Provider>
+    <SpiralsDispatchContext value={dispatch}>
+      <SpiralsStateContext value={state}>{children}</SpiralsStateContext>
+    </SpiralsDispatchContext>
   );
 };
 
-export const useSpirals = () => {
-  const context = useContext(SpiralsContext);
-  if (context === undefined) {
-    throw new Error("useSpirals must be used within a SpiralsProvider");
+export const useSpiralsDispatch = (): React.Dispatch<SpiralsAction> => {
+  const dispatch = useContext(SpiralsDispatchContext);
+  if (dispatch === undefined) {
+    throw new Error("useSpiralsDispatch must be used within a SpiralsProvider");
   }
-  return context;
+  return dispatch;
 };
+
+export const useSpiralsState = (): SpiralsState => {
+  const state = useContext(SpiralsStateContext);
+  if (state === undefined) {
+    throw new Error("useSpiralsState must be used within a SpiralsProvider");
+  }
+  return state;
+};
+
+export const useSpiralsConfigs = (): SpiralsConfig[] =>
+  useSpiralsState().configs;
+
+export const useSpirals = () => ({
+  state: useSpiralsState(),
+  dispatch: useSpiralsDispatch(),
+});

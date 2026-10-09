@@ -23,7 +23,9 @@ export const LinkCard = ({ item }: LinkCardProps) => {
   return (
     <li className={styles.item}>
       <a
-        className={classNames(styles.card, styles.cardWithIcon)}
+        className={classNames(styles.card, styles.cardWithIcon, {
+          [styles.cardCompact]: !item.description,
+        })}
         data-link-card=""
         href={item.href}
         rel="noopener noreferrer"
