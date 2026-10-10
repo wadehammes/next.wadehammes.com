@@ -23,7 +23,7 @@
   box-sizing: border-box;
   flex-direction: row;
   align-items: stretch;
-  gap: 0;
+  gap: var(--links-space-md, 1rem);
   width: 100%;
   padding: 0;
   border: 0;
@@ -46,6 +46,7 @@
   gap: 0.875rem;
   min-width: 0;
   padding: var(--links-card-padding-block, 1rem) 0;
+  padding-inline-end: 0.25rem;
 }
 
 .mediaPlaySegment {
@@ -55,8 +56,9 @@
   align-self: center;
   align-items: center;
   justify-content: center;
-  min-width: 2.5rem;
-  padding-inline: 0.25rem;
+  min-width: 2.75rem;
+  margin-inline-end: 0.125rem;
+  padding-inline: 0.5rem;
   background: var(--links-media-play-segment-bg, transparent);
   color: var(--links-badge-muted);
   transition:
@@ -164,19 +166,28 @@
 
 .thumbnail {
   flex-shrink: 0;
-  width: 3.5rem;
-  height: 3.5rem;
-  border: 1px solid var(--spirals-border-color);
+  width: 4.25rem;
+  height: 4.25rem;
+  clip-path: var(--thumbnail-clip);
   object-fit: cover;
   background: rgb(0 0 0 / 20%);
+  transition: clip-path 0.28s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .thumbnailPlaceholder {
   flex-shrink: 0;
-  width: 3.5rem;
-  height: 3.5rem;
-  border: 1px solid var(--spirals-border-color);
+  width: 4.25rem;
+  height: 4.25rem;
+  clip-path: var(--thumbnail-clip);
   background: rgb(0 0 0 / 20%);
+  transition: clip-path 0.28s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.mediaCardToggle:hover .thumbnail,
+.mediaCardToggle:hover .thumbnailPlaceholder,
+.mediaCardToggle:focus-visible .thumbnail,
+.mediaCardToggle:focus-visible .thumbnailPlaceholder {
+  clip-path: var(--thumbnail-clip-hover);
 }
 
 .videoBody {
@@ -196,10 +207,13 @@
 }
 
 .label {
+  overflow: hidden;
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.35;
   color: inherit;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .badge {
@@ -283,6 +297,13 @@
 .soundCloudEmbed {
   aspect-ratio: auto;
   height: 16rem;
+}
+
+.embed.mixCloudEmbed {
+  aspect-ratio: unset;
+  height: 10rem;
+  min-height: 10rem;
+  max-height: 10rem;
 }
 
 .iframe {

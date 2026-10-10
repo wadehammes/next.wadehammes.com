@@ -7,6 +7,8 @@
     "--links-section-title": "initial",
     "--links-text-muted": "initial",
     "--links-divider": "initial",
-    "--spiral-color": "initial"
+    "--spiral-color": "initial",
+    "--thumbnail-clip": "initial",
+    "--thumbnail-clip-hover": "initial"
   }
 }

@@ -66,8 +66,8 @@ Parsers translate Prismic documents into app-level types used by components.
 | File | Output | Notes |
 |------|--------|-------|
 | [parsePage.ts](../../src/prismic/parsePage.ts) | `ParsedPage` | Hero slice Rich Text, SEO fields, uid/id/lang. |
-| [parseLinks.ts](../../src/prismic/parseLinks.ts) | `ParsedLinksPage` | Profile, tagline, `link_section` slices, SEO fields; classifies YouTube/SoundCloud URLs. |
-| [enrichLinksPage.ts](../../src/prismic/enrichLinksPage.ts) | `ParsedLinksPage` | Server-side SoundCloud oEmbed fetch for `embedThumbnailUrl`. |
+| [parseLinks.ts](../../src/prismic/parseLinks.ts) | `ParsedLinksPage` | Profile, tagline, `link_section` slices, SEO fields; classifies YouTube, SoundCloud, and Mixcloud URLs. |
+| [enrichLinksPage.ts](../../src/prismic/enrichLinksPage.ts) | `ParsedLinksPage` | Server-side SoundCloud and Mixcloud oEmbed fetch for `embedThumbnailUrl`. |
 | [parseSeoMeta.ts](../../src/prismic/parseSeoMeta.ts) | `ParsedSeoMeta` | Trims and nulls empty `meta_title` / `meta_description`. |
 | [parseImage.ts](../../src/prismic/parseImage.ts) | `ParsedImage` | Imgix URL and dimensions from image fields. |
 

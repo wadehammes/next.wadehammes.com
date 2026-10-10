@@ -26,6 +26,43 @@ describe("parseLinksDocument", () => {
     expect(parsed.metaTitle).toBe("Wade Hammes · Links");
   });
 
+  it("classifies Mixcloud URLs as mixcloud links", () => {
+    const doc = linksDocumentFactory.build({
+      data: {
+        slices: [
+          {
+            id: "slice-mixcloud",
+            slice_label: null,
+            slice_type: "link_section",
+            variation: "default",
+            version: "initial",
+            primary: { section_title: "Mixes" },
+            items: [
+              {
+                label: "Sunday Sessions 001",
+                description: "Live on Mixcloud",
+                link: {
+                  link_type: "Web",
+                  target: "_blank",
+                  url: "https://www.mixcloud.com/wadehammes/sunday-sessions-001/",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    });
+
+    expect(parseLinksDocument(doc).sections[0]?.items[0]).toEqual({
+      label: "Sunday Sessions 001",
+      description: "Live on Mixcloud",
+      embedThumbnailUrl: null,
+      href: "https://www.mixcloud.com/wadehammes/sunday-sessions-001/",
+      kind: "mixcloud",
+      youtubeVideoId: null,
+    });
+  });
+
   it("classifies SoundCloud URLs as soundcloud links", () => {
     const doc = linksDocumentFactory.build({
       data: {

@@ -17,6 +17,9 @@ Small browser-oriented helpers:
 | [gravatar.ts](../../src/helpers/gravatar.ts) | Gravatar URL builder (server-only; uses Node `crypto`). |
 | [youtube.ts](../../src/helpers/youtube.ts) | YouTube URL parsing, embed, and thumbnail helpers. |
 | [soundcloud.ts](../../src/helpers/soundcloud.ts) | SoundCloud URL detection, embed URLs, oEmbed fetch. |
+| [mixcloud.ts](../../src/helpers/mixcloud.ts) | Mixcloud URL detection, widget embed URLs, oEmbed fetch. |
+| [mixcloudWidget.client.ts](../../src/helpers/mixcloudWidget.client.ts) | Loads Mixcloud Widget API and calls `play()` after the user opens a row. |
+| [mediaThumbnailClipPath.ts](../../src/helpers/mediaThumbnailClipPath.ts) | Deterministic polygon `clip-path` from a link URL seed. |
 | [lruMap.ts](../../src/helpers/lruMap.ts) | LRU helpers for Spirals shape and OKLCH conversion caches (`getLruMapEntry`, `setLruMapEntry`). |
 
 ## `src/utils/`

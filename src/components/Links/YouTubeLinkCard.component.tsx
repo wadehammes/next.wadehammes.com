@@ -2,10 +2,10 @@
 
 import { Collapsible } from "@base-ui/react/collapsible";
 import classNames from "classnames";
-import Image from "next/image";
 import { Activity, useState } from "react";
 import styles from "src/components/Links/LinkCard.module.css";
 import { MediaPlaySegment } from "src/components/Links/MediaPlaySegment.component";
+import { MediaThumbnail } from "src/components/Links/MediaThumbnail.component";
 import {
   buildYouTubeEmbedUrl,
   buildYouTubeThumbnailUrl,
@@ -40,13 +40,9 @@ export const YouTubeLinkCard = ({ item }: YouTubeLinkCardProps) => {
           data-link-card=""
         >
           <span className={styles.mediaCardMain}>
-            <Image
-              alt=""
-              className={styles.thumbnail}
-              height={72}
+            <MediaThumbnail
+              clipSeed={item.href}
               src={buildYouTubeThumbnailUrl(videoId)}
-              unoptimized
-              width={72}
             />
             <span className={styles.videoBody}>
               <span className={styles.label}>{item.label}</span>

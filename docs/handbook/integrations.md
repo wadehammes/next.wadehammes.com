@@ -17,7 +17,7 @@ Before adding a new script or external loader:
 2. Update **CSP** in [next.config.ts](../../next.config.ts) (`script-src`, `connect-src`, `frame-src`) if the origin is not already allowed.
 3. Update **`images.remotePatterns`** or security headers if the integration loads remote assets.
 
-Current CSP already allows Google Analytics, YouTube, Vercel insights, and Prismic preview domains—extend deliberately when adding vendors.
+Current CSP already allows Google Analytics, YouTube, SoundCloud, Mixcloud embeds, Vercel insights, and Prismic preview domains—extend deliberately when adding vendors.
 
 ## Data layer
 

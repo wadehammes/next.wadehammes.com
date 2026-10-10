@@ -3,6 +3,7 @@
 import classNames from "classnames";
 import styles from "src/components/Links/LinkCard.module.css";
 import { LinkFavicon } from "src/components/Links/LinkFavicon.component";
+import { MixcloudLinkCard } from "src/components/Links/MixcloudLinkCard.component";
 import { SoundCloudLinkCard } from "src/components/Links/SoundCloudLinkCard.component";
 import { YouTubeLinkCard } from "src/components/Links/YouTubeLinkCard.component";
 import type { ParsedLinkItem } from "src/prismic/parseLinks";
@@ -18,6 +19,10 @@ export const LinkCard = ({ item }: LinkCardProps) => {
 
   if (item.kind === "soundcloud") {
     return <SoundCloudLinkCard item={item} />;
+  }
+
+  if (item.kind === "mixcloud") {
+    return <MixcloudLinkCard item={item} />;
   }
 
   return (

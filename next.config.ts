@@ -69,6 +69,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "**.mixcloud.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "www.google.com",
         pathname: "/s2/favicons/**",
       },
@@ -202,7 +207,7 @@ const scriptSrc = [
 ];
 
 const frameSrc =
-  "*.youtube.com *.soundcloud.com w.soundcloud.com *.google.com *.twitter.com vercel.live *.prismic.io";
+  "*.youtube.com *.soundcloud.com w.soundcloud.com *.mixcloud.com *.google.com *.twitter.com vercel.live *.prismic.io";
 
 function buildContentSecurityPolicy(frameAncestors: string) {
   return `

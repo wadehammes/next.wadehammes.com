@@ -82,11 +82,13 @@ State is centralized in [SpiralsContext.tsx](../../src/contexts/SpiralsContext.t
 | Component | Role |
 |-----------|------|
 | [LinksPage.component.tsx](../../src/components/Links/LinksPage.component.tsx) | Server `/links` shell (`rhLinksPage`): no site header; **crown home link on the top-right of the avatar** (`data-nav-link`); Prismic tagline + **`Building`** link section for FilterMyDiscogs; wide column + [`LinksSections`](../../src/components/Links/LinksSections.component.tsx). Gravatar URL is built on the server route and passed in as `fallbackAvatarUrl`. |
-| [LinksSection.component.tsx](../../src/components/Links/LinksSection.component.tsx) | One Prismic section: uppercase header (when titled) + single-column list via [`LinkCard`](../../src/components/Links/LinkCard.component.tsx) (external, YouTube, or SoundCloud). |
+| [LinksSection.component.tsx](../../src/components/Links/LinksSection.component.tsx) | One Prismic section: uppercase header (when titled) + single-column list via [`LinkCard`](../../src/components/Links/LinkCard.component.tsx) (external, YouTube, SoundCloud, or Mixcloud). |
 | [LinksSections.component.tsx](../../src/components/Links/LinksSections.component.tsx) | Maps parsed sections to `LinksSection`. |
-| [LinkCard.component.tsx](../../src/components/Links/LinkCard.component.tsx) | Client dispatcher: routes items to external, YouTube, or SoundCloud cards. |
+| [LinkCard.component.tsx](../../src/components/Links/LinkCard.component.tsx) | Client dispatcher: routes items to external, YouTube, SoundCloud, or Mixcloud cards. |
 | [YouTubeLinkCard.component.tsx](../../src/components/Links/YouTubeLinkCard.component.tsx) | **Base UI `Collapsible`** per set: title row + right **play/stop icon segment** ([`MediaPlaySegment`](../../src/components/Links/MediaPlaySegment.component.tsx)), lazy-mounted YouTube embed (`next/image`). |
 | [SoundCloudLinkCard.component.tsx](../../src/components/Links/SoundCloudLinkCard.component.tsx) | Same collapsible + segment pattern for SoundCloud (`next/image` artwork). |
+| [MixcloudLinkCard.component.tsx](../../src/components/Links/MixcloudLinkCard.component.tsx) | Same collapsible + segment pattern for Mixcloud (`next/image` artwork from oEmbed). |
+| [MediaThumbnail.component.tsx](../../src/components/Links/MediaThumbnail.component.tsx) | YouTube/SoundCloud/Mixcloud row art with a per-URL random polygon `clip-path` ([`mediaThumbnailClipPath.ts`](../../src/helpers/mediaThumbnailClipPath.ts)). |
 | [LinkFavicon.component.tsx](../../src/components/Links/LinkFavicon.component.tsx) | Favicon beside external link labels (`next/image`; [favicon.ts](../../src/helpers/favicon.ts)). |
 | [ProfileAvatar.component.tsx](../../src/components/Links/ProfileAvatar.component.tsx) | Circular profile photo in the padded rail (`next/image`). Prismic `profile_image` wins; otherwise `fallbackAvatarUrl` from the server route ([buildGravatarUrl](../../src/helpers/gravatar.ts) + [SITE_EMAIL](../../src/constants/site.ts)). Falls back to the gradient placeholder if the image errors. |
 

@@ -1,4 +1,5 @@
 import * as prismic from "@prismicio/client";
+import { isMixcloudUrl } from "src/helpers/mixcloud";
 import { isSoundCloudUrl } from "src/helpers/soundcloud";
 import { getYouTubeVideoId } from "src/helpers/youtube";
 import { type ParsedImage, parseImage } from "src/prismic/parseImage";
@@ -8,7 +9,7 @@ import type {
   LinksDocument,
 } from "src/prismic/types/prismic.generated";
 
-export type ParsedLinkKind = "external" | "soundcloud" | "youtube";
+export type ParsedLinkKind = "external" | "mixcloud" | "soundcloud" | "youtube";
 
 export interface ParsedLinkItem {
   description: string | null;
@@ -67,7 +68,9 @@ const parseLinkItem = (
     ? "youtube"
     : isSoundCloudUrl(href)
       ? "soundcloud"
-      : "external";
+      : isMixcloudUrl(href)
+        ? "mixcloud"
+        : "external";
 
   return {
     description: parseOptionalKeyText(item.description),

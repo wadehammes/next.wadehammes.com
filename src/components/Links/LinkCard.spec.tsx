@@ -22,6 +22,16 @@ const youtubeItem: ParsedLinkItem = {
   youtubeVideoId: "abc123xyz12",
 };
 
+const mixcloudItem: ParsedLinkItem = {
+  description: "August 6, 2022",
+  embedThumbnailUrl:
+    "https://thumbnailer.mixcloud.com/resize/width:720/sample.jpg",
+  href: "https://www.mixcloud.com/wadehammes/sunday-sessions-001/",
+  kind: "mixcloud",
+  label: "Sunday Sessions 001",
+  youtubeVideoId: null,
+};
+
 const soundCloudItem: ParsedLinkItem = {
   description: "August 6, 2022",
   embedThumbnailUrl: "https://i1.sndcdn.com/artworks-abc-large.jpg",
@@ -66,6 +76,24 @@ describe("LinkCard", () => {
     expect(
       screen.getByTitle("Saturday morning disco hour+"),
     ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Stop/i })).toBeInTheDocument();
+  });
+
+  it("expands a Mixcloud embed when play is clicked", async () => {
+    const user = userEvent.setup();
+    render(<LinkCard item={mixcloudItem} />);
+
+    const button = screen.getByRole("button", {
+      name: /Sunday Sessions 001/i,
+    });
+    expect(button.querySelector("img")).toHaveAttribute(
+      "src",
+      "https://thumbnailer.mixcloud.com/resize/width:720/sample.jpg",
+    );
+
+    await user.click(button);
+
+    expect(screen.getByTitle("Sunday Sessions 001")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Stop/i })).toBeInTheDocument();
   });
 
