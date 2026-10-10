@@ -2,10 +2,10 @@
 
 import { Collapsible } from "@base-ui/react/collapsible";
 import classNames from "classnames";
-import Image from "next/image";
 import { Activity, useState } from "react";
 import styles from "src/components/Links/LinkCard.module.css";
 import { MediaPlaySegment } from "src/components/Links/MediaPlaySegment.component";
+import { MediaThumbnail } from "src/components/Links/MediaThumbnail.component";
 import { buildSoundCloudEmbedUrl } from "src/helpers/soundcloud";
 import type { ParsedLinkItem } from "src/prismic/parseLinks";
 
@@ -33,18 +33,7 @@ export const SoundCloudLinkCard = ({ item }: SoundCloudLinkCardProps) => {
           data-link-card=""
         >
           <span className={styles.mediaCardMain}>
-            {item.embedThumbnailUrl ? (
-              <Image
-                alt=""
-                className={styles.thumbnail}
-                height={72}
-                src={item.embedThumbnailUrl}
-                unoptimized
-                width={72}
-              />
-            ) : (
-              <span aria-hidden className={styles.thumbnailPlaceholder} />
-            )}
+            <MediaThumbnail clipSeed={item.href} src={item.embedThumbnailUrl} />
             <span className={styles.videoBody}>
               <span className={styles.label}>{item.label}</span>
               {item.description ? (

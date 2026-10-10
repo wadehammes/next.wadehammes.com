@@ -87,7 +87,7 @@ The Prismic client uses **`enableAutoPreviews`** so fetches automatically use th
 - **`output: "standalone"`** — enabled for Docker and self-hosted Node builds; omitted on Vercel (`VERCEL=1`) because Vercel uses its own adapter and standalone triggers a Next.js 16.3 trace-file bug.
 - **SVG via `@svgr/webpack`** — Turbopack `rules` (SVGO options preserved from the former webpack config).
 - **`experimental.optimizePackageImports`** — tree-shakes `@base-ui/react`, `culori`, `gsap`.
-- **`images.remotePatterns`** — allows `next/image` for `/links` assets (Gravatar, YouTube thumbnails, SoundCloud artwork, Google favicons, Prismic CDN). Add a host here when a new external thumbnail domain is introduced.
+- **`images.remotePatterns`** — allows `next/image` for `/links` assets (Gravatar, YouTube thumbnails, SoundCloud/Mixcloud artwork, Google favicons, Prismic CDN). Add a host here when a new external thumbnail domain is introduced.
 - **Security headers** — CSP (including slice-simulator frame ancestors), HSTS, Permissions-Policy.
 - **Cache-Control** — tiered caching for HTML, static assets, images, and preview APIs.
 

@@ -37,6 +37,45 @@ describe("enrichLinksPage", () => {
     jest.restoreAllMocks();
   });
 
+  it("fetches Mixcloud artwork for mixcloud links", async () => {
+    const fetchMock = jest.fn<typeof fetch>().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        thumbnail_url:
+          "https://thumbnailer.mixcloud.com/resize/width:720/sample.jpg",
+      }),
+    } as Response);
+    global.fetch = fetchMock;
+
+    const page: ParsedLinksPage = {
+      ...basePage,
+      sections: [
+        {
+          title: "Mixes",
+          items: [
+            {
+              label: "Sunday Sessions 001",
+              description: null,
+              embedThumbnailUrl: null,
+              href: "https://www.mixcloud.com/wadehammes/sunday-sessions-001/",
+              kind: "mixcloud",
+              youtubeVideoId: null,
+            },
+          ],
+        },
+      ],
+    };
+
+    const enriched = await enrichLinksPage(page);
+
+    expect(enriched.sections[0]?.items[0]?.embedThumbnailUrl).toBe(
+      "https://thumbnailer.mixcloud.com/resize/width:720/sample.jpg",
+    );
+    expect(String(fetchMock.mock.calls[0]?.[0])).toContain(
+      "mixcloud.com/oembed",
+    );
+  });
+
   it("fetches SoundCloud artwork for soundcloud links", async () => {
     const fetchMock = jest.fn<typeof fetch>().mockResolvedValue({
       ok: true,
