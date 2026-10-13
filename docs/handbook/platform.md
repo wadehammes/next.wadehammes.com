@@ -108,6 +108,6 @@ Requires `bash`, `jq`, `git`, and `node` on `PATH`. Hook scripts must stay execu
 [`.tool-versions`](../../.tool-versions) pins Node and pnpm for local ASDF/mise and CI:
 
 ```
-nodejs 24.17.0
-pnpm 11.15.0
+nodejs 24.21.0
+pnpm 12.12.1
 ```

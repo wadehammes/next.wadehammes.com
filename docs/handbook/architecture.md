@@ -70,7 +70,7 @@ Static assets under `public/`. Sitemap is generated at runtime by [src/app/sitem
 
 ## Data flow
 
-1. **Route**: `src/app/page.tsx` (async Server Component) calls `getCachedHomePage()`.
+1. **Route**: `src/app/(home)/page.tsx` (async Server Component) calls `getCachedHomePage()`.
 2. **Fetch**: `getHomePage` uses the Prismic client (`getSingle` on the home custom type) when Prismic env is configured; returns `null` otherwise.
 3. **Parse**: `parseHomeDocument` extracts hero Rich Text, SEO fields, and image metadata into `ParsedPage`.
 4. **Render**: `HomePage` (client) composes Bio, Spirals controls, and the lazy SVG layer.
@@ -79,7 +79,7 @@ Static assets under `public/`. Sitemap is generated at runtime by [src/app/sitem
 ```mermaid
 flowchart LR
   subgraph server [Server / RSC]
-    Page[app/page.tsx]
+    Page["app/(home)/page.tsx"]
     Get[getCachedHomePage]
     Parse[parseHomeDocument]
     Page --> Get --> Parse

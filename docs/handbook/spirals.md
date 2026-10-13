@@ -185,7 +185,7 @@ Access via **`useSpiralsDispatch()`**, **`useSpiralsState()`**, **`useSpiralsCon
 
 1. **`useInView`** on `PageContainer` — drives `SpiralsSVG` `visible` (SVG opacity when off-screen; sets stay mounted).
 2. **`SpiralsControls`** — always mounted; the slide-out panel is wrapped in React 19 **`Activity`** (`mode="hidden"` when closed) so slider/color state is kept but panel Effects (e.g. color-picker throttles) are torn down while closed. Range sliders use **50ms** throttle like the color picker.
-3. **`HomePageSpiralsLayer`** — memoized; mounts `SpiralsSVG` when `initialized`, inside `Suspense` + [`SpiralsBrowserGate`](SpiralsBrowserGate.component.tsx) (`use(browser())`).
+3. **`HomePageSpiralsLayer`** — memoized; mounts `SpiralsSVG` when `initialized`, inside `Suspense` + [`SpiralsBrowserGate`](../../src/components/Spirals/SpiralsBrowserGate.component.tsx) (`use(browser())`).
 4. **`key={new Date().toDateString()}`** — forces daily remount of the SVG subtree.
 5. **Playground toggle** — `startTransition` + **`ViewTransition`** on footer **`SpiralsActions`** for enter/exit when the panel opens or closes.
 

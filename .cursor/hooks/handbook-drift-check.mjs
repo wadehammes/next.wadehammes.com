@@ -92,10 +92,12 @@ const findBrokenLinks = (cwd) => {
     const absDoc = join(cwd, doc);
     const base = dirname(doc) || ".";
 
-    for (const [, target] of readFileSync(absDoc, "utf8").matchAll(
-      /\[[^\]]+\]\(([^)\s]+)\)/g,
+    for (const match of readFileSync(absDoc, "utf8").matchAll(
+      /\[[^\]]+\]\(<([^>]+)>|\[[^\]]+\]\(((?:[^()]|\([^)]*\))+)\)/g,
     )) {
-      if (/^(https?:\/\/|mailto:|#)/.test(target)) {
+      const target = match[1] ?? match[2];
+
+      if (!target || /^(https?:\/\/|mailto:|#)/.test(target)) {
         continue;
       }
 
