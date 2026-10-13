@@ -138,7 +138,7 @@ When adding slices, wire them in the simulator client components and ensure mode
 
 ## Metadata from Prismic
 
-[src/app/page.tsx](../../src/app/page.tsx) `generateMetadata` reads `metaTitle` and `metaDescription` from `ParsedPage`, falling back to hard-coded site defaults when Prismic is unset or fields are empty.
+[src/app/(home)/page.tsx](../../src/app/(home)/page.tsx) `generateMetadata` reads `metaTitle` and `metaDescription` from `ParsedPage`, falling back to hard-coded site defaults when Prismic is unset or fields are empty.
 
 When you add SEO fields or new document types, extend parsers and metadata generation together.
 
