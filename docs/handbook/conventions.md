@@ -47,7 +47,7 @@ We standardize on **Biome** for lint and format of TS/JS/JSON/CSS. **Stylelint**
 ### Technology choice
 
 - **Components use CSS Modules** (`.module.css`) co-located with the component when styles are component-specific.
-- **Global layout and tokens** live in [src/styles/global.css](../../src/styles/global.css) and [src/styles/critical.css](../../src/styles/critical.css).
+- **Global layout and tokens** live in [src/styles/global.css](../../src/styles/global.css) and [src/styles/critical.css](../../src/styles/critical.css). The Meyer-style tag reset at the top of `global.css` omits deprecated HTML selectors (`applet`, `acronym`, `big`, `strike`, `tt`, `center`, and similar) so Stylelint’s **`selector-no-deprecated`** passes—do not re-add them when syncing from older reset snippets.
 - **Design tokens** are in [src/styles/variables.css](../../src/styles/variables.css); runtime-only custom properties (Next.js fonts, component inline vars) are registered in [src/styles/runtime-variables.json](../../src/styles/runtime-variables.json) for Stylelint.
 
 ### File naming and location
