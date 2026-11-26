@@ -8,6 +8,7 @@ import {
   getPolygonPoints,
   getTrianglePoints,
 } from "src/components/Spirals/Spirals.utils";
+import { shouldRunSpiralGsapAnimations } from "src/helpers/spiralsAnimation";
 
 export interface SpiralProps {
   centerX?: number;
@@ -115,6 +116,10 @@ export const Spiral = ({
       current.spiralSpacing !== prev.spiralSpacing ||
       current.angleOffset !== prev.angleOffset ||
       current.rad !== prev.rad;
+
+    if (!shouldRunSpiralGsapAnimations()) {
+      return;
+    }
 
     const maxPulsingShapes = Math.min(count, 10);
     const pulseInterval = Math.max(1, Math.floor(count / maxPulsingShapes));

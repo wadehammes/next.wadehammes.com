@@ -1,0 +1,32 @@
+@keyframes spiralsSetRotate {
+  from {
+    transform: rotate(0deg) scale(var(--spirals-set-scale, 1));
+  }
+
+  to {
+    transform: rotate(360deg) scale(var(--spirals-set-scale, 1));
+  }
+}
+
+.spiralsSvgLayerCssMotion {
+  transform-origin: 50% 50%;
+  animation-name: spiralsSetRotate;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--spirals-set-duration, 60s);
+}
+
+.spiralsSetCssMotionReverse {
+  animation-direction: reverse;
+}
+
+.spiralsSetScaleIn {
+  transform: scale(var(--spirals-set-scale, 1));
+  transform-box: view-box;
+  transform-origin: 750px 750px;
+}
+
+.spiralsSvgLayerScaleIn {
+  transform: scale(var(--spirals-set-scale, 1));
+  transform-origin: 50% 50%;
+}

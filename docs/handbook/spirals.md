@@ -41,14 +41,14 @@ flowchart TB
 | [HomePageSpiralsLayer.component.tsx](../../src/components/HomePage/HomePageSpiralsLayer.component.tsx) | Memoized mount gate for `SpiralsSVG` (`initialized` + `useInView`). |
 | [SpiralsActions.component.tsx](../../src/components/Spirals/SpiralsActions.component.tsx) | Footer icon buttons (playground, randomize, download, theme). Unmounts with **`ViewTransition`** when the panel opens (toggle wrapped in **`startTransition`**). Labels use `<span>` tooltips positioned via [`useMediaQuery`](../../src/hooks/useMediaQuery.ts) at **`72rem`** (left on desktop, above on mobile)—same breakpoint as `.footer` row layout in [global.css](../../src/styles/global.css). |
 | [SpiralsControls.component.tsx](../../src/components/Spirals/SpiralsControls.component.tsx) | Slide-out playground UI with sliders and color picker. |
-| [SpiralsSVG.component.tsx](../../src/components/Spirals/SpiralsSVG.component.tsx) | Root `<svg class="fractal">`; always mounts paint-ordered sets; **`SVG`** toggles opacity via **`visible`** (no unmount when off-screen). Paint order via **`sortConfigsForPaintOrder`** (largest **`animationScale`** / reach drawn first so smaller sets stay on top). |
-| [Spirals.component.tsx](../../src/components/Spirals/Spirals.component.tsx) | One `<g>` per config: rotation + scale via `gsap.context`. |
+| [SpiralsSVG.component.tsx](../../src/components/Spirals/SpiralsSVG.component.tsx) | Chromium/Safari: single root `<svg class="fractal">` with paint-ordered `<g>` sets. **Firefox:** wrapper `.fractal` + one `<svg class="fractal-layer">` per set via [SpiralsSetLayer.component.tsx](../../src/components/Spirals/SpiralsSetLayer.component.tsx) (`preferSpiralsLayeredSvg()`). Opacity on off-screen uses **`visible`** without unmounting sets. |
+| [Spirals.component.tsx](../../src/components/Spirals/Spirals.component.tsx) | One `<g>` per config with inner `Spiral` arms. GSAP rotation + scale on Chromium/Safari. On Firefox layered SVGs, **`deferSetLevelMotion`** — static `<g>`; rotation CSS lives on [SpiralsSetLayer](../../src/components/Spirals/SpiralsSetLayer.component.tsx). |
 | [Spiral.component.tsx](../../src/components/Spirals/Spiral.component.tsx) | One arm of shapes; layout + pulse tweens in `gsap.context`. |
 | [Shape.component.tsx](../../src/components/Spirals/Shape.component.tsx) | Single SVG primitive; registers DOM node for GSAP via stable callback. |
 | [Spirals.utils.ts](../../src/components/Spirals/Spirals.utils.ts) | Config types, random generation, OKLCH helpers, shape point math. |
-| [SVG.component.tsx](../../src/components/SVG/SVG.component.tsx) | Fixed-position wrapper; opacity tied to `visible` prop. |
+| [SVG.component.tsx](../../src/components/SVG/SVG.component.tsx) | Fixed-position Spirals canvas; `visible` fade; **`fadeWithVisibility`** for Firefox stack layers. |
 
-The CSS class **`fractal`** on the root SVG is the download target for `saveSvg(".fractal", …)`.
+The CSS class **`fractal`** on the root mount (`<svg>` or Firefox stack `<div>`) is the download target for `saveSvg(".fractal", …)`.
 
 ## Config model (`SpiralsConfig`)
 
@@ -131,18 +131,18 @@ Set-level animation runs in [Spirals.component.tsx](../../src/components/Spirals
 
 | Animation | Trigger | Behavior |
 |-----------|---------|----------|
-| **Rotation** | `config.animationSpeed` | Infinite 360° rotation around viewBox center. Direction (`±1`) chosen once per mount via `randomDirectionRef`. |
-| **Scale** | `config.animationScale` | Single tween to target scale (`back.out(1.7)`, 0.8s). |
+| **Rotation** | `config.animationSpeed` | GSAP infinite rotation on the set `<g>` (Chromium/Safari). Firefox: CSS keyframes on each **`fractal-layer`** `<svg>` via **`spiralsSvgLayerCssMotion`** in [Spirals.module.css](../../src/components/Spirals/Spirals.module.css). Direction (`±1`) from `randomDirectionRef`. Off when reduced motion prefers static. |
+| **Scale** | `config.animationScale` | GSAP `back.out` tween, or baked into Firefox CSS keyframes / static class. |
 
-Both use `svgOrigin` at viewBox center inside a **`gsap.context`**; **`revert()`** on cleanup.
+On GSAP engines, rotation and scale use `svgOrigin` at viewBox center inside a **`gsap.context`**; **`revert()`** on cleanup. Reduced motion on GSAP engines: static scale on the set `<g>` via **`spiralsSetScaleIn`**. On Firefox, **`SpiralsSetLayer`** applies **`spiralsSetRotate`** on each layer `<svg>`; the inner `<g>` is geometry-only (`deferSetLevelMotion`).
 
 ### Arm-level (`Spiral`)
 
 | Animation | Trigger | Behavior |
 |-----------|---------|----------|
 | **Layout tween** | `count`, `offset`, `spiralSpacing`, `angleOffset`, `rad` change | GSAP `attr` tween (0.6s) moves/resizes shapes to new positions. |
-| **Pulse** | `pulseEnabled` + pulse params | Subset of shapes (max ~10 active) get repeating scale yoyo. Interval `floor(count / maxPulsingShapes)`. Stagger via `pulseOffset` and index. |
-| **Shape spin** | `shapeSpinEnabled` + spin params | Subset of shapes (max ~12 active per arm, same stride pattern as pulse) rotate in place via **`svgOrigin`** at each shape’s `(x, y)`. Optional **`shapeSpinAlternate`** flips direction on odd indices. |
+| **Pulse** | `pulseEnabled` + pulse params | Subset of shapes (max ~10 active) get repeating scale yoyo. Off when **`shouldRunSpiralGsapAnimations()`** is false. |
+| **Shape spin** | `shapeSpinEnabled` + spin params | Subset of shapes (max ~12 active per arm) rotate in place via **`svgOrigin`**. Off when **`shouldRunSpiralGsapAnimations()`** is false. Optional **`shapeSpinAlternate`** flips direction on odd indices. |
 
 Layout, pulse, and spin share one **`gsap.context`** per arm; **`revert()`** on dependency change tears down all tweens for that arm.
 
@@ -205,6 +205,9 @@ Action handlers are memoized with `useMemo` to avoid re-rendering children on un
 | Shape/point cache | `Spirals.utils` | Avoids recomputing polygon paths. |
 | OKLCH cache | `hexToOklch` / `oklchToHex` | Color picker throttling (50ms) + cached conversions. |
 | Pulse / spin caps | `Spiral` | At most ~10 pulse and ~12 spin tweens per arm (stride sampling when `circleCount` is large). |
+| Firefox layered SVG | `preferSpiralsLayeredSvg()` + [SpiralsSVG.module.css](../../src/components/Spirals/SpiralsSVG.module.css) | One compositor layer per set; CSS rotation on each **`<svg>`**, `z-index` = paint order. `Spirals` uses **`deferSetLevelMotion`** so inner `<g>` stays static. |
+| Firefox set rotation | [Spirals.module.css](../../src/components/Spirals/Spirals.module.css) + `SpiralsSetLayer` | **`spiralsSvgLayerCssMotion`** on each layer `<svg>`; no per-shape pulse/spin. See [GSAP on Firefox SVG](https://gsap.com/community/forums/topic/29363-optimizing-scale-performance-on-complex-inline-svg/). |
+| Reduced motion | [spiralsAnimation.ts](../../src/helpers/spiralsAnimation.ts) | **`prefers-reduced-motion: reduce`** — static scale only, no rotation tweens. |
 | Harmonic random + gate | `createRandomConfigSet` | Composition-first sets; resample if quality score is low. |
 
 Package import optimization for `gsap` and `culori` is enabled in [next.config.ts](../../next.config.ts).
@@ -235,8 +238,9 @@ Controls not exposed in the UI but present on config: `pulseEnabled`, `pulseSpee
 
 **`saveSvg(".fractal", filename)`** in [src/utils/helpers.ts](../../src/utils/helpers.ts):
 
-1. Queries the DOM for `.fractal` (the root SVG).
-2. Sets `xmlns`, serializes `outerHTML`, triggers a Blob download.
+1. Queries `.fractal` (root `<svg>` or Firefox **`data-fractal-stack`** wrapper).
+2. Merges layered `svg.fractal-layer` children into one export `<svg>` when needed.
+3. Sets `xmlns`, serializes `outerHTML`, triggers a Blob download.
 
 Filename from **`generateSpiralFileName(configs)`**: `spirals-{names}-{ISO-timestamp}.svg`.
 
@@ -244,11 +248,11 @@ Download is available from footer actions and from the controls panel (mobile + 
 
 ## Styling the canvas
 
-[SVG.module.css](../../src/components/SVG/SVG.module.css):
+[SVG.module.css](../../src/components/SVG/SVG.module.css) and [SpiralsSVG.module.css](../../src/components/Spirals/SpiralsSVG.module.css):
 
 - Fixed position, full viewport height (`100dvh`; extra top offset on mobile).
-- Opacity `0.85` when visible (desktop); fade-in transition over 1s.
-- Background fill on the SVG element: `var(--color-bg)`.
+- Opacity `0.85` when visible (desktop); fade-in transition over 1s — on the single SVG or the Firefox **`.fractalStack`** wrapper (layer SVGs use **`fadeWithVisibility={false}`** on [SVG.component.tsx](../../src/components/SVG/SVG.component.tsx)).
+- Background fill: `var(--color-bg)` on the root `<svg>` or stack `<div>`.
 
 Spirals sit **behind** page content; footer and bio remain interactive above.
 

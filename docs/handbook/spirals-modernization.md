@@ -18,6 +18,8 @@ Companion to [spirals.md](spirals.md). Items below were implemented in the 2026 
 | Memoized spirals layer | [HomePageSpiralsLayer.component.tsx](../../src/components/HomePage/HomePageSpiralsLayer.component.tsx) skips re-render when props unchanged. |
 | Trim manual `memo` | Removed `memo()` wrappers; rely on React Compiler + clearer props. |
 
+| Firefox spiral guard | Layered one-`<svg>`-per-set on Gecko + CSS rotation on each layer; GSAP on Chromium/Safari (`spiralsAnimation.ts`, `SpiralsSVG`, `Spirals.module.css`). |
+
 ## Deferred
 
 | Item | Notes |

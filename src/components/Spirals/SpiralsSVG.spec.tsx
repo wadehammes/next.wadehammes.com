@@ -1,7 +1,18 @@
 import { describe, expect, it } from "@jest/globals";
 import { SpiralsSVG } from "src/components/Spirals/SpiralsSVG.component";
+import { preferSpiralsLayeredSvg } from "src/helpers/spiralsAnimation";
 import { spiralsConfigFactory } from "src/tests/factories/SpiralsConfig.factory";
 import { render, screen } from "test-utils";
+
+jest.mock("src/helpers/spiralsAnimation", () => {
+  const actual = jest.requireActual(
+    "src/helpers/spiralsAnimation",
+  ) as typeof import("src/helpers/spiralsAnimation");
+  return {
+    ...actual,
+    preferSpiralsLayeredSvg: jest.fn(() => false),
+  };
+});
 
 jest.mock("src/components/Spirals/Spirals.component", () => ({
   Spirals: ({ config }: { config: { id: string } }) => (
@@ -54,5 +65,19 @@ describe("SpiralsSVG", () => {
 
     expect(screen.getByTestId("spiral-set-hidden")).toBeInTheDocument();
     expect(container.querySelector("svg")).toBeInTheDocument();
+  });
+
+  it("uses one svg per set when layered svg is preferred", () => {
+    jest.mocked(preferSpiralsLayeredSvg).mockReturnValue(true);
+    const configs = [
+      spiralsConfigFactory.build({ id: "a" }),
+      spiralsConfigFactory.build({ id: "b" }),
+    ];
+
+    const { container } = render(<SpiralsSVG visible configs={configs} />);
+
+    expect(container.querySelector('[data-fractal-stack="true"]')).toBeTruthy();
+    expect(container.querySelectorAll("svg.fractal-layer")).toHaveLength(2);
+    jest.mocked(preferSpiralsLayeredSvg).mockReturnValue(false);
   });
 });

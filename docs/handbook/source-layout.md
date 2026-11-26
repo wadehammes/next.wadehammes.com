@@ -15,6 +15,7 @@ Small browser-oriented helpers:
 | [helpers.ts](../../src/helpers/helpers.ts) | `isBrowser()` guard used by client components. |
 | [favicon.ts](../../src/helpers/favicon.ts) | Google favicon service URLs for external link labels. |
 | [gravatar.ts](../../src/helpers/gravatar.ts) | Gravatar URL builder (server-only; uses Node `crypto`). |
+| [spiralsAnimation.ts](../../src/helpers/spiralsAnimation.ts) | Gecko guards: `preferSpiralsLayeredSvg()`, `preferCssSetRotation()`, `shouldRunSpiralGsapAnimations()`. Unit tests: [spiralsAnimation.spec.ts](../../src/helpers/spiralsAnimation.spec.ts). |
 | [youtube.ts](../../src/helpers/youtube.ts) | YouTube URL parsing, embed, and thumbnail helpers. |
 | [soundcloud.ts](../../src/helpers/soundcloud.ts) | SoundCloud URL detection, embed URLs, oEmbed fetch. |
 | [mixcloud.ts](../../src/helpers/mixcloud.ts) | Mixcloud URL detection, widget embed URLs, oEmbed fetch. |
@@ -28,7 +29,7 @@ General utilities and specs:
 
 | File | Purpose |
 |------|---------|
-| [helpers.ts](../../src/utils/helpers.ts) | Random number helpers, `saveSvg` |
+| [helpers.ts](../../src/utils/helpers.ts) | Random number helpers, `saveSvg` (merges Firefox fractal stack on export) |
 | [helpers.spec.ts](../../src/utils/helpers.spec.ts) | Unit tests for utils |
 
 There is no barrel `index.ts`. Import the module you need directly. Browser guards live in [src/helpers/helpers.ts](../../src/helpers/helpers.ts).

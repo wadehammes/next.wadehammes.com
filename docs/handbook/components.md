@@ -57,8 +57,10 @@ Full architecture, config fields, geometry, GSAP behavior, and extension guide: 
 | Component | Role |
 |-----------|------|
 | [SpiralsBrowserGate.component.tsx](../../src/components/Spirals/SpiralsBrowserGate.component.tsx) | Client-only gate: `use(browser())` so SSR keeps the `Suspense` fallback until hydration. |
-| [SpiralsSVG.component.tsx](../../src/components/Spirals/SpiralsSVG.component.tsx) | Root `<svg class="fractal">`; paint-ordered sets stay mounted; [SVG.component.tsx](../../src/components/SVG/SVG.component.tsx) `visible` toggles opacity. |
-| [Spirals.component.tsx](../../src/components/Spirals/Spirals.component.tsx) | One set per config: rotation, scale, inner `Spiral` arms. |
+| [SpiralsSVG.component.tsx](../../src/components/Spirals/SpiralsSVG.component.tsx) | Single `.fractal` SVG (default) or Firefox stacked layers; see [spirals.md](spirals.md). |
+| [SpiralsSetLayer.component.tsx](../../src/components/Spirals/SpiralsSetLayer.component.tsx) | Firefox-only: one full-viewport `<svg class="fractal-layer">` per config with CSS set rotation. |
+| [Spirals.component.tsx](../../src/components/Spirals/Spirals.component.tsx) | One set per config (`<g>` + `Spiral` arms). GSAP set motion on Chromium/Safari; **`deferSetLevelMotion`** on Firefox layers. |
+| [SpiralsSVG.module.css](../../src/components/Spirals/SpiralsSVG.module.css) | Firefox `.fractalStack` viewport wrapper and layer chrome. |
 | [SpiralsControls.component.tsx](../../src/components/Spirals/SpiralsControls.component.tsx) | Slide-out playground with sliders and color picker. |
 | [SpiralsActions.component.tsx](../../src/components/Spirals/SpiralsActions.component.tsx) | Footer icon buttons (playground, randomize, download, theme). Custom span tooltips (not `Button` `hasTooltip`). |
 | [Spirals.utils.ts](../../src/components/Spirals/Spirals.utils.ts) | `SpiralsConfig`, random generation, OKLCH helpers, shape math. |
@@ -71,17 +73,17 @@ State is centralized in [SpiralsContext.tsx](../../src/contexts/SpiralsContext.t
 |-----------|------|
 | [Bio.component.tsx](../../src/components/Bio/Bio.component.tsx) | Prismic rich text in the footer (`rhBio`). |
 | [Header.component.tsx](../../src/components/Header/Header.component.tsx) | Site header; crown home link uses `data-nav-link` (no global invert hover). |
-| [HomePage.component.tsx](../../src/components/HomePage/HomePage.component.tsx) | Client home shell: Bio, Spirals actions/controls, lazy SVG (`rhHomePage` on `PageContainer`). |
+| [HomePage.component.tsx](../../src/components/HomePage/HomePage.component.tsx) | Client home shell: Bio, Spirals actions/controls, [`HomePageSpiralsLayer`](../../src/components/HomePage/HomePageSpiralsLayer.component.tsx) (`rhHomePage` on `PageContainer`). |
 | [PageContainer/Page.component.tsx](../../src/components/PageContainer/Page.component.tsx) | Page wrapper; optional `ref` prop (React 19) for intersection observer on home; optional `testId` prop. |
 | [PreviewModeOverlay.component.tsx](../../src/components/PreviewModeOverlay/PreviewModeOverlay.component.tsx) | Banner when Prismic preview is active (`rhPreviewModeOverlay`). |
-| [SVG.component.tsx](../../src/components/SVG/SVG.component.tsx) | Inline SVG icon helper. |
+| [SVG.component.tsx](../../src/components/SVG/SVG.component.tsx) | Fixed full-viewport Spirals canvas helper; optional **`fadeWithVisibility`** for stacked layers. |
 | [Button.component.tsx](../../src/components/Button/Button.component.tsx) | Shared button with variants; optional pseudo-element tooltips via `hasTooltip`. |
 
 ## Links
 
 | Component | Role |
 |-----------|------|
-| [LinksPage.component.tsx](../../src/components/Links/LinksPage.component.tsx) | Server `/links` shell (`rhLinksPage`): no site header; **crown home link on the top-right of the avatar** (`data-nav-link`); Prismic tagline + **`Building`** link section for FilterMyDiscogs; wide column + [`LinksSections`](../../src/components/Links/LinksSections.component.tsx). Gravatar URL is built on the server route and passed in as `fallbackAvatarUrl`. |
+| [LinksPage.component.tsx](../../src/components/Links/LinksPage.component.tsx) | Server `/links` shell (`rhLinksPage`): no site header; **crown home link on the top-right of the avatar** (`data-nav-link`); Prismic tagline + **`Building`** link section (kickoff, FilterMyDisco.gs, and day-job/side projects); wide column + [`LinksSections`](../../src/components/Links/LinksSections.component.tsx). Gravatar URL is built on the server route and passed in as `fallbackAvatarUrl`. |
 | [LinksSection.component.tsx](../../src/components/Links/LinksSection.component.tsx) | One Prismic section: uppercase header (when titled) + single-column list via [`LinkCard`](../../src/components/Links/LinkCard.component.tsx) (external, YouTube, SoundCloud, or Mixcloud). |
 | [LinksSections.component.tsx](../../src/components/Links/LinksSections.component.tsx) | Maps parsed sections to `LinksSection`. |
 | [LinkCard.component.tsx](../../src/components/Links/LinkCard.component.tsx) | Client dispatcher: routes items to external, YouTube, SoundCloud, or Mixcloud cards. |

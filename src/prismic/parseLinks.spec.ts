@@ -15,7 +15,7 @@ describe("parseLinksDocument", () => {
     expect(parsed.sections).toHaveLength(1);
     expect(parsed.sections[0]?.title).toBe("Building");
     expect(parsed.sections[0]?.items[0]).toEqual({
-      label: "FilterMyDiscogs",
+      label: "FilterMyDisco.gs",
       description:
         "Filter and browse your Discogs collection in the browser—sort, search, and build a crate as you go.",
       embedThumbnailUrl: null,
