@@ -32,6 +32,7 @@ Stylelint config: [stylelint.config.mjs](../../stylelint.config.mjs) with tokens
 | `pnpm types:prismic` | Regenerate `src/prismic/types/prismic.generated.ts` (`prismic-ts-codegen`). |
 | `pnpm prismic:update-home-bio` | Migration API draft: home hero copy (linked FilterMyDiscogs, etc.). |
 | `pnpm prismic:update-links-content` | Migration API draft: **Building** section, move FilterMyDiscogs out of **All the links**. |
+| `pnpm prismic:update-links-latest-youtube-mix` | Migration API draft: prepend @wadeonwax latest YouTube video to **Past DJ sets** (override with `YOUTUBE_CHANNEL_HANDLE`). |
 | `pnpm prismic:update-home-seo` | Migration API draft: home `meta_title` / `meta_description`. |
 | `pnpm handbook:check` | Fail if code changed vs `origin/staging` without a `docs/handbook/*.md` update (PR gate). |
 

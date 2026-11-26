@@ -79,7 +79,7 @@ Parsers translate Prismic documents into app-level types used by components.
 
 ### Link section slice
 
-The **`links`** singleton uses one or more **`link_section`** slices (`section_title` + repeatable link items). Models live under [prismicio/](../../prismicio/) and sync to the repo via the Custom Types API. Edit content in Prismic → **Links**; publish from **Migration Releases** when drafts are created via the Migration API. Repo scripts: **`pnpm prismic:update-links-content`** (Building section), **`pnpm prismic:update-home-bio`** (hero copy with project links), **`pnpm prismic:update-home-seo`** (meta fields)—see [platform.md](platform.md).
+The **`links`** singleton uses one or more **`link_section`** slices (`section_title` + repeatable link items). Models live under [prismicio/](../../prismicio/) and sync to the repo via the Custom Types API. Edit content in Prismic → **Links**; publish from **Migration Releases** when drafts are created via the Migration API. Repo scripts: **`pnpm prismic:update-links-content`** (Building section), **`pnpm prismic:update-links-latest-youtube-mix`** (latest @wadeonwax mix in **Past DJ sets**), **`pnpm prismic:update-home-bio`** (hero copy with project links), **`pnpm prismic:update-home-seo`** (meta fields)—see [platform.md](platform.md).
 
 ## Rich Text in components
 
