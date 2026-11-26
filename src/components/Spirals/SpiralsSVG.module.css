@@ -1,0 +1,26 @@
+.fractalStack {
+  position: fixed;
+  inset: -24rem 0 0;
+  z-index: 0;
+  height: calc(100dvh + 24rem);
+  width: 100vw;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  pointer-events: none;
+
+  @media (width >= 768px) {
+    top: 0;
+    height: 100dvh;
+    width: 100vw;
+  }
+
+  &.visible {
+    opacity: 0.85;
+  }
+}
+
+.fractalLayer {
+  pointer-events: none;
+  background: transparent;
+  opacity: 1;
+}

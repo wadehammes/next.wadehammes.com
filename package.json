@@ -20,6 +20,7 @@
     "prismic:update-home-seo": "node scripts/update-home-seo.cjs",
     "prismic:update-home-bio": "node scripts/update-home-bio.cjs",
     "prismic:update-links-content": "node scripts/update-links-content.cjs",
+    "prismic:update-links-building": "node scripts/update-links-building.cjs",
     "prismic:update-links-latest-youtube-mix": "node scripts/update-links-latest-youtube-mix.cjs",
     "knip": "knip",
     "knip:ci": "knip --no-progress",

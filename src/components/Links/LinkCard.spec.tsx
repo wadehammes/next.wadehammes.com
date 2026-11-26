@@ -9,7 +9,7 @@ const externalItem: ParsedLinkItem = {
   embedThumbnailUrl: null,
   href: "https://filtermydisco.gs/",
   kind: "external",
-  label: "FilterMyDiscogs",
+  label: "FilterMyDisco.gs",
   youtubeVideoId: null,
 };
 
@@ -45,7 +45,7 @@ describe("LinkCard", () => {
   it("renders an external link", () => {
     render(<LinkCard item={externalItem} />);
 
-    const link = screen.getByRole("link", { name: /FilterMyDiscogs/i });
+    const link = screen.getByRole("link", { name: /FilterMyDisco\.gs/i });
     expect(link).toHaveAttribute("href", "https://filtermydisco.gs/");
     expect(link.querySelector("img")).toHaveAttribute(
       "src",

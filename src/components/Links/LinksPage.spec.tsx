@@ -30,7 +30,7 @@ describe("LinksPage", () => {
       screen.getByRole("heading", { level: 2, name: "Building" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /FilterMyDiscogs/i }),
+      screen.getByRole("link", { name: /FilterMyDisco\.gs/i }),
     ).toHaveAttribute("href", "https://filtermydisco.gs/");
   });
 

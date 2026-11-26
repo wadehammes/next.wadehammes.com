@@ -53,7 +53,7 @@ class LinksDocumentFactory extends BaseFactory<
   ): LinksDocument {
     const shippedItems = [
       buildLinkItem(
-        "FilterMyDiscogs",
+        "FilterMyDisco.gs",
         "https://filtermydisco.gs/",
         "Filter and browse your Discogs collection in the browser—sort, search, and build a crate as you go.",
       ),

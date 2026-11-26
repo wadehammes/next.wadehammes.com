@@ -5,14 +5,21 @@ interface SVGProps extends React.SVGProps<SVGSVGElement> {
   visible: boolean;
   className?: string;
   children?: React.ReactNode;
+  fadeWithVisibility?: boolean;
 }
 
-export const SVG = ({ visible, className, children, ...props }: SVGProps) => (
+export const SVG = ({
+  visible,
+  className,
+  children,
+  fadeWithVisibility = true,
+  ...props
+}: SVGProps) => (
   <svg
     className={classNames(
       styles.svg,
       {
-        [styles.visible]: visible,
+        [styles.visible]: fadeWithVisibility ? visible : true,
       },
       className,
     )}

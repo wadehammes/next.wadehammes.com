@@ -10,7 +10,7 @@ const documentType =
   "home";
 
 const BIO_PARAGRAPH =
-  "I'm a senior software engineer at Rhythm Energy, where I build the customer experience for retail renewable energy. I co-founded Provisioner, a creative agency for growing brands, and I'm building FilterMyDiscogs for fellow crate-diggers. Say hi: email · Github · Instagram · Bluesky · everything else.";
+  "I'm a senior software engineer at Rhythm Energy, where I help build the best customer experience in retail renewable energy. On the side, I co-founded Provisioner, a creative agency that helps brands grow, and lately I've been building FilterMyDisco.gs for fellow Discogs users. Say hello.";
 
 const BIO_LINKS = [
   {
@@ -24,19 +24,11 @@ const BIO_LINKS = [
     target: "_blank",
   },
   {
-    text: "FilterMyDiscogs",
+    text: "FilterMyDisco.gs",
     url: "https://filtermydisco.gs/",
     target: "_blank",
   },
-  { text: "email", url: "mailto:w@dehammes.com", target: "_blank" },
-  { text: "Github", url: "https://github.com/wadehammes", target: "_blank" },
-  { text: "Instagram", url: "https://instagram.com/wade", target: "_blank" },
-  {
-    text: "Bluesky",
-    url: "https://bsky.app/profile/wadehammes.com",
-    target: "_blank",
-  },
-  { text: "everything else", url: "/links", target: "_self" },
+  { text: "Say hello.", url: "/links", target: "_self" },
 ];
 
 const buildHyperlinkSpans = (text, links) => {
